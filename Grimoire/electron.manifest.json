@@ -1,12 +1,12 @@
 {
-  "executable": "",
+  "executable": "Grimoire",
   "splashscreen": {
     "imageFile": ""
   },
   "singleInstance": false,
   "build": {
-    "appId": "com..app",
-    "productName": "",
+    "appId": "com.Grimoire.app",
+    "productName": "Grimoire",
     "copyright": "Copyright © 2019",
     "buildVersion": "1.0.0",
     "compression": "maximum",
