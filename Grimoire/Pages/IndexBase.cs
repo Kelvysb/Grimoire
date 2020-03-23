@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Grimoire.Views
+namespace Grimoire.Pages
 {
     public class IndexBase : ComponentBase
     {

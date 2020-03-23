@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Text.Json;
-using Grimoire.Models;
+using Grimoire.Domain.Abstraction.Services;
+using Grimoire.Domain.Models;
 
 namespace Grimoire.Services
 {

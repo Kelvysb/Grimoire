@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Grimoire.Models
+namespace Grimoire.Domain.Models
 {
     public class ScriptBlock
     {

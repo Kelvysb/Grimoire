@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using Grimoire.Models;
+using Grimoire.Domain.Abstraction.Services;
+using Grimoire.Domain.Models;
 
 namespace Grimoire.Services
 {

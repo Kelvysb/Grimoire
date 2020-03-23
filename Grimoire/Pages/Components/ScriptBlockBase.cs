@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Grimoire.Views
+namespace Grimoire.Pages.Components
 {
     public class ScriptBlockBase : ComponentBase
     {

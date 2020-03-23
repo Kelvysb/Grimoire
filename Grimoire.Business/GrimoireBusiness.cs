@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
-using Grimoire.Models;
-using Grimoire.Services;
+using Grimoire.Domain.Abstraction.Business;
+using Grimoire.Domain.Abstraction.Services;
+using Grimoire.Domain.Models;
 
 namespace Grimoire.Business
 {
-    public class GrimoireBusiness
+    public class GrimoireBusiness : IGrimoireBusiness
     {
         private readonly IConfigurationService configurationService;
         private readonly IGrimoireService grimoireService;

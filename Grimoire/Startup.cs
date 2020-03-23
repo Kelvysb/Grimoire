@@ -1,6 +1,10 @@
 using System.Threading.Tasks;
 using ElectronNET.API;
 using ElectronNET.API.Entities;
+using Grimoire.Business;
+using Grimoire.Domain.Abstraction.Business;
+using Grimoire.Domain.Abstraction.Services;
+using Grimoire.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +28,9 @@ namespace Grimoire
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddSingleton<IConfigurationService, ConfigurationService>();
+            services.AddSingleton<IGrimoireService, GrimoireService>();
+            services.AddSingleton<IGrimoireBusiness, GrimoireBusiness>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

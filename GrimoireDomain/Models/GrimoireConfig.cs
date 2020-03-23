@@ -1,4 +1,4 @@
-﻿namespace Grimoire.Models
+﻿namespace Grimoire.Domain.Models
 {
     public class GrimoireConfig
     {

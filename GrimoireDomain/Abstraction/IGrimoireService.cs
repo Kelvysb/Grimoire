@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Grimoire.Models;
+using Grimoire.Domain.Models;
 
-namespace Grimoire.Services
+namespace Grimoire.Domain.Abstraction.Services
 {
     public interface IGrimoireService
     {
