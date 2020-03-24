@@ -40,5 +40,20 @@ namespace Grimoire.Business
         public void ChangeScripBlockOrder(ScriptBlock scriptBlock, int orderShift)
         {
         }
+
+        public ICollection<ScriptBlock> GetExecutionGroups()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void RemoveExecutionGroup(string name)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void SaveExecutionGroup(ExecutionGroup executionGroup)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

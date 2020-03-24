@@ -6,6 +6,10 @@ namespace Grimoire.Domain.Abstraction.Services
     {
         GrimoireConfig Config { get; }
 
+        string ExecutionGroupsDirectory { get; }
+
+        string ScriptsDirectory { get; }
+
         string WorkDirectory { get; }
 
         void SaveConfig();

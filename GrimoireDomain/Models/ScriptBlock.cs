@@ -14,7 +14,9 @@ namespace Grimoire.Domain.Models
 
         public ScriptType ScriptType { get; set; }
 
-        public string File { get; set; }
+        public string Script { get; set; }
+
+        public string OriginalScriptPath { get; set; }
 
         public string SuccessPatern { get; set; }
 

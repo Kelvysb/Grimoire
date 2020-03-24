@@ -7,8 +7,14 @@ namespace Grimoire.Domain.Abstraction.Services
     {
         ICollection<ScriptBlock> GetScriptBlocks();
 
+        ICollection<ExecutionGroup> GetExecutionGroups();
+
         void RemoveScriptBlock(string name);
 
+        void RemoveExecutionGroup(string name);
+
         void SaveScriptBlocks(ScriptBlock scriptBlock);
+
+        void SaveExecutionGroup(ExecutionGroup executionGroup);
     }
 }

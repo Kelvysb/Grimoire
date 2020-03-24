@@ -1,15 +1,14 @@
 ﻿using System;
 using System.IO;
-using System.Text.Json;
 using Grimoire.Domain.Abstraction.Services;
 using Grimoire.Domain.Models;
 
 namespace Grimoire.Services
 {
-    public class ConfigurationService : IConfigurationService
+    public class ConfigurationService : ResourceLoaderBase, IConfigurationService
     {
-        private const string AppName = "Grimoire";
-        private const string ConfigFileName = "Grimoire.cfg";
+        private const string AppName = "grimoire";
+        private const string ConfigFileName = "grimoire.cfg";
 
         public ConfigurationService()
         {
@@ -19,33 +18,23 @@ namespace Grimoire.Services
 
         public GrimoireConfig Config { get; private set; }
 
-        public string WorkDirectory { get; private set; }
+        public string WorkDirectory => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), AppName);
+
+        public string ExecutionGroupsDirectory => Path.Combine(WorkDirectory, "executionGroups");
+
+        public string ScriptsDirectory => Path.Combine(WorkDirectory, "scripts");
+
+        private string ConfigurationFile => Path.Combine(WorkDirectory, ConfigFileName);
 
         public void SaveConfig()
         {
-            StreamWriter file = new StreamWriter(Path.Combine(WorkDirectory, ConfigFileName), false);
-            file.Write(JsonSerializer.Serialize(Config));
-            file.Close();
+            SaveResource(Config, ConfigurationFile);
         }
 
         private void LoadConfig()
         {
-            if (File.Exists(Path.Combine(WorkDirectory, ConfigFileName)))
-            {
-                try
-                {
-                    StreamReader file = new StreamReader(Path.Combine(WorkDirectory, ConfigFileName));
-                    string fileContent = file.ReadToEnd();
-                    file.Close();
-                    Config = JsonSerializer.Deserialize<GrimoireConfig>(fileContent);
-                }
-                catch (Exception)
-                {
-                    File.Delete(Path.Combine(WorkDirectory, ConfigFileName));
-                    LoadConfig();
-                }
-            }
-            else
+            Config = GetResourceFile<GrimoireConfig>(ConfigurationFile);
+            if (Config == null)
             {
                 CreateDefaultConfig();
                 SaveConfig();
@@ -63,11 +52,7 @@ namespace Grimoire.Services
 
         private void LoadWorkDirectory()
         {
-            WorkDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), AppName);
-            if (!Directory.Exists(WorkDirectory))
-            {
-                Directory.CreateDirectory(WorkDirectory);
-            }
+            EnsurePath(WorkDirectory);
         }
     }
 }
