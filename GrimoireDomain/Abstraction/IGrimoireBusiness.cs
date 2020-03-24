@@ -11,7 +11,7 @@ namespace Grimoire.Domain.Abstraction.Business
 
         ICollection<ScriptBlock> GetScriptBlocks();
 
-        ICollection<ScriptBlock> GetExecutionGroups();
+        ICollection<ExecutionGroup> GetExecutionGroups();
 
         void RemoveScriptBlock(string name);
 

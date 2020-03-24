@@ -60,7 +60,7 @@ namespace Grimoire.Services
             string resourceDirectory = Path.Combine(Path.GetDirectoryName(resourcePath), Path.GetFileNameWithoutExtension(resourcePath));
             if (Directory.Exists(resourceDirectory))
             {
-                Directory.Delete(resourceDirectory);
+                Directory.Delete(resourceDirectory, true);
             }
         }
 

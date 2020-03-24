@@ -40,6 +40,7 @@ namespace Grimoire.Services
         {
             executionGroup.Name = CleanResourceName(executionGroup.Name);
             string resourcePath = Path.Combine(configurationService.ExecutionGroupsDirectory, $"{executionGroup.Name}.json");
+            EnsurePath(configurationService.ExecutionGroupsDirectory);
             SaveResource(executionGroup, resourcePath);
         }
 

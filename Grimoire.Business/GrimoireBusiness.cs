@@ -7,13 +7,10 @@ namespace Grimoire.Business
 {
     public class GrimoireBusiness : IGrimoireBusiness
     {
-        private readonly IConfigurationService configurationService;
         private readonly IGrimoireService grimoireService;
 
-        public GrimoireBusiness(IConfigurationService configurationService,
-                                IGrimoireService grimoireService)
+        public GrimoireBusiness(IGrimoireService grimoireService)
         {
-            this.configurationService = configurationService;
             this.grimoireService = grimoireService;
         }
 
@@ -41,19 +38,19 @@ namespace Grimoire.Business
         {
         }
 
-        public ICollection<ScriptBlock> GetExecutionGroups()
+        public ICollection<ExecutionGroup> GetExecutionGroups()
         {
-            throw new System.NotImplementedException();
+            return grimoireService.GetExecutionGroups();
         }
 
         public void RemoveExecutionGroup(string name)
         {
-            throw new System.NotImplementedException();
+            grimoireService.RemoveExecutionGroup(name);
         }
 
         public void SaveExecutionGroup(ExecutionGroup executionGroup)
         {
-            throw new System.NotImplementedException();
+            grimoireService.SaveExecutionGroup(executionGroup);
         }
     }
 }
