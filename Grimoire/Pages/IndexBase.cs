@@ -1,15 +1,13 @@
-﻿using Grimoire.Domain.Abstraction.Business;
+﻿using System;
 using Microsoft.AspNetCore.Components;
 
 namespace Grimoire.Pages
 {
     public class IndexBase : ComponentBase
     {
-        private IGrimoireBusiness grimoireBusiness;
-
-        public IndexBase(IGrimoireBusiness grimoireBusiness)
+        public IndexBase()
         {
-            this.grimoireBusiness = grimoireBusiness;
+            Console.WriteLine("To Aqui");
         }
     }
 }

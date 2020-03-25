@@ -27,6 +27,7 @@ namespace Grimoire.Services
 
         protected ICollection<T> GetResources<T>(string resourceFolderPath)
         {
+            EnsurePath(resourceFolderPath);
             List<T> result = new List<T>();
             List<string> files = Directory.GetFiles(resourceFolderPath).ToList();
             if (files.Any())

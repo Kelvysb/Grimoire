@@ -7,11 +7,11 @@ namespace Grimoire.Domain.Abstraction.Business
     {
         void ChangeScripBlockOrder(ScriptBlock scriptBlock, int orderShift);
 
-        ICollection<string> ExecuteScript(ScriptBlock scriptBlock);
+        List<string> ExecuteScript(ScriptBlock scriptBlock);
 
-        ICollection<ScriptBlock> GetScriptBlocks();
+        List<ScriptBlock> GetScriptBlocks();
 
-        ICollection<ExecutionGroup> GetExecutionGroups();
+        List<ExecutionGroup> GetExecutionGroups();
 
         void RemoveScriptBlock(string name);
 

@@ -1,0 +1,8 @@
+﻿@inherits ScriptListBase
+
+<div>
+    @foreach (ScriptBlock script in scripts)
+    {
+        <ScriptBlockItemBase ScriptBlock="@script" />
+    }
+</div>

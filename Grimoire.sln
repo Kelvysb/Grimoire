@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grimoire.Business", "Grimoi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grimoire.Services", "Grimoire.Services\Grimoire.Services.csproj", "{423F530F-C981-424F-B21C-C17C97E6332B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grimoire.Tests", "Grimoire.Tests\Grimoire.Tests.csproj", "{CFB80292-56CE-43E0-A0B0-34ACB85D92DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grimoire.Tests", "Grimoire.Tests\Grimoire.Tests.csproj", "{CFB80292-56CE-43E0-A0B0-34ACB85D92DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Grimoire.Domain.Abstraction.Business;
 using Grimoire.Domain.Abstraction.Services;
 using Grimoire.Domain.Models;
@@ -14,14 +15,14 @@ namespace Grimoire.Business
             this.grimoireService = grimoireService;
         }
 
-        public ICollection<string> ExecuteScript(ScriptBlock scriptBlock)
+        public List<string> ExecuteScript(ScriptBlock scriptBlock)
         {
             return new List<string>();
         }
 
-        public ICollection<ScriptBlock> GetScriptBlocks()
+        public List<ScriptBlock> GetScriptBlocks()
         {
-            return grimoireService.GetScriptBlocks();
+            return grimoireService.GetScriptBlocks().ToList();
         }
 
         public void SaveScripBlock(ScriptBlock scriptBlock)
@@ -38,9 +39,9 @@ namespace Grimoire.Business
         {
         }
 
-        public ICollection<ExecutionGroup> GetExecutionGroups()
+        public List<ExecutionGroup> GetExecutionGroups()
         {
-            return grimoireService.GetExecutionGroups();
+            return grimoireService.GetExecutionGroups().ToList();
         }
 
         public void RemoveExecutionGroup(string name)
