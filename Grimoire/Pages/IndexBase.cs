@@ -6,8 +6,7 @@ namespace Grimoire.Pages
     public class IndexBase : ComponentBase
     {
         public IndexBase()
-        {
-            Console.WriteLine("To Aqui");
+        {           
         }
     }
 }
