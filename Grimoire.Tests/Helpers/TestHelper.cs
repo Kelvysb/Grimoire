@@ -1,14 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using Grimoire.Domain.Abstraction.Services;
+using Grimoire.Domain.Models;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
-using Grimoire.Domain.Abstraction.Services;
-using Grimoire.Domain.Models;
 
 namespace Grimoire.Tests.Helpers
 {
     internal static class TestHelper
     {
         public static string TestFile => Path.Combine(".", "TestData", "TestScript.ps1");
+
+        public static string TestFileWarning => Path.Combine(".", "TestData", "TestScriptWarning.ps1");
+
+        public static string TestFileError => Path.Combine(".", "TestData", "TestScriptError.ps1");
 
         public static ExecutionGroup GetSingleExecutionGroup()
         {
@@ -60,9 +64,9 @@ namespace Grimoire.Tests.Helpers
             };
         }
 
-        public static ScriptBlock GetSingleTestScript()
+        public static GrimoireScriptBlock GetSingleTestScript()
         {
-            return new ScriptBlock()
+            return new GrimoireScriptBlock()
             {
                 Order = 0,
                 Group = "Test",
@@ -73,15 +77,59 @@ namespace Grimoire.Tests.Helpers
                 OriginalScriptPath = TestFile,
                 Interval = 0,
                 ScriptType = ScriptType.PowerShell,
-                SuccessPatern = "Count done"
+                SuccessPatern = "Count done",
+                ExtractResult = new PatternRange()
+                {
+                    Start = "Result group",
+                    End = "End"
+                },
+                TimeOut = 10
             };
         }
 
-        public static List<ScriptBlock> GetMultipleTestScript()
+        public static GrimoireScriptBlock GetDefaultWarningTestScript()
         {
-            return new List<ScriptBlock>()
+            return new GrimoireScriptBlock()
             {
-                new ScriptBlock()
+                Order = 0,
+                Group = "Test",
+                Name = "Test Script Warning",
+                Description = "Test Script Warning",
+                AlertLevel = AlertLevel.Warning,
+                Script = "TestScriptWarning.ps1",
+                OriginalScriptPath = TestFileWarning,
+                Interval = 0,
+                ScriptType = ScriptType.PowerShell,
+                SuccessPatern = "",
+                ExtractResult = null,
+                TimeOut = 10
+            };
+        }
+
+        public static GrimoireScriptBlock GetDefaultErrorTestScript()
+        {
+            return new GrimoireScriptBlock()
+            {
+                Order = 0,
+                Group = "Test",
+                Name = "Test Script Error",
+                Description = "Test Script Error",
+                AlertLevel = AlertLevel.Error,
+                Script = "TestScriptError.ps1",
+                OriginalScriptPath = TestFileError,
+                Interval = 0,
+                ScriptType = ScriptType.PowerShell,
+                SuccessPatern = "",
+                ExtractResult = null,
+                TimeOut = 10
+            };
+        }
+
+        public static List<GrimoireScriptBlock> GetMultipleTestScript()
+        {
+            return new List<GrimoireScriptBlock>()
+            {
+                new GrimoireScriptBlock()
                 {
                     Order = 0,
                     Group = "Test",
@@ -92,9 +140,15 @@ namespace Grimoire.Tests.Helpers
                     OriginalScriptPath = TestFile,
                     Interval = 0,
                     ScriptType = ScriptType.PowerShell,
-                    SuccessPatern = "Count done"
+                    SuccessPatern = "Count done",
+                    ExtractResult = new PatternRange()
+                    {
+                        Start = "Result group",
+                        End = "End"
+                    },
+                    TimeOut = 10
                 },
-                new ScriptBlock()
+                new GrimoireScriptBlock()
                 {
                     Order = 1,
                     Group = "Test",
@@ -105,9 +159,15 @@ namespace Grimoire.Tests.Helpers
                     OriginalScriptPath = TestFile,
                     Interval = 0,
                     ScriptType = ScriptType.PowerShell,
-                    SuccessPatern = "Count done"
+                    SuccessPatern = "Count done",
+                    ExtractResult = new PatternRange()
+                    {
+                        Start = "Result group",
+                        End = "End"
+                    },
+                    TimeOut = 10
                 },
-                new ScriptBlock()
+                new GrimoireScriptBlock()
                 {
                     Order = 2,
                     Group = "Group",
@@ -118,9 +178,15 @@ namespace Grimoire.Tests.Helpers
                     OriginalScriptPath = TestFile,
                     Interval = 0,
                     ScriptType = ScriptType.PowerShell,
-                    SuccessPatern = "Count done"
+                    SuccessPatern = "Count done",
+                    ExtractResult = new PatternRange()
+                    {
+                        Start = "Result group",
+                        End = "End"
+                    },
+                    TimeOut = 10
                 },
-                new ScriptBlock()
+                new GrimoireScriptBlock()
                 {
                     Order = 3,
                     Group = "Group",
@@ -131,9 +197,15 @@ namespace Grimoire.Tests.Helpers
                     OriginalScriptPath = TestFile,
                     Interval = 0,
                     ScriptType = ScriptType.PowerShell,
-                    SuccessPatern = "Count done"
+                    SuccessPatern = "Count done",
+                    ExtractResult = new PatternRange()
+                    {
+                        Start = "Result group",
+                        End = "End"
+                    },
+                    TimeOut = 10
                 },
-                new ScriptBlock()
+                new GrimoireScriptBlock()
                 {
                     Order = 4,
                     Group = "Group",
@@ -144,9 +216,15 @@ namespace Grimoire.Tests.Helpers
                     OriginalScriptPath = TestFile,
                     Interval = 0,
                     ScriptType = ScriptType.PowerShell,
-                    SuccessPatern = "Count done"
+                    SuccessPatern = "Count done",
+                    ExtractResult = new PatternRange()
+                    {
+                        Start = "Result group",
+                        End = "End"
+                    },
+                    TimeOut = 10
                 },
-                new ScriptBlock()
+                new GrimoireScriptBlock()
                 {
                     Order = 5,
                     Group = "Group",
@@ -157,7 +235,13 @@ namespace Grimoire.Tests.Helpers
                     OriginalScriptPath = TestFile,
                     Interval = 0,
                     ScriptType = ScriptType.PowerShell,
-                    SuccessPatern = "Count done"
+                    SuccessPatern = "Count done",
+                    ExtractResult = new PatternRange()
+                    {
+                        Start = "Result group",
+                        End = "End"
+                    },
+                    TimeOut = 10
                 }
             };
         }
@@ -171,16 +255,16 @@ namespace Grimoire.Tests.Helpers
             Directory.CreateDirectory(config.WorkDirectory);
         }
 
-        public static ScriptBlock GetCreatedScript(IConfigurationService config, string scriptFileName)
+        public static GrimoireScriptBlock GetCreatedScript(IConfigurationService config, string scriptFileName)
         {
-            ScriptBlock result = null;
+            GrimoireScriptBlock result = null;
             if (File.Exists(Path.Combine(config.ScriptsDirectory, scriptFileName)))
             {
                 using (StreamReader reader = new StreamReader(Path.Combine(config.ScriptsDirectory, scriptFileName)))
                 {
                     string file = reader.ReadToEnd();
                     reader.Close();
-                    result = JsonSerializer.Deserialize<ScriptBlock>(file);
+                    result = JsonSerializer.Deserialize<GrimoireScriptBlock>(file);
                 }
             }
             return result;

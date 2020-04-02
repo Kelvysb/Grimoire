@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using Grimoire.Domain.Models;
+﻿using Grimoire.Domain.Models;
+using System.Collections.Generic;
 
 namespace Grimoire.Domain.Abstraction.Services
 {
     public interface IGrimoireService
     {
-        ICollection<ScriptBlock> GetScriptBlocks();
+        ICollection<GrimoireScriptBlock> GetScriptBlocks();
 
         ICollection<ExecutionGroup> GetExecutionGroups();
 
@@ -13,8 +13,10 @@ namespace Grimoire.Domain.Abstraction.Services
 
         void RemoveExecutionGroup(string name);
 
-        void SaveScriptBlocks(ScriptBlock scriptBlock);
+        void SaveScriptBlocks(GrimoireScriptBlock scriptBlock);
 
         void SaveExecutionGroup(ExecutionGroup executionGroup);
+
+        string getScriptFullPath(GrimoireScriptBlock scriptBlock);
     }
 }

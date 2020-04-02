@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Grimoire.Domain.Abstraction.Business;
+﻿using Grimoire.Domain.Abstraction.Business;
 using Grimoire.Domain.Models;
 using Microsoft.AspNetCore.Components;
+using System.Collections.Generic;
 
 namespace Grimoire.Pages.Components
 {
@@ -10,7 +10,7 @@ namespace Grimoire.Pages.Components
         [Inject]
         private IGrimoireBusiness grimoireBusiness { get; set; }
 
-        protected List<ScriptBlock> scripts;
+        protected List<GrimoireScriptBlock> scripts;
 
         protected override void OnInitialized()
         {
@@ -20,7 +20,7 @@ namespace Grimoire.Pages.Components
 
         private void LoadScripts()
         {
-            scripts = grimoireBusiness.GetScriptBlocks();
+            scripts = grimoireBusiness.GetScriptBlocks().Result;
         }
     }
 }

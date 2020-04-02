@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using Grimoire.Domain.Abstraction.Services;
+﻿using Grimoire.Domain.Abstraction.Services;
 using Grimoire.Domain.Models;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Grimoire.Services
 {
@@ -19,9 +19,17 @@ namespace Grimoire.Services
             return GetResources<ExecutionGroup>(configurationService.ExecutionGroupsDirectory);
         }
 
-        public ICollection<ScriptBlock> GetScriptBlocks()
+        public ICollection<GrimoireScriptBlock> GetScriptBlocks()
         {
-            return GetResources<ScriptBlock>(configurationService.ScriptsDirectory);
+            return GetResources<GrimoireScriptBlock>(configurationService.ScriptsDirectory);
+        }
+
+        public string getScriptFullPath(GrimoireScriptBlock scriptBlock)
+        {
+            return Path.GetFullPath(
+                Path.Combine(configurationService.ScriptsDirectory,
+                             scriptBlock.Name,
+                             scriptBlock.Script));
         }
 
         public void RemoveExecutionGroup(string name)
@@ -44,7 +52,7 @@ namespace Grimoire.Services
             SaveResource(executionGroup, resourcePath);
         }
 
-        public void SaveScriptBlocks(ScriptBlock scriptBlock)
+        public void SaveScriptBlocks(GrimoireScriptBlock scriptBlock)
         {
             scriptBlock.Name = CleanResourceName(scriptBlock.Name);
             string resourcePath = Path.Combine(configurationService.ScriptsDirectory, $"{scriptBlock.Name}.json");

@@ -6,6 +6,6 @@ namespace Grimoire.Pages.Components
     public class ScriptBlockItemBase : ComponentBase
     {
         [Parameter]
-        public ScriptBlock ScriptBlock { get; set; }
+        public GrimoireScriptBlock ScriptBlock { get; set; }
     }
 }

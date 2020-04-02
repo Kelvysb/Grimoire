@@ -1,24 +1,25 @@
-﻿using System.Collections.Generic;
-using Grimoire.Domain.Models;
+﻿using Grimoire.Domain.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Grimoire.Domain.Abstraction.Business
 {
     public interface IGrimoireBusiness
     {
-        void ChangeScripBlockOrder(ScriptBlock scriptBlock, int orderShift);
+        Task ChangeScripBlockOrder(GrimoireScriptBlock scriptBlock, int orderShift);
 
-        List<string> ExecuteScript(ScriptBlock scriptBlock);
+        Task<ScriptResult> ExecuteScript(GrimoireScriptBlock scriptBlock);
 
-        List<ScriptBlock> GetScriptBlocks();
+        Task<List<GrimoireScriptBlock>> GetScriptBlocks();
 
-        List<ExecutionGroup> GetExecutionGroups();
+        Task<List<ExecutionGroup>> GetExecutionGroups();
 
-        void RemoveScriptBlock(string name);
+        Task RemoveScriptBlock(string name);
 
-        void RemoveExecutionGroup(string name);
+        Task RemoveExecutionGroup(string name);
 
-        void SaveScripBlock(ScriptBlock scriptBlock);
+        Task SaveScriptBlock(GrimoireScriptBlock scriptBlock);
 
-        void SaveExecutionGroup(ExecutionGroup executionGroup);
+        Task SaveExecutionGroup(ExecutionGroup executionGroup);
     }
 }

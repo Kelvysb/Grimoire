@@ -25,9 +25,9 @@ namespace Grimoire.Tests
         [TestMethod]
         public void SaveScriptTest()
         {
-            ScriptBlock script = TestHelper.GetSingleTestScript();
+            GrimoireScriptBlock script = TestHelper.GetSingleTestScript();
             service.SaveScriptBlocks(script);
-            ScriptBlock result = TestHelper.GetCreatedScript(config, "Test_Script.json");
+            GrimoireScriptBlock result = TestHelper.GetCreatedScript(config, "Test_Script.json");
             result.Should().NotBeNull();
             TestHelper.CheckCreatedScript(config, result.Name, result.Script).Should().BeTrue();
         }
@@ -36,7 +36,7 @@ namespace Grimoire.Tests
         public void GetScriptListTest()
         {
             AddMultipleScript();
-            List<ScriptBlock> result = service.GetScriptBlocks().ToList();
+            List<GrimoireScriptBlock> result = service.GetScriptBlocks().ToList();
             result.Should().NotBeNull();
             result.Any().Should().BeTrue();
             result.Count.Should().BeGreaterOrEqualTo(6);
@@ -45,12 +45,12 @@ namespace Grimoire.Tests
         [TestMethod]
         public void RemoveScriptTest()
         {
-            ScriptBlock script = TestHelper.GetSingleTestScript();
+            GrimoireScriptBlock script = TestHelper.GetSingleTestScript();
             service.SaveScriptBlocks(script);
-            ScriptBlock inserted = TestHelper.GetCreatedScript(config, "Test_Script.json");
+            GrimoireScriptBlock inserted = TestHelper.GetCreatedScript(config, "Test_Script.json");
             inserted.Should().NotBeNull();
             service.RemoveScriptBlock(inserted.Name);
-            ScriptBlock result = TestHelper.GetCreatedScript(config, "Test_Script.json");
+            GrimoireScriptBlock result = TestHelper.GetCreatedScript(config, "Test_Script.json");
             result.Should().BeNull();
         }
 
@@ -87,7 +87,7 @@ namespace Grimoire.Tests
 
         private void AddMultipleScript()
         {
-            foreach (ScriptBlock script in TestHelper.GetMultipleTestScript())
+            foreach (GrimoireScriptBlock script in TestHelper.GetMultipleTestScript())
             {
                 service.SaveScriptBlocks(script);
             }
