@@ -1,8 +1,8 @@
-﻿using Grimoire.Domain.Abstraction.Services;
-using Grimoire.Domain.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using Grimoire.Domain.Abstraction.Services;
+using Grimoire.Domain.Models;
 
 namespace Grimoire.Tests.Helpers
 {

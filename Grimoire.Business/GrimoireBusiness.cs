@@ -1,13 +1,13 @@
-﻿using Grimoire.Domain.Abstraction.Business;
-using Grimoire.Domain.Abstraction.Services;
-using Grimoire.Domain.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Grimoire.Domain.Abstraction.Business;
+using Grimoire.Domain.Abstraction.Services;
+using Grimoire.Domain.Models;
 
 namespace Grimoire.Business
 {
@@ -93,14 +93,21 @@ namespace Grimoire.Business
 
         private ScriptResult GetResult(GrimoireScriptBlock scriptBlock, PowerShell ps)
         {
-            ScriptResult result = new ScriptResult();
-            result.ResultType = ResultType.None;
-            result.RawResult = String.Join('\n', ps.Streams.Information.Select(r => r.ToString()).ToList());
-            result.Warninings = String.Join('\n', ps.Streams.Warning.Select(r => r.ToString()).ToList());
-            result.Errors = String.Join('\n', ps.Streams.Error.Select(r => r.ToString()).ToList());
+            ScriptResult result = MountResults(ps);
             result.ResultType = GetResultStatus(scriptBlock, ps, result.RawResult);
             result.FilteredResult = ExtractFilteredResult(scriptBlock, result.RawResult);
             return result;
+        }
+
+        private ScriptResult MountResults(PowerShell ps)
+        {
+            return new ScriptResult()
+            {
+                ResultType = ResultType.None,
+                RawResult = String.Join('\n', ps.Streams.Information.Select(r => r.ToString()).ToList()),
+                Warninings = String.Join('\n', ps.Streams.Warning.Select(r => r.ToString()).ToList()),
+                Errors = String.Join('\n', ps.Streams.Error.Select(r => r.ToString()).ToList())
+            };
         }
 
         private string ExtractFilteredResult(GrimoireScriptBlock scriptBlock, string rawResult)

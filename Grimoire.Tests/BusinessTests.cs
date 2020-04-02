@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
 using Grimoire.Business;
 using Grimoire.Domain.Abstraction.Business;
@@ -6,8 +8,6 @@ using Grimoire.Domain.Models;
 using Grimoire.Services;
 using Grimoire.Tests.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Grimoire.Tests
 {

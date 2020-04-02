@@ -1,5 +1,5 @@
-﻿using Grimoire.Domain.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Grimoire.Domain.Models;
 
 namespace Grimoire.Domain.Abstraction.Services
 {
