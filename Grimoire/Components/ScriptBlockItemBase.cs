@@ -1,7 +1,7 @@
 ﻿using Grimoire.Domain.Models;
 using Microsoft.AspNetCore.Components;
 
-namespace Grimoire.Pages.Components
+namespace Grimoire.Components
 {
     public class ScriptBlockItemBase : ComponentBase
     {

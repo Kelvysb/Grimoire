@@ -37,6 +37,18 @@ namespace Grimoire.Services
             return result;
         }
 
+        protected T GetResource<T>(string resourceFolderPath, string name)
+        {
+            EnsurePath(resourceFolderPath);
+            T result = default(T);
+            List<string> files = Directory.GetFiles(resourceFolderPath).ToList();
+            result = files
+                .Where(file => file.StartsWith(name, System.StringComparison.InvariantCultureIgnoreCase))
+                .Select(file => GetResourceFile<T>(file))
+                .FirstOrDefault();
+            return result;
+        }
+
         protected T GetResourceFile<T>(string resourcePath)
         {
             T result = default(T);

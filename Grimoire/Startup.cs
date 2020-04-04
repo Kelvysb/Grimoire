@@ -60,9 +60,9 @@ namespace Grimoire
                 Title = "Grimoire",
                 Frame = true,
                 AutoHideMenuBar = true,
-                Width = 300,
+                Width = 600,
+                Height = 400,
                 MinWidth = 300,
-                MaxWidth = 500,
                 MinHeight = 400
             }));
         }

@@ -1,5 +1,16 @@
 ﻿@page "/"
 @inherits IndexBase
+@using Grimoire.Components
 <div>
-    <ScriptList />
+    @if (scripts != null)
+    {
+        @foreach (GrimoireScriptBlock script in scripts)
+        {
+            <ScriptBlockItem ScriptBlock="@script" />
+        }
+    }
+    else
+    {
+        <div>Loading...</div>
+    }
 </div>

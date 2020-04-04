@@ -26,7 +26,7 @@ namespace Grimoire.Business
             switch (scriptBlock.ScriptType)
             {
                 case ScriptType.PowerShell:
-                    result = await Task.Run(() => ExecutePowerShell(scriptBlock));
+                    result = await ExecutePowerShell(scriptBlock);
                     break;
 
                 case ScriptType.Bash:
@@ -89,6 +89,11 @@ namespace Grimoire.Business
         public async Task SaveExecutionGroup(ExecutionGroup executionGroup)
         {
             await Task.Run(() => grimoireService.SaveExecutionGroup(executionGroup));
+        }
+
+        public Task<GrimoireScriptBlock> GetScriptBlock(string name)
+        {
+            return Task.Run(() => grimoireService.GetScriptBlock(name));
         }
 
         private ScriptResult GetResult(GrimoireScriptBlock scriptBlock, PowerShell ps)

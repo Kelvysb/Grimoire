@@ -19,6 +19,11 @@ namespace Grimoire.Services
             return GetResources<ExecutionGroup>(configurationService.ExecutionGroupsDirectory);
         }
 
+        public GrimoireScriptBlock GetScriptBlock(string name)
+        {
+            return GetResource<GrimoireScriptBlock>(configurationService.ExecutionGroupsDirectory, name);
+        }
+
         public ICollection<GrimoireScriptBlock> GetScriptBlocks()
         {
             return GetResources<GrimoireScriptBlock>(configurationService.ScriptsDirectory);

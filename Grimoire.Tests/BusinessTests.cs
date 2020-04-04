@@ -110,7 +110,7 @@ namespace Grimoire.Tests
         public void GetScriptListTest()
         {
             AddMultipleScript();
-            List<GrimoireScriptBlock> result = business.GetScriptBlocks().Result.ToList();
+            List<GrimoireScriptBlock> result = business.GetScriptBlocks().Result;
             result.Should().NotBeNull();
             result.Any().Should().BeTrue();
             result.Count.Should().BeGreaterOrEqualTo(6);
@@ -141,7 +141,7 @@ namespace Grimoire.Tests
         public void GetExecutionGroupListTest()
         {
             AddMultipleExecutionGroup();
-            List<ExecutionGroup> result = business.GetExecutionGroups().Result.ToList();
+            List<ExecutionGroup> result = business.GetExecutionGroups().Result;
             result.Should().NotBeNull();
             result.Any().Should().BeTrue();
             result.Count.Should().BeGreaterOrEqualTo(2);

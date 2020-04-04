@@ -1,0 +1,22 @@
+﻿@page "/editScript"
+@page "/editScript/{ScriptName}"
+@inherits ScriptEditBase
+<EditForm Model="@ScriptBlock" OnValidSubmit="@Submit">
+    <DataAnnotationsValidator />
+    <div class="row">
+        <div class="row">
+            <label>Script Name:</label>
+        </div>
+        <div class="row">
+            <InputText id="Name"
+                       @bind-Value="@ScriptBlock.Name"
+                       placeholder="Enter the script name" />
+        </div>
+        <div class="row">
+            <ValidationMessage class="alert" For="@(() => ScriptBlock.Name)" />
+        </div>
+    </div>
+    <div class="row">
+        <ValidationSummary />
+    </div>
+</EditForm>

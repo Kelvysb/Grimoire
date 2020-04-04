@@ -18,5 +18,7 @@ namespace Grimoire.Domain.Abstraction.Services
         void SaveExecutionGroup(ExecutionGroup executionGroup);
 
         string getScriptFullPath(GrimoireScriptBlock scriptBlock);
+
+        GrimoireScriptBlock GetScriptBlock(string name);
     }
 }

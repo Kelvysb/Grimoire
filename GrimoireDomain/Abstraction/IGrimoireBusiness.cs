@@ -1,6 +1,6 @@
-﻿using Grimoire.Domain.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Grimoire.Domain.Models;
 
 namespace Grimoire.Domain.Abstraction.Business
 {
@@ -11,6 +11,8 @@ namespace Grimoire.Domain.Abstraction.Business
         Task<ScriptResult> ExecuteScript(GrimoireScriptBlock scriptBlock);
 
         Task<List<GrimoireScriptBlock>> GetScriptBlocks();
+
+        Task<GrimoireScriptBlock> GetScriptBlock(string name);
 
         Task<List<ExecutionGroup>> GetExecutionGroups();
 
