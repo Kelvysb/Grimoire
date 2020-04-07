@@ -29,15 +29,14 @@ namespace Grimoire.Business
                     result = await ExecutePowerShell(scriptBlock);
                     break;
 
-                case ScriptType.Bash:
-                    break;
-
-                case ScriptType.Bat:
+                case ScriptType.Python:
                     break;
 
                 default:
                     break;
             }
+            scriptBlock.LastResult = result;
+            await SaveScriptBlock(scriptBlock);
             return result;
         }
 

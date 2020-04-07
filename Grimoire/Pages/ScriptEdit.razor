@@ -1,22 +1,85 @@
-﻿@page "/editScript"
+﻿@using BlazorInputFile
+@page "/editScript"
 @page "/editScript/{ScriptName}"
 @inherits ScriptEditBase
 <EditForm Model="@ScriptBlock" OnValidSubmit="@Submit">
     <DataAnnotationsValidator />
-    <div class="row">
-        <div class="row">
-            <label>Script Name:</label>
-        </div>
-        <div class="row">
-            <InputText id="Name"
+    @if (!IsEdit)
+    {
+        <div class="form-group row">
+            <label class="col-sm-3">Script Name:</label>
+            <InputText id="Name" class="col-sm-8"
                        @bind-Value="@ScriptBlock.Name"
                        placeholder="Enter the script name" />
-        </div>
-        <div class="row">
             <ValidationMessage class="alert" For="@(() => ScriptBlock.Name)" />
         </div>
+    }
+    else
+    {
+        <div class="form-group row">
+            <label class="col-sm-3">Script Name:</label>
+            <label id="Name" class="col-sm-8">@ScriptBlock.Name</label>
+            <ValidationMessage class="alert" For="@(() => ScriptBlock.Name)" />
+        </div>
+    }
+    <div class="form-group row">
+        <label class="col-sm-3">Display name:</label>
+        <InputText id="Description" class="col-sm-8"
+                   @bind-Value="@ScriptBlock.Description"
+                   placeholder="Enter the script description" />
+        <ValidationMessage class="alert" For="@(() => ScriptBlock.Description)" />
     </div>
+    <div class="form-group row">
+        <label class="col-sm-3">Script Description:</label>
+        <InputText id="Group" class="col-sm-8"
+                   @bind-Value="@ScriptBlock.Group"
+                   placeholder="Enter the script group" />
+        <ValidationMessage class="alert" For="@(() => ScriptBlock.Group)" />
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-3">Script Type:</label>
+        <InputSelect id="ScriptType" class="col-sm-8"
+                     @bind-Value="@ScriptTypeHolder">
+            <option selected>PowerShell</option>
+            <option>Python</option>
+        </InputSelect>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-3">Alert Level:</label>
+        <InputSelect id="AlertLevel" class="col-sm-8"
+                     @bind-Value="@AlertLevelHolder">
+            <option selected>Error</option>
+            <option>Warning</option>
+            <option>Silent</option>
+        </InputSelect>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-3">Script:</label>
+        <InputFile id="OriginalScript" OnChange="HandleFileSelected" />
+        <ValidationMessage class="alert" For="@(() => ScriptBlock.Script)" />
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-3">Run mode:</label>
+        <InputSelect id="RunMode" class="col-sm-8"
+                     @bind-Value="@ExecutionModeHolder">
+            <option selected>Manual</option>
+            <option>Interval</option>
+            <option>Run on start</option>
+        </InputSelect>
+        <ValidationMessage class="alert" For="@(() => ScriptBlock.ExecutionMode)" />
+    </div>
+    @if (ExecutionModeHolder.Equals("Interval"))
+    {
+        <div class="form-group row">
+            <label class="col-sm-3">Interval (sec):</label>
+            <InputNumber id="Interval" class="col-sm-8"
+                         @bind-Value="@ScriptBlock.Interval"
+                         placeholder="Enter the script interval (in seconds)" />
+            <ValidationMessage class="alert" For="@(() => ScriptBlock.Interval)" />
+        </div>
+    }
     <div class="row">
         <ValidationSummary />
     </div>
+    <button type="submit" class="btn btn-primary edit-btn">Save</button>
 </EditForm>

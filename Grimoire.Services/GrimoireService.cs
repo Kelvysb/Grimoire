@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Grimoire.Domain.Abstraction.Services;
 using Grimoire.Domain.Models;
 
@@ -26,7 +27,14 @@ namespace Grimoire.Services
 
         public ICollection<GrimoireScriptBlock> GetScriptBlocks()
         {
-            return GetResources<GrimoireScriptBlock>(configurationService.ScriptsDirectory);
+            return GetResources<GrimoireScriptBlock>(configurationService.ScriptsDirectory)
+                .Select(s =>
+                {
+                    string path = Path.Combine(configurationService.ScriptsDirectory, s.Name, s.Script);
+                    s.OriginalScriptFile = LoadScriptStream(path);
+                    return s;
+                })
+                .ToList();
         }
 
         public string getScriptFullPath(GrimoireScriptBlock scriptBlock)
@@ -62,15 +70,18 @@ namespace Grimoire.Services
             scriptBlock.Name = CleanResourceName(scriptBlock.Name);
             string resourcePath = Path.Combine(configurationService.ScriptsDirectory, $"{scriptBlock.Name}.json");
             string resourceFolderPath = Path.Combine(configurationService.ScriptsDirectory, scriptBlock.Name);
-            string scriptPath = Path.Combine(resourceFolderPath, Path.GetFileName(scriptBlock.OriginalScriptPath));
-            scriptBlock.Script = Path.GetFileName(scriptBlock.OriginalScriptPath);
+            string scriptPath = Path.Combine(resourceFolderPath, scriptBlock.Script);
             if (File.Exists(resourcePath))
             {
                 RemoveResource(resourcePath);
             }
             EnsurePath(resourceFolderPath);
             SaveResource(scriptBlock, resourcePath);
-            File.Copy(scriptBlock.OriginalScriptPath, scriptPath);
+            using (StreamWriter file = new StreamWriter(scriptPath, false))
+            {
+                file.Write(scriptBlock.OriginalScriptFile);
+                file.Close();
+            }
         }
     }
 }

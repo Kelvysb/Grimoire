@@ -37,6 +37,17 @@ namespace Grimoire.Services
             return result;
         }
 
+        protected Stream LoadScriptStream(string path)
+        {
+            Stream result = new MemoryStream();
+            using (StreamReader file = new StreamReader(path))
+            {
+                file.BaseStream.CopyTo(result);
+                file.Close();
+            }
+            return result;
+        }
+
         protected T GetResource<T>(string resourceFolderPath, string name)
         {
             EnsurePath(resourceFolderPath);
