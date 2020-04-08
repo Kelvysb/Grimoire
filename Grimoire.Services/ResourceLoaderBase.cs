@@ -54,7 +54,7 @@ namespace Grimoire.Services
             T result = default(T);
             List<string> files = Directory.GetFiles(resourceFolderPath).ToList();
             result = files
-                .Where(file => file.StartsWith(name, System.StringComparison.InvariantCultureIgnoreCase))
+                .Where(file => Path.GetFileName(file).Equals($"{name}.json", System.StringComparison.InvariantCultureIgnoreCase))
                 .Select(file => GetResourceFile<T>(file))
                 .FirstOrDefault();
             return result;

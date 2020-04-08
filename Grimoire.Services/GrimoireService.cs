@@ -22,7 +22,7 @@ namespace Grimoire.Services
 
         public GrimoireScriptBlock GetScriptBlock(string name)
         {
-            return GetResource<GrimoireScriptBlock>(configurationService.ExecutionGroupsDirectory, name);
+            return GetResource<GrimoireScriptBlock>(configurationService.ScriptsDirectory, name);
         }
 
         public ICollection<GrimoireScriptBlock> GetScriptBlocks()
