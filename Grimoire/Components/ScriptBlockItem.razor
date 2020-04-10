@@ -6,7 +6,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-sm-1">
-                <span class="oi oi-info"></span>
+                <span class="oi oi-code"></span>
             </div>
             <div class="col-sm-8">
                 @Info
@@ -51,6 +51,17 @@
                     <div class="spinner-border rounded-circle text-primary" role="status">
                         <span class="sr-only">Running...</span>
                     </div>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-1">
+                <span class="oi oi-info"></span>
+            </div>
+            <div class="col-sm-11">
+                @if (ScriptBlock.LastResult != null && ScriptBlock.LastResult.FilteredResult != null)
+                {
+                    @ScriptBlock.LastResult.FilteredResult
                 }
             </div>
         </div>

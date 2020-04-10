@@ -43,11 +43,13 @@ namespace Grimoire.Business
         private async Task<ScriptResult> ExecutePowerShell(GrimoireScriptBlock scriptBlock)
         {
             ScriptResult result = null;
+            string scriptPath = grimoireService.getScriptFullPath(scriptBlock);
             using (PowerShell ps = PowerShell.Create())
             {
                 PSDataCollection<PSObject> outputCollection = new PSDataCollection<PSObject>();
                 ps.AddScript("Set-ExecutionPolicy -Scope Process Unrestricted");
-                ps.AddScript(grimoireService.getScriptFullPath(scriptBlock));
+                ps.AddScript($"set-location -path \"{scriptPath}\"");
+                ps.AddScript($"./{scriptBlock.Script}");
                 IAsyncResult execResult = await Task.Run(() => ps.BeginInvoke<PSObject, PSObject>(null, outputCollection));
                 WaitExecution(scriptBlock.TimeOut, execResult);
                 result = GetResult(scriptBlock, ps);

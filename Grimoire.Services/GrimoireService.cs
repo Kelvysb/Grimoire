@@ -39,10 +39,11 @@ namespace Grimoire.Services
 
         public string getScriptFullPath(GrimoireScriptBlock scriptBlock)
         {
-            return Path.GetFullPath(
-                Path.Combine(configurationService.ScriptsDirectory,
-                             scriptBlock.Name,
-                             scriptBlock.Script));
+            return Path.GetDirectoryName(
+                    Path.GetFullPath(
+                    Path.Combine(configurationService.ScriptsDirectory,
+                                    scriptBlock.Name,
+                                    scriptBlock.Script)));
         }
 
         public void RemoveExecutionGroup(string name)
@@ -71,16 +72,16 @@ namespace Grimoire.Services
             string resourcePath = Path.Combine(configurationService.ScriptsDirectory, $"{scriptBlock.Name}.json");
             string resourceFolderPath = Path.Combine(configurationService.ScriptsDirectory, scriptBlock.Name);
             string scriptPath = Path.Combine(resourceFolderPath, scriptBlock.Script);
-            if (File.Exists(resourcePath))
-            {
-                RemoveResource(resourcePath);
-            }
             EnsurePath(resourceFolderPath);
             SaveResource(scriptBlock, resourcePath);
-            using (StreamWriter file = new StreamWriter(scriptPath, false))
+            if (scriptBlock.OriginalScriptFile != null)
             {
-                file.Write(scriptBlock.OriginalScriptFile);
-                file.Close();
+                using (FileStream file = File.Create(scriptPath))
+                {
+                    scriptBlock.OriginalScriptFile.Seek(0, SeekOrigin.Begin);
+                    scriptBlock.OriginalScriptFile.CopyTo(file);
+                    file.Close();
+                }
             }
         }
     }

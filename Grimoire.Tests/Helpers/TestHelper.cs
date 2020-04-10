@@ -66,6 +66,7 @@ namespace Grimoire.Tests.Helpers
 
         public static GrimoireScriptBlock GetSingleTestScript()
         {
+            Stream script = GetStream(TestFile);
             return new GrimoireScriptBlock()
             {
                 Order = 0,
@@ -74,7 +75,7 @@ namespace Grimoire.Tests.Helpers
                 Description = "Test Script",
                 AlertLevel = AlertLevel.Warning,
                 Script = "TestScript.ps1",
-                OriginalScriptPath = TestFile,
+                OriginalScriptFile = script,
                 Interval = 0,
                 ScriptType = ScriptType.PowerShell,
                 SuccessPatern = "Count done",
@@ -89,6 +90,7 @@ namespace Grimoire.Tests.Helpers
 
         public static GrimoireScriptBlock GetDefaultWarningTestScript()
         {
+            Stream script = GetStream(TestFileWarning);
             return new GrimoireScriptBlock()
             {
                 Order = 0,
@@ -97,7 +99,7 @@ namespace Grimoire.Tests.Helpers
                 Description = "Test Script Warning",
                 AlertLevel = AlertLevel.Warning,
                 Script = "TestScriptWarning.ps1",
-                OriginalScriptPath = TestFileWarning,
+                OriginalScriptFile = script,
                 Interval = 0,
                 ScriptType = ScriptType.PowerShell,
                 SuccessPatern = "",
@@ -108,6 +110,7 @@ namespace Grimoire.Tests.Helpers
 
         public static GrimoireScriptBlock GetDefaultErrorTestScript()
         {
+            Stream script = GetStream(TestFileError);
             return new GrimoireScriptBlock()
             {
                 Order = 0,
@@ -116,7 +119,7 @@ namespace Grimoire.Tests.Helpers
                 Description = "Test Script Error",
                 AlertLevel = AlertLevel.Error,
                 Script = "TestScriptError.ps1",
-                OriginalScriptPath = TestFileError,
+                OriginalScriptFile = script,
                 Interval = 0,
                 ScriptType = ScriptType.PowerShell,
                 SuccessPatern = "",
@@ -127,6 +130,7 @@ namespace Grimoire.Tests.Helpers
 
         public static List<GrimoireScriptBlock> GetMultipleTestScript()
         {
+            Stream script = GetStream(TestFile);
             return new List<GrimoireScriptBlock>()
             {
                 new GrimoireScriptBlock()
@@ -137,7 +141,7 @@ namespace Grimoire.Tests.Helpers
                     Description = "Test Script 1",
                     AlertLevel = AlertLevel.Warning,
                     Script = "TestScript.ps1",
-                    OriginalScriptPath = TestFile,
+                    OriginalScriptFile = script,
                     Interval = 0,
                     ScriptType = ScriptType.PowerShell,
                     SuccessPatern = "Count done",
@@ -156,7 +160,7 @@ namespace Grimoire.Tests.Helpers
                     Description = "Test Script 2",
                     AlertLevel = AlertLevel.Warning,
                     Script = "TestScript.ps1",
-                    OriginalScriptPath = TestFile,
+                    OriginalScriptFile = script,
                     Interval = 0,
                     ScriptType = ScriptType.PowerShell,
                     SuccessPatern = "Count done",
@@ -175,7 +179,7 @@ namespace Grimoire.Tests.Helpers
                     Description = "Test Script 3",
                     AlertLevel = AlertLevel.Warning,
                     Script = "TestScript.ps1",
-                    OriginalScriptPath = TestFile,
+                    OriginalScriptFile = script,
                     Interval = 0,
                     ScriptType = ScriptType.PowerShell,
                     SuccessPatern = "Count done",
@@ -194,7 +198,7 @@ namespace Grimoire.Tests.Helpers
                     Description = "Test Script 4",
                     AlertLevel = AlertLevel.Warning,
                     Script = "TestScript.ps1",
-                    OriginalScriptPath = TestFile,
+                    OriginalScriptFile = script,
                     Interval = 0,
                     ScriptType = ScriptType.PowerShell,
                     SuccessPatern = "Count done",
@@ -213,7 +217,7 @@ namespace Grimoire.Tests.Helpers
                     Description = "Test Script 5",
                     AlertLevel = AlertLevel.Warning,
                     Script = "TestScript.ps1",
-                    OriginalScriptPath = TestFile,
+                    OriginalScriptFile = script,
                     Interval = 0,
                     ScriptType = ScriptType.PowerShell,
                     SuccessPatern = "Count done",
@@ -232,7 +236,7 @@ namespace Grimoire.Tests.Helpers
                     Description = "Test Script 6",
                     AlertLevel = AlertLevel.Warning,
                     Script = "TestScript.ps1",
-                    OriginalScriptPath = TestFile,
+                    OriginalScriptFile = script,
                     Interval = 0,
                     ScriptType = ScriptType.PowerShell,
                     SuccessPatern = "Count done",
@@ -286,6 +290,17 @@ namespace Grimoire.Tests.Helpers
                     reader.Close();
                     result = JsonSerializer.Deserialize<ExecutionGroup>(file);
                 }
+            }
+            return result;
+        }
+
+        private static Stream GetStream(string path)
+        {
+            MemoryStream result = new MemoryStream();
+            using (StreamReader file = new StreamReader(path))
+            {
+                file.BaseStream.CopyTo(result);
+                file.Close();
             }
             return result;
         }
