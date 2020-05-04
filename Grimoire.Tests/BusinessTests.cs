@@ -31,7 +31,8 @@ namespace Grimoire.Tests
             business.SaveScriptBlock(script).Wait();
             GrimoireScriptBlock result = TestHelper.GetCreatedScript(config, "Test_Script.json");
             result.Should().NotBeNull();
-            ScriptResult scriptResult = business.ExecuteScript(result).Result;
+            business.LoadScriptRunners().Wait();
+            ScriptResult scriptResult = business.ScriptRunners.First().Run().Result;
             scriptResult.Should().NotBeNull();
             scriptResult.ResultType.Should().Be(ResultType.Success);
             scriptResult.RawResult.Length.Should().Be(1869);
@@ -49,12 +50,13 @@ namespace Grimoire.Tests
         public void ScriptExecutionSoftWarningTest()
         {
             GrimoireScriptBlock script = TestHelper.GetSingleTestScript();
+            script.AlertLevel = AlertLevel.Warning;
+            script.SuccessPatern = "Soft Warning";
             business.SaveScriptBlock(script).Wait();
             GrimoireScriptBlock result = TestHelper.GetCreatedScript(config, "Test_Script.json");
             result.Should().NotBeNull();
-            result.AlertLevel = AlertLevel.Warning;
-            result.SuccessPatern = "Soft Warning";
-            ScriptResult scriptResult = business.ExecuteScript(result).Result;
+            business.LoadScriptRunners().Wait();
+            ScriptResult scriptResult = business.ScriptRunners.First().Run().Result;
             scriptResult.Should().NotBeNull();
             scriptResult.ResultType.Should().Be(ResultType.Warning);
         }
@@ -63,12 +65,13 @@ namespace Grimoire.Tests
         public void ScriptExecutionSoftErrorTest()
         {
             GrimoireScriptBlock script = TestHelper.GetSingleTestScript();
+            script.AlertLevel = AlertLevel.Error;
+            script.SuccessPatern = "Soft Error";
             business.SaveScriptBlock(script).Wait();
             GrimoireScriptBlock result = TestHelper.GetCreatedScript(config, "Test_Script.json");
             result.Should().NotBeNull();
-            result.AlertLevel = AlertLevel.Error;
-            result.SuccessPatern = "Soft Error";
-            ScriptResult scriptResult = business.ExecuteScript(result).Result;
+            business.LoadScriptRunners().Wait();
+            ScriptResult scriptResult = business.ScriptRunners.First().Run().Result;
             scriptResult.Should().NotBeNull();
             scriptResult.ResultType.Should().Be(ResultType.Error);
         }
@@ -80,7 +83,8 @@ namespace Grimoire.Tests
             business.SaveScriptBlock(script).Wait();
             GrimoireScriptBlock result = TestHelper.GetCreatedScript(config, "Test_Script_Warning.json");
             result.Should().NotBeNull();
-            ScriptResult scriptResult = business.ExecuteScript(result).Result;
+            business.LoadScriptRunners().Wait();
+            ScriptResult scriptResult = business.ScriptRunners.First().Run().Result;
             scriptResult.Should().NotBeNull();
             scriptResult.ResultType.Should().Be(ResultType.Warning);
         }
@@ -92,7 +96,8 @@ namespace Grimoire.Tests
             business.SaveScriptBlock(script).Wait();
             GrimoireScriptBlock result = TestHelper.GetCreatedScript(config, "Test_Script_Error.json");
             result.Should().NotBeNull();
-            ScriptResult scriptResult = business.ExecuteScript(result).Result;
+            business.LoadScriptRunners().Wait();
+            ScriptResult scriptResult = business.ScriptRunners.First().Run().Result;
             scriptResult.Should().NotBeNull();
             scriptResult.ResultType.Should().Be(ResultType.Error);
         }

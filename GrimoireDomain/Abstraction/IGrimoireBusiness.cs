@@ -6,9 +6,11 @@ namespace Grimoire.Domain.Abstraction.Business
 {
     public interface IGrimoireBusiness
     {
+        public ICollection<IGrimoireRunner> ScriptRunners { get; set; }
+
         Task ChangeScripBlockOrder(GrimoireScriptBlock scriptBlock, int orderShift);
 
-        Task<ScriptResult> ExecuteScript(GrimoireScriptBlock scriptBlock);
+        Task LoadScriptRunners();
 
         Task<List<GrimoireScriptBlock>> GetScriptBlocks();
 
@@ -23,5 +25,7 @@ namespace Grimoire.Domain.Abstraction.Business
         Task SaveScriptBlock(GrimoireScriptBlock scriptBlock);
 
         Task SaveExecutionGroup(ExecutionGroup executionGroup);
+
+        Task<string> getScriptFullPath(GrimoireScriptBlock scriptBlock);
     }
 }

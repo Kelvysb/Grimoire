@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Grimoire.Domain.Abstraction.Business;
 using Grimoire.Domain.Models;
 using Microsoft.AspNetCore.Components;
@@ -11,27 +10,19 @@ namespace Grimoire.Components
         [Inject]
         private NavigationManager NavigationManager { get; set; }
 
-        [Inject]
-        public IGrimoireBusiness grimoireBusiness { get; set; }
-
         [Parameter]
-        public GrimoireScriptBlock ScriptBlock { get; set; }
+        public IGrimoireRunner ScriptBlockRunner { get; set; }
 
         public string Info { get; set; }
 
-        public bool Executing { get; set; } = false;
-
-        private Task AutoExecutionTask;
-
         protected override Task OnInitializedAsync()
         {
-            if (ScriptBlock.ExecutionMode == ExecutionMode.Interval
-                && ScriptBlock.Interval > 0)
+            if (ScriptBlockRunner.ScriptBlock.ExecutionMode == ExecutionMode.Interval
+                && ScriptBlockRunner.ScriptBlock.Interval > 0)
             {
-                AutoExecutionTask = AutoExecuteTimer();
-                Info = $"Interval ({ScriptBlock.Interval}): {ScriptBlock.Interval}";
+                Info = $"Interval ({ScriptBlockRunner.ScriptBlock.Interval}): {ScriptBlockRunner.ScriptBlock.Interval}";
             }
-            else if (ScriptBlock.ExecutionMode == ExecutionMode.RunOnStart)
+            else if (ScriptBlockRunner.ScriptBlock.ExecutionMode == ExecutionMode.RunOnStart)
             {
                 Info = $"Run on start";
             }
@@ -42,38 +33,20 @@ namespace Grimoire.Components
             return base.OnInitializedAsync();
         }
 
-        public void EditScript()
+        public async void RunScript()
         {
-            if (!Executing)
+            if (!ScriptBlockRunner.IsRunning)
             {
-                NavigationManager.NavigateTo($"Detail/{ScriptBlock.Name}");
+                await ScriptBlockRunner.Run();
             }
         }
 
-        public async Task RunScript()
+        public void EditScript()
         {
-            Executing = true;
-            ScriptBlock.LastResult = await grimoireBusiness.ExecuteScript(ScriptBlock);
-            await Task.Run(() => Executing = false);
-        }
-
-        private async Task AutoExecuteTimer()
-        {
-            int count = 0;
-            do
+            if (!ScriptBlockRunner.IsRunning)
             {
-                if (!Executing)
-                {
-                    if (count >= ScriptBlock.Interval)
-                    {
-                        count = 0;
-                        await RunScript();
-                    }
-                    count++;
-                    Info = $"Interval ({ScriptBlock.Interval}): {ScriptBlock.Interval - count}";
-                    Thread.Sleep(1000);
-                }
-            } while (true);
+                NavigationManager.NavigateTo($"Detail/{ScriptBlockRunner.ScriptBlock.Name}");
+            }
         }
     }
 }

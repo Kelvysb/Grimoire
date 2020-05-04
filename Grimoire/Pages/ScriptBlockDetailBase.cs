@@ -32,7 +32,7 @@ namespace Grimoire.Pages
         public async Task RunScript()
         {
             Executing = true;
-            ScriptBlock.LastResult = await grimoireBusiness.ExecuteScript(ScriptBlock);
+            //ScriptBlock.LastResult = await grimoireBusiness.ExecuteScript(ScriptBlock);
             await Task.Run(() => Executing = false);
         }
 

@@ -1,10 +1,11 @@
 ﻿@page "/"
 @inherits IndexBase
 @using Grimoire.Components
-<div>
-    @if (scripts != null)
+
+<div class="script-list">
+    @if (grimoireBusiness.ScriptRunners != null)
     {
-        @foreach (GrimoireScriptBlock script in scripts)
+        @foreach (IGrimoireRunner script in grimoireBusiness.ScriptRunners)
         {
             <ScriptBlockItem ScriptBlock="@script" />
             <div class="mb-2" />
@@ -15,3 +16,4 @@
         <div>Loading...</div>
     }
 </div>
+<div id="ScriptContent"></div>

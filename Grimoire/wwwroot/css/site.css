@@ -157,3 +157,16 @@ app {
         margin-left: 0;
     }
 }
+
+.script-list {
+    width: 270px !important;
+}
+
+.small-simbol {
+    font-size: 8pt !important;
+    color: white;
+}
+
+.script-item:hover {
+    background-color: dodgerblue;
+}
