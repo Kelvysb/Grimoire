@@ -1,12 +1,13 @@
-﻿using Grimoire.ConsoleUI.Helpers;
+﻿using System;
+using Grimoire.Domain.Abstraction.Business;
 using Grimoire.Domain.Models;
 using Terminal.Gui;
 
 namespace Grimoire.ConsoleUI.Views
 {
-    internal class ScriptDetailView : FrameView
+    internal class ScriptDetailView : FrameView, IDisposable
     {
-        public GrimoireScriptBlock ScriptBlock { get; set; }
+        public IGrimoireRunner ScriptBlockRunner { get; set; }
 
         private Button btnRun;
 
@@ -14,25 +15,22 @@ namespace Grimoire.ConsoleUI.Views
 
         private Label lblTypeDesc;
         private Label lblType;
+
         private Label lblStatusDesc;
         private Label lblStatus;
 
-        private Label lblResult;
         private ResultView resultBlock;
-
-        private Label lblWarnings;
         private ResultView warningBlock;
-
-        private Label lblErrors;
         private ResultView ErrorBlock;
 
-        public delegate void ClickHandler(object sender, ScriptClickEventArgs eventArgs);
+        public delegate void EditHandler(IGrimoireRunner script);
 
-        public event ClickHandler Click;
+        public event EditHandler Edit;
 
-        public ScriptDetailView(GrimoireScriptBlock scriptBlock, int X) : base(scriptBlock.Description)
+        public ScriptDetailView(IGrimoireRunner scriptBlockRunner, int X) : base(scriptBlockRunner.ScriptBlock.Description)
         {
-            ScriptBlock = scriptBlock;
+            ScriptBlockRunner = scriptBlockRunner;
+            ScriptBlockRunner.Finish += FinishRun;
             this.ColorScheme = Styles.DetailsScheme;
             this.X = X;
             Y = 0;
@@ -43,18 +41,21 @@ namespace Grimoire.ConsoleUI.Views
 
         private void Draw()
         {
-            lblStatusDesc = new Label(0, 0, "Status:");
-            Add(lblStatusDesc);
-            lblStatus = new Label(8, 0, "Running");
-            Add(lblStatus);
+            DrawHeader();
+            DrawResults();
+            DrawButtons();
+            UpdateResults();
+        }
 
+        private void DrawButtons()
+        {
             btnRun = new Button("Run", true)
             {
                 X = Pos.Right(this) - 64,
                 Y = Pos.Bottom(this) - 4
             };
 
-            btnRun.Clicked = () => Click.Invoke(this, new ScriptClickEventArgs(ScriptBlock, ScriptActions.Run));
+            btnRun.Clicked = () => Run();
 
             Add(btnRun);
 
@@ -64,27 +65,106 @@ namespace Grimoire.ConsoleUI.Views
                 Y = Pos.Bottom(this) - 4
             };
 
-            btnRun.Clicked = () => Click.Invoke(this, new ScriptClickEventArgs(ScriptBlock, ScriptActions.Edit));
+            btnEdit.Clicked = () => Edit?.Invoke(ScriptBlockRunner);
 
             Add(btnEdit);
+        }
 
-            UpdateResults();
+        private void DrawResults()
+        {
+            resultBlock = new ResultView("Result", ScriptBlockRunner.ScriptBlock.LastResult?.FilteredResult)
+            {
+                X = 0,
+                Y = Pos.Percent(0) + 2,
+                Width = this.Width,
+                Height = Dim.Percent(30)
+            };
+            Add(resultBlock);
+
+            warningBlock = new ResultView("Warnings", ScriptBlockRunner.ScriptBlock.LastResult?.FilteredResult)
+            {
+                X = 0,
+                Y = Pos.Percent(30) + 1,
+                Width = this.Width,
+                Height = Dim.Percent(45)
+            };
+            Add(warningBlock);
+
+            ErrorBlock = new ResultView("Errors", ScriptBlockRunner.ScriptBlock.LastResult?.FilteredResult)
+            {
+                X = 0,
+                Y = Pos.Percent(60) + 1,
+                Width = this.Width,
+                Height = Dim.Percent(90)
+            };
+            Add(ErrorBlock);
+        }
+
+        private void DrawHeader()
+        {
+            lblStatusDesc = new Label(1, 0, "Status:");
+            Add(lblStatusDesc);
+            lblStatus = new Label(10, 0, ScriptBlockRunner.IsRunning ? "Running" : "Stoped");
+            Add(lblStatus);
+
+            lblTypeDesc = new Label(1, 1, "Running Type:");
+            Add(lblTypeDesc);
+            lblType = new Label(16, 1, "");
+            switch (ScriptBlockRunner.ScriptBlock.ExecutionMode)
+            {
+                case ExecutionMode.RunOnStart:
+                    lblType.Text = "Run on start";
+                    break;
+
+                case ExecutionMode.Interval:
+                    lblType.Text = "Interval - " + ScriptBlockRunner.ScriptBlock.Interval + " seconds";
+                    break;
+
+                case ExecutionMode.Manual:
+                    lblType.Text = "Manual";
+                    break;
+            }
+            Add(lblType);
         }
 
         private void UpdateResults()
         {
-            if (resultBlock != null)
+            if (ScriptBlockRunner.ScriptBlock.LastResult != null)
             {
-                resultBlock.Result = ScriptBlock.LastResult.FilteredResult;
+                if (resultBlock != null)
+                {
+                    resultBlock.Result = ScriptBlockRunner.ScriptBlock.LastResult.FilteredResult;
+                }
+                if (warningBlock != null)
+                {
+                    warningBlock.Result = ScriptBlockRunner.ScriptBlock.LastResult.Warninings;
+                }
+                if (ErrorBlock != null)
+                {
+                    ErrorBlock.Result = ScriptBlockRunner.ScriptBlock.LastResult.Errors;
+                }
             }
-            if (warningBlock != null)
+        }
+
+        private void Run()
+        {
+            if (!ScriptBlockRunner.IsRunning)
             {
-                warningBlock.Result = ScriptBlock.LastResult.Warninings;
+                lblStatus.Text = "Running";
+                ScriptBlockRunner.Run();
             }
-            if (ErrorBlock != null)
-            {
-                ErrorBlock.Result = ScriptBlock.LastResult.Errors;
-            }
+        }
+
+        private void FinishRun(object sender, ScriptResult result)
+        {
+            lblStatus.Text = "Stoped";
+            UpdateResults();
+        }
+
+        public void Dispose()
+        {
+            btnRun.Clicked = null;
+            btnEdit.Clicked = null;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Grimoire.ConsoleUI.Helpers
 {
-    internal enum ScriptActions
+    public enum ScriptActions
     {
         Run,
         Edit,

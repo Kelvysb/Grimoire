@@ -22,14 +22,49 @@ namespace Grimoire.Business
 
         public event TimerHandler Timer;
 
+        public bool Selected { get; set; }
+
+        public bool IsRunning { get; private set; }
+
         public GrimoireRunner(GrimoireScriptBlock scriptBlock, IGrimoireBusiness business)
         {
+            Selected = false;
             this.business = business;
             this.ScriptBlock = scriptBlock;
             Task.Run(() => TimerRun());
         }
 
-        public bool IsRunning { get; private set; }
+        public override string ToString()
+        {
+            string result = ScriptBlock.Description;
+
+            if (Selected)
+            {
+                result = $"({result})";
+            }
+            if (IsRunning)
+            {
+                result = $"{result} >>>";
+            }
+            else
+            {
+                switch (ScriptBlock.LastResult?.ResultType)
+                {
+                    case ResultType.Success:
+                        result = $"OK - {result}";
+                        break;
+
+                    case ResultType.Error:
+                        result = $"ERROR - {result}";
+                        break;
+
+                    case ResultType.Warning:
+                        result = $"WARNING - {result}";
+                        break;
+                }
+            }
+            return result.Trim();
+        }
 
         private void TimerRun()
         {

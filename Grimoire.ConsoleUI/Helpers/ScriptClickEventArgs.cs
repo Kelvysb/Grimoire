@@ -1,18 +1,15 @@
 ﻿using System;
-using Grimoire.Domain.Models;
+using Grimoire.Domain.Abstraction.Business;
 
 namespace Grimoire.ConsoleUI.Helpers
 {
-    internal class ScriptClickEventArgs : EventArgs
+    public class ScriptClickEventArgs : EventArgs
     {
-        public ScriptClickEventArgs(GrimoireScriptBlock scriptBlock, ScriptActions action)
+        public ScriptClickEventArgs(IGrimoireRunner grimoireRunner)
         {
-            ScriptBlock = scriptBlock;
-            Action = action;
+            ScriptRunner = grimoireRunner;
         }
 
-        public ScriptActions Action { get; private set; }
-
-        public GrimoireScriptBlock ScriptBlock { get; private set; }
+        public IGrimoireRunner ScriptRunner { get; private set; }
     }
 }

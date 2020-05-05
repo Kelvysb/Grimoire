@@ -2,9 +2,9 @@
 
 namespace Grimoire.Domain.Events
 {
-    public delegate void StartHandler(GrimoireScriptBlock sender);
+    public delegate void StartHandler(object sender);
 
-    public delegate void FinishHandler(GrimoireScriptBlock sender, ScriptResult result);
+    public delegate void FinishHandler(object sender, ScriptResult result);
 
-    public delegate void TimerHandler(GrimoireScriptBlock sender, int timeLeft);
+    public delegate void TimerHandler(object sender, int timeLeft);
 }
