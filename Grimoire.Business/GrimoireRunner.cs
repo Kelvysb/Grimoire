@@ -12,7 +12,7 @@ namespace Grimoire.Business
 {
     public class GrimoireRunner : IGrimoireRunner
     {
-        public GrimoireScriptBlock ScriptBlock { get; private set; }
+        private int timer = 0;
 
         private IGrimoireBusiness business;
 
@@ -21,6 +21,8 @@ namespace Grimoire.Business
         public event FinishHandler Finish;
 
         public event TimerHandler Timer;
+
+        public GrimoireScriptBlock ScriptBlock { get; private set; }
 
         public bool Selected { get; set; }
 
@@ -32,19 +34,25 @@ namespace Grimoire.Business
             this.business = business;
             this.ScriptBlock = scriptBlock;
             Task.Run(() => TimerRun());
+            CheckRunOnStart();
         }
 
         public override string ToString()
         {
             string result = ScriptBlock.Description;
 
+            if (ScriptBlock.ExecutionMode == ExecutionMode.Interval)
+            {
+                result = $"{result} ({ timer }secs)";
+            }
+
             if (Selected)
             {
-                result = $"({result})";
+                result = $"{result} <-";
             }
             if (IsRunning)
             {
-                result = $"{result} >>>";
+                result = $"RUNNING - {result}";
             }
             else
             {
@@ -66,9 +74,17 @@ namespace Grimoire.Business
             return result.Trim();
         }
 
+        private async void CheckRunOnStart()
+        {
+            if (ScriptBlock.ExecutionMode == ExecutionMode.RunOnStart)
+            {
+                await Run();
+            }
+        }
+
         private void TimerRun()
         {
-            int timer = ScriptBlock.Interval;
+            timer = ScriptBlock.Interval;
             while (ScriptBlock.ExecutionMode == ExecutionMode.Interval)
             {
                 if (timer <= 0)
@@ -169,7 +185,7 @@ namespace Grimoire.Business
 
         private string ExtractFilteredResult(GrimoireScriptBlock scriptBlock, string rawResult)
         {
-            string result = "";
+            string result = rawResult;
             if (scriptBlock.ExtractResult != null && !String.IsNullOrEmpty(scriptBlock.ExtractResult.Start) && !String.IsNullOrEmpty(scriptBlock.ExtractResult.End))
             {
                 Match match = Regex.Match(rawResult, scriptBlock.ExtractResult.Start);

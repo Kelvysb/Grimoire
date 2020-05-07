@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Grimoire.ConsoleUI.Views;
 using Grimoire.Domain.Abstraction.Business;
+using Grimoire.Domain.Models;
 using Terminal.Gui;
 
 namespace Grimoire.ConsoleUI
@@ -14,6 +16,7 @@ namespace Grimoire.ConsoleUI
         private MenuBar Menu;
         private SideListView SideList;
         private ScriptDetailView details;
+        private ScriptEditView edit;
 
         public MainWindow(IGrimoireBusiness business)
         {
@@ -54,6 +57,7 @@ namespace Grimoire.ConsoleUI
             });
             Menu.ColorScheme = Styles.MenuScheme;
             Top.Add(Menu);
+            Menu.SetNeedsDisplay();
         }
 
         private void InitilizeWindow()
@@ -82,14 +86,67 @@ namespace Grimoire.ConsoleUI
             if (details != null)
             {
                 Win.Remove(details);
+                details.Edit -= EditScript;
                 details.Dispose();
             }
             details = new ScriptDetailView(scriptRunner, 51);
+            details.Edit += EditScript;
             Win.Add(details);
+        }
+
+        private void EditScript(IGrimoireRunner scriptRunner)
+        {
+            ClearWindow();
+            edit = new ScriptEditView(scriptRunner, 51);
+            edit.Save += Save;
+            edit.Cancel += Cancel;
+            Win.Add(edit);
         }
 
         private void NewScript()
         {
+            ClearWindow();
+            edit = new ScriptEditView(51);
+            edit.Save += Save;
+            edit.Cancel += Cancel;
+            Win.Add(edit);
+        }
+
+        private async void Save(GrimoireScriptBlock scriptBlock)
+        {
+            await business.SaveScriptBlock(scriptBlock);
+            await Task.Run(() => EndEdit(scriptBlock));
+        }
+
+        private void Cancel()
+        {
+            ClearWindow();
+        }
+
+        private void EndEdit(GrimoireScriptBlock scriptBlock)
+        {
+            LoadScripts();
+            IGrimoireRunner editedScript = business.ScriptRunners
+                .FirstOrDefault(item => item.ScriptBlock.Name.Equals(scriptBlock.Name,
+                                                                     StringComparison.InvariantCultureIgnoreCase));
+            SelectScript(editedScript);
+        }
+
+        private void ClearWindow()
+        {
+            if (details != null)
+            {
+                Win.Remove(details);
+                details.Edit -= EditScript;
+                details.Dispose();
+            }
+            if (edit != null)
+            {
+                Win.Remove(edit);
+                edit.Save -= Save;
+                edit.Cancel -= Cancel;
+                edit.Dispose();
+            }
         }
     }
 }

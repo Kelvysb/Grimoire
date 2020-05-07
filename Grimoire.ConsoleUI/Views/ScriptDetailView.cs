@@ -13,6 +13,9 @@ namespace Grimoire.ConsoleUI.Views
 
         private Button btnEdit;
 
+        private Label lblLastResultDesc;
+        private Label lblLastResult;
+
         private Label lblTypeDesc;
         private Label lblType;
 
@@ -81,7 +84,7 @@ namespace Grimoire.ConsoleUI.Views
             };
             Add(resultBlock);
 
-            warningBlock = new ResultView("Warnings", ScriptBlockRunner.ScriptBlock.LastResult?.FilteredResult)
+            warningBlock = new ResultView("Warnings", ScriptBlockRunner.ScriptBlock.LastResult?.Warninings)
             {
                 X = 0,
                 Y = Pos.Percent(30) + 1,
@@ -90,7 +93,7 @@ namespace Grimoire.ConsoleUI.Views
             };
             Add(warningBlock);
 
-            ErrorBlock = new ResultView("Errors", ScriptBlockRunner.ScriptBlock.LastResult?.FilteredResult)
+            ErrorBlock = new ResultView("Errors", ScriptBlockRunner.ScriptBlock.LastResult?.Errors)
             {
                 X = 0,
                 Y = Pos.Percent(60) + 1,
@@ -104,8 +107,34 @@ namespace Grimoire.ConsoleUI.Views
         {
             lblStatusDesc = new Label(1, 0, "Status:");
             Add(lblStatusDesc);
-            lblStatus = new Label(10, 0, ScriptBlockRunner.IsRunning ? "Running" : "Stoped");
+            lblStatus = new Label(10, 0, ScriptBlockRunner.IsRunning ? "Running" : "Stopped");
             Add(lblStatus);
+
+            lblLastResultDesc = new Label(19, 0, "Last Result:");
+            Add(lblLastResultDesc);
+            lblLastResult = new Label(32, 0, "N/A");
+            if (ScriptBlockRunner.ScriptBlock.LastResult != null)
+            {
+                switch (ScriptBlockRunner.ScriptBlock.LastResult.ResultType)
+                {
+                    case ResultType.Success:
+                        lblLastResult.Text = "Success";
+                        break;
+
+                    case ResultType.Error:
+                        lblLastResult.Text = "Error";
+                        break;
+
+                    case ResultType.Warning:
+                        lblLastResult.Text = "Warning";
+                        break;
+
+                    default:
+                        lblLastResult.Text = "N/A";
+                        break;
+                }
+            }
+            Add(lblLastResult);
 
             lblTypeDesc = new Label(1, 1, "Running Type:");
             Add(lblTypeDesc);
@@ -157,7 +186,7 @@ namespace Grimoire.ConsoleUI.Views
 
         private void FinishRun(object sender, ScriptResult result)
         {
-            lblStatus.Text = "Stoped";
+            lblStatus.Text = "Stopped";
             UpdateResults();
         }
 

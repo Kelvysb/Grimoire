@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Grimoire.Domain.Abstraction.Business;
 using NStack;
 using Terminal.Gui;
@@ -7,6 +9,8 @@ namespace Grimoire.ConsoleUI.Views
 {
     public class SideListView : FrameView
     {
+        private const int REFRESH_TIME = 1000;
+
         public List<IGrimoireRunner> scriptRunners = new List<IGrimoireRunner>();
 
         public delegate void ScriptSelectionHandler(IGrimoireRunner script);
@@ -17,6 +21,7 @@ namespace Grimoire.ConsoleUI.Views
 
         public SideListView(ustring title) : base(title)
         {
+            RefreshTimer();
         }
 
         private void Draw()
@@ -31,7 +36,7 @@ namespace Grimoire.ConsoleUI.Views
                 X = 0,
                 Y = 0,
                 Width = Width - 2,
-                Height = Height - 2
+                Height = Height - 3
             };
             Add(Items);
             Items.SelectedChanged += () => SelectScript(scriptRunners[Items.SelectedItem]);
@@ -48,6 +53,18 @@ namespace Grimoire.ConsoleUI.Views
             scriptRunners.ForEach(item => item.Selected = false);
             script.Selected = true;
             Selected?.Invoke(script);
+        }
+
+        private async void RefreshTimer()
+        {
+            await Task.Run(() =>
+            {
+                while (true)
+                {
+                    SetNeedsDisplay();
+                    Thread.Sleep(REFRESH_TIME);
+                }
+            });
         }
     }
 }
