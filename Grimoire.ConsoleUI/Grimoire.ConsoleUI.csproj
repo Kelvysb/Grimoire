@@ -1,8 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <PackageId>Grimoire.ConsoleUI</PackageId>
+    <Authors>Kelvys B.</Authors>
+    <Company>Kelvys B.</Company>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/Kelvysb/Grimoire</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Kelvysb/Grimoire</RepositoryUrl>
+    <PackageIcon>Icon.png</PackageIcon>
+    <PackageIconUrl />
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +23,17 @@
     <ProjectReference Include="..\Grimoire.Business\Grimoire.Business.csproj" />
     <ProjectReference Include="..\Grimoire.Services\Grimoire.Services.csproj" />
     <ProjectReference Include="..\GrimoireDomain\Grimoire.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\Graphics\Icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
