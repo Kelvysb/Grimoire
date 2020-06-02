@@ -3,11 +3,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using Grimoire.Domain.Abstraction.Services;
 
 namespace Grimoire.Services
 {
     public abstract class ResourceLoaderBase
     {
+        protected ILogService logService;
+
         protected void EnsurePath(string path)
         {
             if (!Directory.Exists(path))
@@ -18,14 +21,21 @@ namespace Grimoire.Services
 
         protected void SaveResource(object resource, string resourcePath)
         {
-            using (StreamWriter writer = new StreamWriter(resourcePath, false))
+            try
             {
-                writer.Write(JsonSerializer.Serialize(resource));
-                writer.Close();
+                using (StreamWriter writer = new StreamWriter(resourcePath, false))
+                {
+                    writer.Write(JsonSerializer.Serialize(resource));
+                    writer.Close();
+                }
+            }
+            catch (System.Exception e)
+            {
+                logService.Log(e);
             }
         }
 
-        protected ICollection<T> GetResources<T>(string resourceFolderPath)
+        protected IEnumerable<T> GetResources<T>(string resourceFolderPath)
         {
             EnsurePath(resourceFolderPath);
             List<T> result = new List<T>();

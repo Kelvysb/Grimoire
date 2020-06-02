@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using BlazorInputFile;
 using Grimoire.Domain.Abstraction.Business;
 using Grimoire.Domain.Models;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace Grimoire.Pages
 {
@@ -12,7 +15,9 @@ namespace Grimoire.Pages
         [Inject]
         private IGrimoireBusiness grimoireBusiness { get; set; }
 
-        [Parameter]
+        [Inject]
+        private IJSRuntime jsRuntime { get; set; }
+
         public string ScriptName { get; set; }
 
         public bool IsEdit { get; set; }
@@ -25,22 +30,47 @@ namespace Grimoire.Pages
 
         public GrimoireScriptBlock ScriptBlock { get; set; }
 
-        protected async override Task OnInitializedAsync()
-        {
-            await InitializeScriptBlock();
-            await base.OnInitializedAsync();
-        }
+        public delegate void EndEditHandler();
 
-        public void HandleFileSelected(IFileListEntry[] files)
+        public event EndEditHandler EndEdit;
+
+        public async void HandleFileSelected(IFileListEntry[] files)
         {
             ScriptBlock.Script = files[0].Name;
-            ScriptBlock.OriginalScriptFile = files[0].Data;
+            MemoryStream stream = new MemoryStream();
+            await files[0].Data.CopyToAsync(stream);
+            ScriptBlock.OriginalScriptFile = stream;
+        }
+
+        public async void HandleAdditionalFilesSelected(IFileListEntry[] files)
+        {
+            ScriptBlock.AdditionalFiles = new List<AdditionalFile>();
+            foreach (var file in files)
+            {
+                MemoryStream stream = new MemoryStream();
+                await file.Data.CopyToAsync(stream);
+                ScriptBlock.AdditionalFiles.Add(new AdditionalFile(file.Name, stream));
+            }
         }
 
         public async Task Submit()
         {
             CompleteValues();
             await grimoireBusiness.SaveScriptBlock(ScriptBlock);
+            EndEdit?.Invoke();
+            await jsRuntime.InvokeAsync<object>("Alert", "Script saved.");
+        }
+
+        protected async override Task OnInitializedAsync()
+        {
+            await InitializeScriptBlock();
+            await base.OnInitializedAsync();
+        }
+
+        public async void Reload()
+        {
+            await InitializeScriptBlock();
+            StateHasChanged();
         }
 
         private async Task InitializeScriptBlock()
@@ -62,6 +92,7 @@ namespace Grimoire.Pages
                     Interval = 0,
                     Order = 0,
                     OriginalScriptFile = null,
+                    AdditionalFiles = new List<AdditionalFile>(),
                     Script = "",
                     ScriptBlocks = null,
                     ScriptType = ScriptType.PowerShell,

@@ -1,6 +1,3 @@
-using System.Threading.Tasks;
-using ElectronNET.API;
-using ElectronNET.API.Entities;
 using Grimoire.Business;
 using Grimoire.Domain.Abstraction.Business;
 using Grimoire.Domain.Abstraction.Services;
@@ -31,6 +28,7 @@ namespace Grimoire
             services.AddSingleton<IConfigurationService, ConfigurationService>();
             services.AddSingleton<IGrimoireService, GrimoireService>();
             services.AddSingleton<IGrimoireBusiness, GrimoireBusiness>();
+            services.AddSingleton<ILogService, LogService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,17 +52,6 @@ namespace Grimoire
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
-
-            Task.Run(async () => await Electron.WindowManager.CreateWindowAsync(new BrowserWindowOptions()
-            {
-                Title = "Grimoire",
-                Frame = true,
-                AutoHideMenuBar = true,
-                Width = 600,
-                Height = 400,
-                MinWidth = 300,
-                MinHeight = 400
-            }));
         }
     }
 }

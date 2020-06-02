@@ -7,46 +7,23 @@ namespace Grimoire.Components
 {
     public class ScriptBlockItemBase : ComponentBase
     {
-        [Inject]
-        private NavigationManager NavigationManager { get; set; }
-
         [Parameter]
         public IGrimoireRunner ScriptBlockRunner { get; set; }
 
-        public string Info { get; set; }
+        public delegate void SelectHandler(IGrimoireRunner scriptRunner);
+
+        public event SelectHandler Select;
 
         protected override Task OnInitializedAsync()
         {
-            if (ScriptBlockRunner.ScriptBlock.ExecutionMode == ExecutionMode.Interval
-                && ScriptBlockRunner.ScriptBlock.Interval > 0)
-            {
-                Info = $"Interval ({ScriptBlockRunner.ScriptBlock.Interval}): {ScriptBlockRunner.ScriptBlock.Interval}";
-            }
-            else if (ScriptBlockRunner.ScriptBlock.ExecutionMode == ExecutionMode.RunOnStart)
-            {
-                Info = $"Run on start";
-            }
-            else
-            {
-                Info = $"Manual";
-            }
+            ScriptBlockRunner.Start += (object sender) => InvokeAsync(() => StateHasChanged());
+            ScriptBlockRunner.Finish += (object sender, ScriptResult result) => InvokeAsync(() => StateHasChanged());
             return base.OnInitializedAsync();
         }
 
-        public async void RunScript()
+        public void SelectScript()
         {
-            if (!ScriptBlockRunner.IsRunning)
-            {
-                await ScriptBlockRunner.Run();
-            }
-        }
-
-        public void EditScript()
-        {
-            if (!ScriptBlockRunner.IsRunning)
-            {
-                NavigationManager.NavigateTo($"Detail/{ScriptBlockRunner.ScriptBlock.Name}");
-            }
+            Select?.Invoke(ScriptBlockRunner);
         }
     }
 }

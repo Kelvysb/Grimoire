@@ -34,6 +34,9 @@ namespace Grimoire.Domain.Models
         [JsonIgnore]
         public Stream OriginalScriptFile { get; set; }
 
+        [JsonIgnore]
+        public ICollection<AdditionalFile> AdditionalFiles { get; set; }
+
         public string SuccessPatern { get; set; }
 
         public PatternRange ExtractResult { get; set; }

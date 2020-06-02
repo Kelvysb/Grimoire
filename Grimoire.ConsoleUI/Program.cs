@@ -22,6 +22,7 @@ namespace Grimoire.ConsoleUI
             services.AddSingleton<IConfigurationService, ConfigurationService>();
             services.AddSingleton<IGrimoireService, GrimoireService>();
             services.AddSingleton<IGrimoireBusiness, GrimoireBusiness>();
+            services.AddSingleton<ILogService, LogService>();
             return services;
         }
     }

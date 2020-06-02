@@ -12,6 +12,8 @@ namespace Grimoire.Domain.Abstraction.Business
 
         bool Selected { get; set; }
 
+        bool Paused { get; set; }
+
         event FinishHandler Finish;
 
         event StartHandler Start;

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="16.933332mm"
+   height="16.93334mm"
+   viewBox="0 0 16.933332 16.93334"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   sodipodi:docname="running.svg"
+   inkscape:export-filename="D:\Repositories\Grimoire\Graphics\running.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
+  <defs
+     id="defs2">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4534">
+      <stop
+         style="stop-color:#0074ff;stop-opacity:1"
+         offset="0"
+         id="stop4530" />
+      <stop
+         id="stop4540"
+         offset="0.73429877"
+         style="stop-color:#0071ff;stop-opacity:1" />
+      <stop
+         style="stop-color:#002cff;stop-opacity:1"
+         offset="1"
+         id="stop4532" />
+    </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4534"
+       id="radialGradient4538"
+       cx="93.277107"
+       cy="128.88748"
+       fx="93.277107"
+       fy="128.88748"
+       r="55.324791"
+       gradientTransform="matrix(0.5780302,-0.02055364,0.02055364,0.57803024,-24.566098,-40.583697)"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="7.919596"
+     inkscape:cx="-10.365208"
+     inkscape:cy="21.116715"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Camada 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-68.754463,-152.71342)">
+    <path
+       style="fill:url(#radialGradient4538);fill-opacity:1;stroke:none;stroke-width:0.15303382;stroke-opacity:1"
+       d="M 32.509766,0.00390625 C 31.96372,-0.00434196 31.41521,0.00185918 30.863281,0.02148438 13.201553,0.64952846 -0.60652948,15.474986 0.02148438,33.136719 0.64949822,50.798451 15.474983,64.606522 33.136719,63.978516 50.798459,63.350472 64.606537,48.525014 63.978516,30.863281 63.37012,13.753478 49.437169,0.25960069 32.509766,0.00390625 Z"
+       id="path815"
+       transform="matrix(0.26458333,0,0,0.26458333,68.754463,152.71342)"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="scscss" />
+    <path
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.05301201;stroke-opacity:1"
+       d="M 27.824219 10.601562 A 21.808211 21.808211 0 0 0 10.615234 27.824219 L 16.324219 27.824219 A 16.240157 16.240157 0 0 1 27.824219 16.3125 L 27.824219 10.601562 z M 36.175781 10.617188 L 36.175781 16.326172 A 16.240157 16.240157 0 0 1 47.685547 27.826172 L 53.396484 27.826172 A 21.808211 21.808211 0 0 0 36.175781 10.617188 z M 10.603516 36.177734 A 21.808211 21.808211 0 0 0 27.824219 53.386719 L 27.824219 47.675781 A 16.240157 16.240157 0 0 1 16.314453 36.177734 L 10.603516 36.177734 z M 47.675781 36.177734 A 16.240157 16.240157 0 0 1 36.175781 47.6875 L 36.175781 53.398438 A 21.808211 21.808211 0 0 0 53.384766 36.177734 L 47.675781 36.177734 z "
+       transform="matrix(0.26458333,0,0,0.26458333,68.754463,152.71342)"
+       id="path818" />
+  </g>
+</svg>

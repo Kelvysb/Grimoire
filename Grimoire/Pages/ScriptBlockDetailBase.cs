@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Grimoire.Domain.Abstraction.Business;
-using Grimoire.Domain.Models;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace Grimoire.Pages
 {
@@ -10,35 +10,52 @@ namespace Grimoire.Pages
         [Inject]
         public IGrimoireBusiness grimoireBusiness { get; set; }
 
-        [Parameter]
-        public string ScriptName { get; set; }
+        [Inject]
+        private IJSRuntime jsRuntime { get; set; }
 
-        public GrimoireScriptBlock ScriptBlock { get; set; }
+        public IGrimoireRunner ScriptBlockRunner { get; set; }
 
         public bool Executing { get; set; }
+
+        public delegate void EditEventHandler(IGrimoireRunner scriptRunner);
+
+        public event EditEventHandler Edit;
+
+        public delegate void DeleteEventHandler(IGrimoireRunner scriptRunner);
+
+        public event DeleteEventHandler Delete;
 
         protected override async Task OnInitializedAsync()
         {
             Executing = false;
-            ScriptBlock = await grimoireBusiness.GetScriptBlock(ScriptName);
             await base.OnInitializedAsync();
         }
 
         public Task EditScript()
         {
-            return Task.Run(() => "");
+            return Task.Run(() => Edit?.Invoke(ScriptBlockRunner));
         }
 
         public async Task RunScript()
         {
             Executing = true;
-            //ScriptBlock.LastResult = await grimoireBusiness.ExecuteScript(ScriptBlock);
+            ScriptBlockRunner.ScriptBlock.LastResult = await ScriptBlockRunner.Run();
             await Task.Run(() => Executing = false);
         }
 
-        public Task RemoveScript()
+        public async Task RemoveScript()
         {
-            return Task.Run(() => "");
+            if (await jsRuntime.InvokeAsync<bool>("Confirm", "Are you sure?"))
+            {
+                await grimoireBusiness.RemoveScriptBlock(ScriptBlockRunner.ScriptBlock.Name);
+                await jsRuntime.InvokeAsync<object>("Alert", "Script deleted");
+                await Task.Run(() => Delete?.Invoke(ScriptBlockRunner));
+            }
+        }
+
+        public void Reload()
+        {
+            StateHasChanged();
         }
     }
 }

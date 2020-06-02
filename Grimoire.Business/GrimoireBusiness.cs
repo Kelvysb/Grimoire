@@ -9,7 +9,7 @@ namespace Grimoire.Business
 {
     public class GrimoireBusiness : IGrimoireBusiness
     {
-        public ICollection<IGrimoireRunner> ScriptRunners { get; set; }
+        public IEnumerable<IGrimoireRunner> ScriptRunners { get; set; }
 
         private readonly IGrimoireService grimoireService;
 
@@ -65,7 +65,7 @@ namespace Grimoire.Business
 
         public async Task LoadScriptRunners()
         {
-            ICollection<GrimoireScriptBlock> scripts = await GetScriptBlocks();
+            IEnumerable<GrimoireScriptBlock> scripts = await GetScriptBlocks();
             ScriptRunners = await Task.Run(() =>
             {
                 return scripts

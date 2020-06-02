@@ -9,9 +9,9 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/Kelvysb/Grimoire</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Kelvysb/Grimoire</RepositoryUrl>
-    <PackageIcon>Icon.png</PackageIcon>
+    <PackageIcon>Icon_Console.png</PackageIcon>
     <PackageIconUrl />
-    <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <ApplicationIcon>Icon_Console.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\Graphics\Icon.png">
+    <None Include="..\Graphics\Icon_Console.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>

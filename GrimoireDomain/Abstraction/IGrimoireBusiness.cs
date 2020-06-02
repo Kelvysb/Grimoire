@@ -6,7 +6,7 @@ namespace Grimoire.Domain.Abstraction.Business
 {
     public interface IGrimoireBusiness
     {
-        public ICollection<IGrimoireRunner> ScriptRunners { get; set; }
+        public IEnumerable<IGrimoireRunner> ScriptRunners { get; set; }
 
         Task ChangeScripBlockOrder(GrimoireScriptBlock scriptBlock, int orderShift);
 

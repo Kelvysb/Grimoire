@@ -2,18 +2,23 @@
 @inherits IndexBase
 @using Grimoire.Components
 
-<div class="script-list">
-    @if (grimoireBusiness.ScriptRunners != null)
-    {
-        @foreach (IGrimoireRunner script in grimoireBusiness.ScriptRunners)
-        {
-            <ScriptBlockItem ScriptBlock="@script" />
-            <div class="mb-2" />
-        }
-    }
-    else
-    {
-        <div>Loading...</div>
-    }
+<div class="sidebar">
+    <SideMenu @ref="SideMenu"></SideMenu>
 </div>
-<div id="ScriptContent"></div>
+<div class="main">
+    <div class="content px-4">
+        <div id="ScriptContent">
+            @switch (AppMode)
+            {
+                case AppMode.Detail:
+                    <ScriptBlockDetail @ref="ScriptDetail"></ScriptBlockDetail>
+                    break;
+                case AppMode.Edit:
+                    <ScriptEdit @ref="ScriptEdit"></ScriptEdit>
+                    break;
+                default:
+                    break;
+            }
+        </div>
+    </div>
+</div>

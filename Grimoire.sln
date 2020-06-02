@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grimoire", "Grimoire\Grimoire.csproj", "{ECBF0016-90D4-47BE-A000-23A5C239CD02}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grimoire.Domain", "GrimoireDomain\Grimoire.Domain.csproj", "{4994FC36-0319-468F-A2DC-E42E92AC5CDC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grimoire.Business", "Grimoire.Business\Grimoire.Business.csproj", "{9FCB823E-7798-4417-B957-2EBD4E3A2533}"
@@ -13,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grimoire.Services", "Grimoi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grimoire.Tests", "Grimoire.Tests\Grimoire.Tests.csproj", "{CFB80292-56CE-43E0-A0B0-34ACB85D92DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grimoire.ConsoleUI", "Grimoire.ConsoleUI\Grimoire.ConsoleUI.csproj", "{AB9571CC-EBF6-4FCE-B859-33EF9DF9B362}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grimoire.ConsoleUI", "Grimoire.ConsoleUI\Grimoire.ConsoleUI.csproj", "{AB9571CC-EBF6-4FCE-B859-33EF9DF9B362}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grimoire", "Grimoire\Grimoire.csproj", "{3DF709F9-2EEC-403E-92B8-89E2830B9722}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{ECBF0016-90D4-47BE-A000-23A5C239CD02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ECBF0016-90D4-47BE-A000-23A5C239CD02}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ECBF0016-90D4-47BE-A000-23A5C239CD02}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ECBF0016-90D4-47BE-A000-23A5C239CD02}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4994FC36-0319-468F-A2DC-E42E92AC5CDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4994FC36-0319-468F-A2DC-E42E92AC5CDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4994FC36-0319-468F-A2DC-E42E92AC5CDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{AB9571CC-EBF6-4FCE-B859-33EF9DF9B362}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB9571CC-EBF6-4FCE-B859-33EF9DF9B362}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB9571CC-EBF6-4FCE-B859-33EF9DF9B362}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DF709F9-2EEC-403E-92B8-89E2830B9722}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DF709F9-2EEC-403E-92B8-89E2830B9722}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DF709F9-2EEC-403E-92B8-89E2830B9722}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DF709F9-2EEC-403E-92B8-89E2830B9722}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

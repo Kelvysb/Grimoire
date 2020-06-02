@@ -1,84 +1,80 @@
 ﻿@page "/Detail/{ScriptName}"
 @inherits ScriptBlockDetailBase
 
-@if (ScriptBlock != null)
+<div class="row">
+    <span class="col-sm-12 spacer-h-10"></span>
+</div>
+@if (ScriptBlockRunner != null)
 {
-    <div class="card">
-        <div class="bg-primary card-header">
-            <h3 class="col-sm-12">@ScriptBlock.Description</h3>
-        </div>
-        <div class="card-body">
-            <div class="container">
-                <div class="row">
-                    @ScriptBlock.LastResult.FilteredResult
-                </div>
-                <div class="row">
-                    @ScriptBlock.LastResult.Errors
-                </div>
-                <div class="row">
-                    @ScriptBlock.LastResult.Warninings
-                </div>
+    <div class="container script-title">
+        <div class="row">
+            <h3 class="col-sm-8">@ScriptBlockRunner.ScriptBlock.Description</h3>
+            <div class="col-sm-4">
+                <span>
+                    @if (ScriptBlockRunner.ScriptBlock.LastResult != null && ScriptBlockRunner.ScriptBlock.LastResult.ResultType != ResultType.None)
+                    {
+                        @switch (ScriptBlockRunner.ScriptBlock.LastResult.ResultType)
+                        {
+                            case ResultType.Success:
+                                <img class="big-simbol" src="./images/ok.svg" />
+                                break;
+                            case ResultType.Error:
+                                <img class="big-simbol" src="./images/error.svg" />
+                                break;
+                            case ResultType.Warning:
+                                <img class="big-simbol" src="./images/warning.svg" />
+                                break;
+                        }
+                    }
+                </span>
+                <span class="button ml-2">
+                    <img class="big-simbol pointer-event" src="./images/trash.svg" @onclick="RemoveScript" />
+                </span>
+                <span class="button ml-2">
+                    <img class="big-simbol pointer-event" src="./images/edit.svg" @onclick="EditScript" />
+                </span>
+                <span class="button ml-2">
+                    @if (!ScriptBlockRunner.IsRunning)
+                    {
+                        <img class="big-simbol pointer-event" src="./images/play.svg" @onclick="RunScript" />
+                    }
+                    else
+                    {
+                        <img class="big-simbol-running" role="status" src="./images/running.svg" />
+                    }
+                </span>
             </div>
         </div>
-        <div class="card-footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-8"></div>
-                    <div class="col-sm-1">
-                        @if (ScriptBlock.LastResult != null && ScriptBlock.LastResult.ResultType != ResultType.None)
-                        {
-                            @switch (ScriptBlock.LastResult.ResultType)
-                            {
-                                case ResultType.Success:
-                                    <span class="btn btn-primary rounded-circle bg-success">
-                                        <span class="oi oi-check"></span>
-                                    </span>
-                                    break;
-                                case ResultType.Error:
-                                    <span class="btn btn-primary rounded-circle bg-danger">
-                                        <span class="oi oi-x"></span>
-                                    </span>
-                                    break;
-                                case ResultType.Warning:
-                                    <span class="btn btn-primary rounded-circle bg-warning">
-                                        <span class="oi oi-warning"></span>
-                                    </span>
-                                    break;
-                            }
-                        }
-                    </div>
-                    <div class="col-sm-1">
-                        <button class="btn btn-primary rounded-circle" @onclick="RemoveScript">
-                            <span class="oi oi-trash"></span>
-                        </button>
-                    </div>
-                    <div class="col-sm-1">
-                        <button class="btn btn-primary rounded-circle" @onclick="EditScript">
-                            <span class="oi oi-pencil"></span>
-                        </button>
-                    </div>
-                    <div class="col-sm-1">
-                        @if (!Executing)
-                        {
-                            <button class="btn btn-primary rounded-circle" @onclick="RunScript">
-                                <span class="oi oi-media-play"></span>
-                            </button>
-                        }
-                        else
-                        {
-                            <div class="spinner-border rounded-circle text-primary" role="status">
-                                <span class="sr-only">Running...</span>
-                            </div>
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
+    </div>
+    <div class="row">
+        <span class="col-sm-12 line"></span>
+    </div>
+    <div class="row">
+        <h5>Result:</h5>
+    </div>
+    <div class="row">
+        <textarea class="col-sm-12 result-text" readonly>@ScriptBlockRunner.ScriptBlock.LastResult.FilteredResult</textarea>
+    </div>
+    <div class="row">
+        <span class="col-sm-12 line"></span>
+    </div>
+    <div class="row">
+        <h5>Warnings:</h5>
+    </div>
+    <div class="row">
+        <textarea class="col-sm-12 result-text" readonly>@ScriptBlockRunner.ScriptBlock.LastResult.Errors</textarea>
+    </div>
+    <div class="row">
+        <span class="col-sm-12 line"></span>
+    </div>
+    <div class="row">
+        <h5>Errors:</h5>
+    </div>
+    <div class="row">
+        <textarea class="col-sm-12 result-text" readonly>@ScriptBlockRunner.ScriptBlock.LastResult.Warninings</textarea>
     </div>
 }
 else
 {
-    <div class="spinner-border rounded-circle align-content-lg-center" role="status">
-        <span class="sr-only">Loading...</span>
-    </div>
+    <img class="big-simbol-running" role="status" src="./images/running.svg" />
 }

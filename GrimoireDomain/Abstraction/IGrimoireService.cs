@@ -5,9 +5,9 @@ namespace Grimoire.Domain.Abstraction.Services
 {
     public interface IGrimoireService
     {
-        ICollection<GrimoireScriptBlock> GetScriptBlocks();
+        IEnumerable<GrimoireScriptBlock> GetScriptBlocks();
 
-        ICollection<ExecutionGroup> GetExecutionGroups();
+        IEnumerable<ExecutionGroup> GetExecutionGroups();
 
         void RemoveScriptBlock(string name);
 

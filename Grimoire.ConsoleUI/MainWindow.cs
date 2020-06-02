@@ -17,6 +17,7 @@ namespace Grimoire.ConsoleUI
         private SideListView SideList;
         private ScriptDetailView details;
         private ScriptEditView edit;
+        private AboutView about;
 
         public MainWindow(IGrimoireBusiness business)
         {
@@ -53,11 +54,27 @@ namespace Grimoire.ConsoleUI
                 new MenuBarItem ("_File", new MenuItem [] {
                 new MenuItem ("_New Script", "", () => NewScript()),
                 new MenuItem ("_Close", "", () => Top.Running = false)
+                }),
+                new MenuBarItem ("_Help", new MenuItem [] {
+                new MenuItem ("_About", "", () => About())
                 })
             });
             Menu.ColorScheme = Styles.MenuScheme;
             Top.Add(Menu);
             Menu.SetNeedsDisplay();
+        }
+
+        private void About()
+        {
+            ClearWindow();
+            about = new AboutView(51);
+            about.Ok += ExitAbout;
+            Win.Add(about);
+        }
+
+        private void ExitAbout()
+        {
+            ClearWindow();
         }
 
         private void InitilizeWindow()
@@ -83,12 +100,7 @@ namespace Grimoire.ConsoleUI
 
         private void SelectScript(IGrimoireRunner scriptRunner)
         {
-            if (details != null)
-            {
-                Win.Remove(details);
-                details.Edit -= EditScript;
-                details.Dispose();
-            }
+            ClearWindow();
             details = new ScriptDetailView(scriptRunner, 51);
             details.Edit += EditScript;
             Win.Add(details);
@@ -146,6 +158,11 @@ namespace Grimoire.ConsoleUI
                 edit.Save -= Save;
                 edit.Cancel -= Cancel;
                 edit.Dispose();
+            }
+            if (about != null)
+            {
+                Win.Remove(about);
+                about.Ok -= ExitAbout;
             }
         }
     }

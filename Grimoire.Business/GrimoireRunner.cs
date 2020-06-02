@@ -22,6 +22,8 @@ namespace Grimoire.Business
 
         public event TimerHandler Timer;
 
+        public bool Paused { get; set; }
+
         public GrimoireScriptBlock ScriptBlock { get; private set; }
 
         public bool Selected { get; set; }
@@ -31,6 +33,7 @@ namespace Grimoire.Business
         public GrimoireRunner(GrimoireScriptBlock scriptBlock, IGrimoireBusiness business)
         {
             Selected = false;
+            Paused = false;
             this.business = business;
             this.ScriptBlock = scriptBlock;
             Task.Run(() => TimerRun());
@@ -74,30 +77,6 @@ namespace Grimoire.Business
             return result.Trim();
         }
 
-        private async void CheckRunOnStart()
-        {
-            if (ScriptBlock.ExecutionMode == ExecutionMode.RunOnStart)
-            {
-                await Run();
-            }
-        }
-
-        private void TimerRun()
-        {
-            timer = ScriptBlock.Interval;
-            while (ScriptBlock.ExecutionMode == ExecutionMode.Interval)
-            {
-                if (timer <= 0)
-                {
-                    timer = ScriptBlock.Interval;
-                    Run().Wait();
-                }
-                Thread.Sleep(1000);
-                timer--;
-                Timer?.Invoke(ScriptBlock, timer);
-            }
-        }
-
         public async Task<ScriptResult> Run()
         {
             ScriptResult result;
@@ -111,6 +90,33 @@ namespace Grimoire.Business
                 IsRunning = false;
             });
             return result;
+        }
+
+        private async void CheckRunOnStart()
+        {
+            if (ScriptBlock.ExecutionMode == ExecutionMode.RunOnStart)
+            {
+                await Run();
+            }
+        }
+
+        private void TimerRun()
+        {
+            timer = ScriptBlock.Interval;
+            while (ScriptBlock.ExecutionMode == ExecutionMode.Interval)
+            {
+                if (!Paused)
+                {
+                    if (timer <= 0)
+                    {
+                        timer = ScriptBlock.Interval;
+                        Run().Wait();
+                    }
+                    timer--;
+                    Timer?.Invoke(ScriptBlock, timer);
+                }
+                Thread.Sleep(1000);
+            }
         }
 
         private async Task<ScriptResult> ExecuteScript(GrimoireScriptBlock scriptBlock)

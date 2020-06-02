@@ -10,12 +10,14 @@ namespace Grimoire.Services
     {
         private readonly IConfigurationService configurationService;
 
-        public GrimoireService(IConfigurationService configurationService)
+        public GrimoireService(IConfigurationService configurationService,
+                               ILogService logService)
         {
             this.configurationService = configurationService;
+            this.logService = logService;
         }
 
-        public ICollection<ExecutionGroup> GetExecutionGroups()
+        public IEnumerable<ExecutionGroup> GetExecutionGroups()
         {
             return GetResources<ExecutionGroup>(configurationService.ExecutionGroupsDirectory);
         }
@@ -25,15 +27,9 @@ namespace Grimoire.Services
             return GetResource<GrimoireScriptBlock>(configurationService.ScriptsDirectory, name);
         }
 
-        public ICollection<GrimoireScriptBlock> GetScriptBlocks()
+        public IEnumerable<GrimoireScriptBlock> GetScriptBlocks()
         {
             return GetResources<GrimoireScriptBlock>(configurationService.ScriptsDirectory)
-                .Select(s =>
-                {
-                    string path = Path.Combine(configurationService.ScriptsDirectory, s.Name, s.Script);
-                    s.OriginalScriptFile = LoadScriptStream(path);
-                    return s;
-                })
                 .ToList();
         }
 
@@ -74,6 +70,29 @@ namespace Grimoire.Services
             string scriptPath = Path.Combine(resourceFolderPath, scriptBlock.Script);
             EnsurePath(resourceFolderPath);
             SaveResource(scriptBlock, resourcePath);
+            SaveScriptFile(scriptBlock, scriptPath);
+            SaveAdditionalFiles(scriptBlock, resourceFolderPath);
+        }
+
+        private void SaveAdditionalFiles(GrimoireScriptBlock scriptBlock, string resourceFolderPath)
+        {
+            if (scriptBlock.AdditionalFiles != null && scriptBlock.AdditionalFiles.Any())
+            {
+                foreach (var additionalFile in scriptBlock.AdditionalFiles)
+                {
+                    string additionalFilePath = Path.Combine(resourceFolderPath, additionalFile.Name);
+                    using (FileStream file = File.Create(additionalFilePath))
+                    {
+                        additionalFile.File.Seek(0, SeekOrigin.Begin);
+                        additionalFile.File.CopyTo(file);
+                        file.Close();
+                    }
+                }
+            }
+        }
+
+        private void SaveScriptFile(GrimoireScriptBlock scriptBlock, string scriptPath)
+        {
             if (scriptBlock.OriginalScriptFile != null)
             {
                 using (FileStream file = File.Create(scriptPath))
