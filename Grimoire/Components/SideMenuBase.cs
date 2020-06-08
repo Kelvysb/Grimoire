@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Grimoire.Domain.Abstraction.Business;
 using Microsoft.AspNetCore.Components;
 
@@ -26,6 +27,10 @@ namespace Grimoire.Components
         public delegate void ConfigHandler();
 
         public ConfigHandler OpenConfig;
+
+        public delegate void ErrorEventHandler(string message, Exception ex);
+
+        public event ErrorEventHandler Error;
 
         protected override Task OnInitializedAsync()
         {
@@ -58,7 +63,14 @@ namespace Grimoire.Components
 
         public void Reload()
         {
-            Business.LoadScriptRunners();
+            try
+            {
+                Business.LoadScriptRunners();
+            }
+            catch (Exception ex)
+            {
+                Error?.Invoke("Error loading scripts.", ex);
+            }
         }
 
         public void About()

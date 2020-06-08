@@ -64,7 +64,7 @@ namespace Grimoire.Services
         private string GetLogFileName()
         {
             string logFolder = Path.Combine(configuration.WorkDirectory, "logs");
-            if (Directory.Exists(logFolder))
+            if (!Directory.Exists(logFolder))
             {
                 Directory.CreateDirectory(logFolder);
             }

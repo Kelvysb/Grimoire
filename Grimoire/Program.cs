@@ -44,7 +44,7 @@ namespace Grimoire
                 var config = DefaultConfiguration.CreateForRuntimePlatform();
                 config.WindowOptions.Title = "Grimoire";
                 config.StartUrl = $"http://127.0.0.1:{port}";
-                config.DebuggingMode = true;
+                config.DebuggingMode = false;
                 config.WindowOptions.RelativePathToIconFile = "icon.ico";
 
                 try

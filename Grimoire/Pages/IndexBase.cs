@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Grimoire.Components;
 using Grimoire.Domain.Abstraction.Business;
+using Grimoire.Domain.Abstraction.Services;
 using Grimoire.Shared;
 using Microsoft.AspNetCore.Components;
 
@@ -10,6 +12,9 @@ namespace Grimoire.Pages
     {
         [Inject]
         public IGrimoireBusiness grimoireBusiness { get; set; }
+
+        [Inject]
+        public ILogService logService { get; set; }
 
         public SideMenuBase SideMenu { get; set; }
 
@@ -24,6 +29,12 @@ namespace Grimoire.Pages
         public bool ConfirmDeleteModal { get; set; }
 
         public bool ConfirmConfigModal { get; set; }
+
+        public bool ErrorModal { get; set; }
+
+        public string LastError { get; set; }
+
+        public string LastErrorDetail { get; set; }
 
         public AppMode AppMode { get; set; }
 
@@ -44,18 +55,21 @@ namespace Grimoire.Pages
                 SideMenu.NewScript += NewScript;
                 SideMenu.OpenAbout += About;
                 SideMenu.OpenConfig += OpenConfig;
+                SideMenu.Error += ShowError;
             }
             if (ScriptDetail != null)
             {
                 ScriptDetail.ScriptBlockRunner = selectedScript;
                 ScriptDetail.Edit += EditScript;
                 ScriptDetail.Delete += DeleteScript;
+                ScriptDetail.Error += ShowError;
                 ScriptDetail.Reload();
             }
             if (ScriptEdit != null)
             {
                 ScriptEdit.ScriptName = selectedScript != null ? selectedScript.ScriptBlock.Name : null;
                 ScriptEdit.EndEdit += EndEdit;
+                ScriptEdit.Error += ShowError;
                 ScriptEdit.Reload();
             }
             if (Config != null)
@@ -71,6 +85,7 @@ namespace Grimoire.Pages
             ConfirmEditModal = false;
             ConfirmDeleteModal = false;
             ConfirmConfigModal = false;
+            ErrorModal = false;
         }
 
         public void About()
@@ -147,16 +162,29 @@ namespace Grimoire.Pages
             InvokeAsync(() => StateHasChanged());
         }
 
+        private void ShowError(string message, Exception ex)
+        {
+            LastError = message;
+            LastErrorDetail = ex.Message;
+            logService.Log(ex);
+            ErrorModal = true;
+            AppMode = AppMode.None;
+            SideMenu.Reload();
+            InvokeAsync(() => StateHasChanged());
+        }
+
         private void ClearEvents()
         {
             if (ScriptDetail != null)
             {
                 ScriptDetail.Edit -= EditScript;
                 ScriptDetail.Delete -= DeleteScript;
+                ScriptDetail.Error -= ShowError;
             }
             if (ScriptEdit != null)
             {
                 ScriptEdit.EndEdit -= EndEdit;
+                ScriptEdit.Error -= ShowError;
             }
             if (Config != null)
             {

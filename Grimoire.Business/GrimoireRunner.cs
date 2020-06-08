@@ -122,21 +122,35 @@ namespace Grimoire.Business
         private async Task<ScriptResult> ExecuteScript(GrimoireScriptBlock scriptBlock)
         {
             ScriptResult result = null;
-            switch (scriptBlock.ScriptType)
+            try
             {
-                case ScriptType.PowerShell:
-                    result = await ExecutePowerShell(scriptBlock);
-                    break;
+                switch (scriptBlock.ScriptType)
+                {
+                    case ScriptType.PowerShell:
+                        result = await ExecutePowerShell(scriptBlock);
+                        break;
 
-                case ScriptType.Python:
-                    break;
+                    case ScriptType.Python:
+                        break;
 
-                default:
-                    break;
+                    default:
+                        break;
+                }
+                scriptBlock.LastResult = result;
+                await business.SaveScriptBlock(scriptBlock);
+                return result;
             }
-            scriptBlock.LastResult = result;
-            await business.SaveScriptBlock(scriptBlock);
-            return result;
+            catch (Exception ex)
+            {
+                result = new ScriptResult()
+                {
+                    ResultType = ResultType.Error,
+                    Errors = ex.Message
+                };
+                scriptBlock.LastResult = result;
+                await business.SaveScriptBlock(scriptBlock);
+                throw;
+            }
         }
 
         private async Task<ScriptResult> ExecutePowerShell(GrimoireScriptBlock scriptBlock)

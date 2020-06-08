@@ -98,3 +98,33 @@
         </div>
     </div>
 }
+@if (ErrorModal)
+{
+    <div class="modal managed-modal" id="Confirmation">
+        <div class="modal-dialog">
+            <div class="modal-content modal-style">
+                <div class="modal-header">
+                    <h4 class="modal-title">Error</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <span class="ml-2">
+                            <img class="big-simbol" src="./images/error.svg" />
+                        </span>
+                        <span class="ml-2 mt-1">
+                            @LastError
+                        </span>
+                    </div>
+                    <div class="row mt-1">
+                        <textarea type="text" class="col-12 error-text" readonly value="@LastErrorDetail" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <span class="button ml-2">
+                        <img class="big-simbol" src="./images/ok.svg" @onclick="CloseModals" />
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+}

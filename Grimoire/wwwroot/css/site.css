@@ -191,6 +191,14 @@ app {
     min-height: 150px;
 }
 
+.error-text {
+    border: none;
+    background-color: var(--result-background);
+    color: var(--font-color);
+    height: 50px;
+    min-height: 150px;
+}
+
 .button-submit {
     background-color: transparent;
     border: none;

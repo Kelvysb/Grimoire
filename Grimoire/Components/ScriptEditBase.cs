@@ -32,6 +32,10 @@ namespace Grimoire.Components
 
         public event EndEditHandler EndEdit;
 
+        public delegate void ErrorEventHandler(string message, Exception ex);
+
+        public event ErrorEventHandler Error;
+
         public async void HandleFileSelected(IFileListEntry[] files)
         {
             ScriptBlock.Script = files[0].Name;
@@ -53,10 +57,17 @@ namespace Grimoire.Components
 
         public async Task Submit()
         {
-            CompleteValues();
-            await grimoireBusiness.SaveScriptBlock(ScriptBlock);
-            EndEdit?.Invoke();
-            ConfirmModal = true;
+            try
+            {
+                CompleteValues();
+                await grimoireBusiness.SaveScriptBlock(ScriptBlock);
+                EndEdit?.Invoke();
+                ConfirmModal = true;
+            }
+            catch (Exception ex)
+            {
+                await Task.Run(() => Error?.Invoke("Error saving the script.", ex));
+            }
         }
 
         protected async override Task OnInitializedAsync()
@@ -74,51 +85,58 @@ namespace Grimoire.Components
 
         private async Task InitializeScriptBlock()
         {
-            if (!string.IsNullOrEmpty(ScriptName))
+            try
             {
-                ScriptBlock = await grimoireBusiness.GetScriptBlock(ScriptName);
-                IsEdit = true;
-            }
-            else
-            {
-                ScriptBlock = new GrimoireScriptBlock()
+                if (!string.IsNullOrEmpty(ScriptName))
                 {
-                    Name = "",
-                    Description = "",
-                    AlertLevel = AlertLevel.Error,
-                    ExtractResult = new PatternRange() { Start = "", End = "" },
-                    Group = "",
-                    Interval = 0,
-                    Order = 0,
-                    OriginalScriptFile = null,
-                    AdditionalFiles = new List<AdditionalFile>(),
-                    Script = "",
-                    ScriptBlocks = null,
-                    ScriptType = ScriptType.PowerShell,
-                    SuccessPatern = "",
-                    TimeOut = 10,
-                    ExecutionMode = ExecutionMode.Manual
-                };
-                IsEdit = false;
-            }
-            if (ScriptBlock != null)
-            {
-                ScriptTypeHolder = ScriptBlock.ScriptType.ToString();
-                AlertLevelHolder = ScriptBlock.AlertLevel.ToString();
-                switch (ScriptBlock.ExecutionMode)
-                {
-                    case ExecutionMode.RunOnStart:
-                        ExecutionModeHolder = "Run on start";
-                        break;
-
-                    case ExecutionMode.Interval:
-                        ExecutionModeHolder = "Interval";
-                        break;
-
-                    default:
-                        ExecutionModeHolder = "Manual";
-                        break;
+                    ScriptBlock = await grimoireBusiness.GetScriptBlock(ScriptName);
+                    IsEdit = true;
                 }
+                else
+                {
+                    ScriptBlock = new GrimoireScriptBlock()
+                    {
+                        Name = "",
+                        Description = "",
+                        AlertLevel = AlertLevel.Error,
+                        ExtractResult = new PatternRange() { Start = "", End = "" },
+                        Group = "",
+                        Interval = 0,
+                        Order = 0,
+                        OriginalScriptFile = null,
+                        AdditionalFiles = new List<AdditionalFile>(),
+                        Script = "",
+                        ScriptBlocks = null,
+                        ScriptType = ScriptType.PowerShell,
+                        SuccessPatern = "",
+                        TimeOut = 10,
+                        ExecutionMode = ExecutionMode.Manual
+                    };
+                    IsEdit = false;
+                }
+                if (ScriptBlock != null)
+                {
+                    ScriptTypeHolder = ScriptBlock.ScriptType.ToString();
+                    AlertLevelHolder = ScriptBlock.AlertLevel.ToString();
+                    switch (ScriptBlock.ExecutionMode)
+                    {
+                        case ExecutionMode.RunOnStart:
+                            ExecutionModeHolder = "Run on start";
+                            break;
+
+                        case ExecutionMode.Interval:
+                            ExecutionModeHolder = "Interval";
+                            break;
+
+                        default:
+                            ExecutionModeHolder = "Manual";
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await Task.Run(() => Error?.Invoke("Error loading the script.", ex));
             }
         }
 
