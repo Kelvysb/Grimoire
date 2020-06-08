@@ -19,6 +19,14 @@ namespace Grimoire.Components
 
         public event NewScriptHandler NewScript;
 
+        public delegate void AboutHandler();
+
+        public AboutHandler OpenAbout;
+
+        public delegate void ConfigHandler();
+
+        public ConfigHandler OpenConfig;
+
         protected override Task OnInitializedAsync()
         {
             if (Business.ScriptRunners == null)
@@ -51,6 +59,16 @@ namespace Grimoire.Components
         public void Reload()
         {
             Business.LoadScriptRunners();
+        }
+
+        public void About()
+        {
+            OpenAbout?.Invoke();
+        }
+
+        public void Config()
+        {
+            OpenConfig?.Invoke();
         }
 
         private void SelectItem(IGrimoireRunner scriptRunner)

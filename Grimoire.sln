@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grimoire.Tests", "Grimoire.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grimoire.ConsoleUI", "Grimoire.ConsoleUI\Grimoire.ConsoleUI.csproj", "{AB9571CC-EBF6-4FCE-B859-33EF9DF9B362}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grimoire", "Grimoire\Grimoire.csproj", "{3DF709F9-2EEC-403E-92B8-89E2830B9722}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grimoire", "Grimoire\Grimoire.csproj", "{3DF709F9-2EEC-403E-92B8-89E2830B9722}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,6 +4,8 @@
     {
         Detail,
         Edit,
+        About,
+        Config,
         None
     }
 }

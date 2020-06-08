@@ -14,6 +14,10 @@ namespace Grimoire.Domain.Abstraction.Business
 
         Task<List<GrimoireScriptBlock>> GetScriptBlocks();
 
+        Task<GrimoireConfig> GetConfig();
+
+        Task SaveConfig(GrimoireConfig config);
+
         Task<GrimoireScriptBlock> GetScriptBlock(string name);
 
         Task<List<ExecutionGroup>> GetExecutionGroups();

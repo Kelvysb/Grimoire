@@ -17,12 +17,21 @@ namespace Grimoire.Pages
 
         public ScriptEditBase ScriptEdit { get; set; }
 
+        public ConfigBase Config { get; set; }
+
+        public bool ConfirmEditModal { get; set; }
+
+        public bool ConfirmDeleteModal { get; set; }
+
+        public bool ConfirmConfigModal { get; set; }
+
         public AppMode AppMode { get; set; }
 
         private IGrimoireRunner selectedScript;
 
         protected override async Task OnInitializedAsync()
         {
+            CloseModals();
             AppMode = AppMode.None;
             await base.OnInitializedAsync();
         }
@@ -33,6 +42,8 @@ namespace Grimoire.Pages
             {
                 SideMenu.Select += SelectScript;
                 SideMenu.NewScript += NewScript;
+                SideMenu.OpenAbout += About;
+                SideMenu.OpenConfig += OpenConfig;
             }
             if (ScriptDetail != null)
             {
@@ -47,7 +58,33 @@ namespace Grimoire.Pages
                 ScriptEdit.EndEdit += EndEdit;
                 ScriptEdit.Reload();
             }
+            if (Config != null)
+            {
+                Config.EndConfig += EndConfig;
+                Config.Reload();
+            }
             return base.OnAfterRenderAsync(firstRender);
+        }
+
+        public void CloseModals()
+        {
+            ConfirmEditModal = false;
+            ConfirmDeleteModal = false;
+            ConfirmConfigModal = false;
+        }
+
+        public void About()
+        {
+            ClearEvents();
+            AppMode = AppMode.About;
+            InvokeAsync(() => StateHasChanged());
+        }
+
+        public void OpenConfig()
+        {
+            ClearEvents();
+            AppMode = AppMode.Config;
+            InvokeAsync(() => StateHasChanged());
         }
 
         private void SelectScript(IGrimoireRunner scriptRunner)
@@ -80,6 +117,24 @@ namespace Grimoire.Pages
             ClearEvents();
             AppMode = AppMode.None;
             SideMenu.Reload();
+            ConfirmEditModal = true;
+            InvokeAsync(() => StateHasChanged());
+        }
+
+        private void EndConfig(bool changed)
+        {
+            ClearEvents();
+            AppMode = AppMode.None;
+            if (changed)
+            {
+                ConfirmConfigModal = true;
+            }
+            InvokeAsync(() => StateHasChanged());
+        }
+
+        public void ConfirmReload()
+        {
+            CloseModals();
             InvokeAsync(() => StateHasChanged());
         }
 
@@ -88,6 +143,7 @@ namespace Grimoire.Pages
             ClearEvents();
             AppMode = AppMode.None;
             SideMenu.Reload();
+            ConfirmDeleteModal = true;
             InvokeAsync(() => StateHasChanged());
         }
 
@@ -101,6 +157,10 @@ namespace Grimoire.Pages
             if (ScriptEdit != null)
             {
                 ScriptEdit.EndEdit -= EndEdit;
+            }
+            if (Config != null)
+            {
+                Config.EndConfig -= EndConfig;
             }
         }
     }

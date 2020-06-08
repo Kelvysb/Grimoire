@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Grimoire.Domain.Models;
 
 namespace Grimoire.Domain.Abstraction.Services
@@ -20,5 +21,9 @@ namespace Grimoire.Domain.Abstraction.Services
         string getScriptFullPath(GrimoireScriptBlock scriptBlock);
 
         GrimoireScriptBlock GetScriptBlock(string name);
+
+        Task<GrimoireConfig> GetConfig();
+
+        Task SaveConfig(GrimoireConfig config);
     }
 }

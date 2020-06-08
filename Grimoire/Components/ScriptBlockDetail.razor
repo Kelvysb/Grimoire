@@ -1,0 +1,102 @@
+﻿@inherits ScriptBlockDetailBase
+
+<div class="row">
+    <span class="col-sm-12 spacer-h-10"></span>
+</div>
+@if (ScriptBlockRunner != null)
+{
+    <div class="container script-title">
+        <div class="row">
+            <h3 class="col-sm-8">@ScriptBlockRunner.ScriptBlock.Description</h3>
+            <div class="col-sm-4">
+                <span>
+                    @if (ScriptBlockRunner.ScriptBlock.LastResult != null && ScriptBlockRunner.ScriptBlock.LastResult.ResultType != ResultType.None)
+                    {
+                        @switch (ScriptBlockRunner.ScriptBlock.LastResult.ResultType)
+                        {
+                            case ResultType.Success:
+                                <img class="big-simbol" src="./images/ok.svg" />
+                                break;
+                            case ResultType.Error:
+                                <img class="big-simbol" src="./images/error.svg" />
+                                break;
+                            case ResultType.Warning:
+                                <img class="big-simbol" src="./images/warning.svg" />
+                                break;
+                        }
+                    }
+                </span>
+                <span class="button ml-2">
+                    <img class="big-simbol pointer-event" src="./images/trash.svg" @onclick="ConfirmRemove" />
+                </span>
+                <span class="button ml-2">
+                    <img class="big-simbol pointer-event" src="./images/edit.svg" @onclick="EditScript" />
+                </span>
+                <span class="button ml-2">
+                    @if (!ScriptBlockRunner.IsRunning)
+                    {
+                        <img class="big-simbol pointer-event" src="./images/play.svg" @onclick="RunScript" />
+                    }
+                    else
+                    {
+                        <img class="big-simbol-running" role="status" src="./images/running.svg" />
+                    }
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <span class="col-sm-12 line"></span>
+    </div>
+    <div class="row">
+        <h5>Result:</h5>
+    </div>
+    <div class="row">
+        <textarea class="col-sm-12 result-text" readonly>@ScriptBlockRunner.ScriptBlock.LastResult?.FilteredResult</textarea>
+    </div>
+    <div class="row">
+        <span class="col-sm-12 line"></span>
+    </div>
+    <div class="row">
+        <h5>Warnings:</h5>
+    </div>
+    <div class="row">
+        <textarea class="col-sm-12 result-text" readonly>@ScriptBlockRunner.ScriptBlock.LastResult?.Errors</textarea>
+    </div>
+    <div class="row">
+        <span class="col-sm-12 line"></span>
+    </div>
+    <div class="row">
+        <h5>Errors:</h5>
+    </div>
+    <div class="row">
+        <textarea class="col-sm-12 result-text" readonly>@ScriptBlockRunner.ScriptBlock.LastResult?.Warninings</textarea>
+    </div>
+}
+else
+{
+    <img class="big-simbol-running" role="status" src="./images/running.svg" />
+}
+@if (DeleteModal)
+{
+    <div class="modal managed-modal" id="Confirmation">
+        <div class="modal-dialog">
+            <div class="modal-content modal-style">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete</h4>
+                </div>
+                <div class="modal-body">
+                    Are you sure?
+                </div>
+                <div class="modal-footer">
+                    <span class="button">
+                        <img class="big-simbol" src="./images/ok.svg" @onclick="RemoveScript" />
+                    </span>
+                    <span class="button ml-2">
+                        <img class="big-simbol" src="./images/error.svg" @onclick="CloseModals" />
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+}

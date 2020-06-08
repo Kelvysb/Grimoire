@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="16.933332mm"
+   height="16.93334mm"
+   viewBox="0 0 16.933332 16.93334"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   sodipodi:docname="warning.svg"
+   inkscape:export-filename="D:\Repositories\Grimoire\Graphics\warning.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
+  <defs
+     id="defs2">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4534">
+      <stop
+         style="stop-color:#ffe600;stop-opacity:1"
+         offset="0"
+         id="stop4530" />
+      <stop
+         id="stop4540"
+         offset="0.73429877"
+         style="stop-color:#ffe600;stop-opacity:1" />
+      <stop
+         style="stop-color:#e6b200;stop-opacity:1"
+         offset="1"
+         id="stop4532" />
+    </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4534"
+       id="radialGradient4538"
+       cx="93.277107"
+       cy="128.88748"
+       fx="93.277107"
+       fy="128.88748"
+       r="55.324791"
+       gradientTransform="matrix(0.5780302,-0.02055364,0.02055364,0.57803024,-24.566098,-40.583697)"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.6"
+     inkscape:cx="27.89932"
+     inkscape:cy="44.812083"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     showguides="false" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Camada 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-68.754463,-152.71342)">
+    <path
+       style="fill:url(#radialGradient4538);fill-opacity:1;stroke:none;stroke-width:0.15303382;stroke-opacity:1"
+       d="M 32.509766,0.00390625 C 31.96372,-0.00434196 31.41521,0.00185918 30.863281,0.02148438 13.201553,0.64952846 -0.60652947,15.474986 0.02148438,33.136719 0.64949822,50.798451 15.474983,64.606522 33.136719,63.978516 50.798459,63.350472 64.606537,48.525014 63.978516,30.863281 63.37012,13.753478 49.437169,0.25960069 32.509766,0.00390625 Z"
+       transform="matrix(0.26458333,0,0,0.26458333,68.754463,152.71342)"
+       id="path815"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="scscss" />
+    <path
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.99999994;stroke-opacity:1"
+       d="M 32 12.847656 C 29.353661 12.847656 27.222656 14.978661 27.222656 17.625 L 27.222656 35.482422 C 27.222656 38.128761 29.353661 40.259766 32 40.259766 C 34.646339 40.259766 36.777344 38.128761 36.777344 35.482422 L 36.777344 17.625 C 36.777344 14.978661 34.646339 12.847656 32 12.847656 z M 32 41.6875 A 4.7321426 4.7321426 0 0 0 27.267578 46.419922 A 4.7321426 4.7321426 0 0 0 32 51.152344 A 4.7321426 4.7321426 0 0 0 36.732422 46.419922 A 4.7321426 4.7321426 0 0 0 32 41.6875 z "
+       transform="matrix(0.26458333,0,0,0.26458333,68.754463,152.71342)"
+       id="path3616" />
+    <g
+       id="g4552"
+       transform="translate(18.931884,3.734876)" />
+  </g>
+</svg>

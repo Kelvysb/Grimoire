@@ -73,5 +73,15 @@ namespace Grimoire.Business
                     .ToList();
             });
         }
+
+        public Task<GrimoireConfig> GetConfig()
+        {
+            return grimoireService.GetConfig();
+        }
+
+        public Task SaveConfig(GrimoireConfig config)
+        {
+            return grimoireService.SaveConfig(config);
+        }
     }
 }

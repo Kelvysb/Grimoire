@@ -2,6 +2,16 @@
 @inherits IndexBase
 @using Grimoire.Components
 
+@switch (grimoireBusiness.GetConfig().Result.Theme)
+{
+    case "Light":
+        <link href="css/light.css" rel="stylesheet" />
+        break;
+    default:
+        <link href="css/dark.css" rel="stylesheet" />
+        break;
+}
+
 <div class="sidebar">
     <SideMenu @ref="SideMenu"></SideMenu>
 </div>
@@ -16,9 +26,75 @@
                 case AppMode.Edit:
                     <ScriptEdit @ref="ScriptEdit"></ScriptEdit>
                     break;
+                case AppMode.Config:
+                    <Config @ref="Config"></Config>
+                    break;
+                case AppMode.About:
+                    <About></About>
+                    break;
                 default:
                     break;
             }
         </div>
     </div>
 </div>
+@if (ConfirmEditModal)
+{
+    <div class="modal managed-modal" id="Confirmation">
+        <div class="modal-dialog">
+            <div class="modal-content modal-style">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Script</h4>
+                </div>
+                <div class="modal-body">
+                    Script saved.
+                </div>
+                <div class="modal-footer">
+                    <span class="button ml-2">
+                        <img class="big-simbol" src="./images/ok.svg" @onclick="CloseModals" />
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (ConfirmDeleteModal)
+{
+    <div class="modal managed-modal" id="Confirmation">
+        <div class="modal-dialog">
+            <div class="modal-content modal-style">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete</h4>
+                </div>
+                <div class="modal-body">
+                    Script removed.
+                </div>
+                <div class="modal-footer">
+                    <span class="button ml-2">
+                        <img class="big-simbol" src="./images/ok.svg" @onclick="CloseModals" />
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (ConfirmConfigModal)
+{
+    <div class="modal managed-modal" id="Confirmation">
+        <div class="modal-dialog">
+            <div class="modal-content modal-style">
+                <div class="modal-header">
+                    <h4 class="modal-title">Settings</h4>
+                </div>
+                <div class="modal-body">
+                    Settings saved.
+                </div>
+                <div class="modal-footer">
+                    <span class="button ml-2">
+                        <img class="big-simbol" src="./images/ok.svg" @onclick="ConfirmReload" />
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+}

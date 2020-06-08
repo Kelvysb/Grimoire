@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Grimoire.Domain.Abstraction.Services;
 using Grimoire.Domain.Models;
 
@@ -15,6 +16,11 @@ namespace Grimoire.Services
         {
             this.configurationService = configurationService;
             this.logService = logService;
+        }
+
+        public Task<GrimoireConfig> GetConfig()
+        {
+            return Task.Run(() => configurationService.Config);
         }
 
         public IEnumerable<ExecutionGroup> GetExecutionGroups()
@@ -52,6 +58,14 @@ namespace Grimoire.Services
         {
             string resourcePath = Path.Combine(configurationService.ScriptsDirectory, $"{name}.json");
             RemoveResource(resourcePath);
+        }
+
+        public Task SaveConfig(GrimoireConfig config)
+        {
+            configurationService.Config.BashPath = config.BashPath;
+            configurationService.Config.DefaultScriptEditor = config.DefaultScriptEditor;
+            configurationService.Config.Theme = config.Theme;
+            return Task.Run(() => configurationService.SaveConfig());
         }
 
         public void SaveExecutionGroup(ExecutionGroup executionGroup)

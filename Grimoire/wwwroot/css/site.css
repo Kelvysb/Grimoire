@@ -2,19 +2,10 @@
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    background-color: #1e1e1e;
-    color: lightgray;
-    scrollbar-color: dark;
-}
-
-a, .btn-link {
-    color: #0366d6;
-}
-
-.btn-primary {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    background-color: var(--background);
+    color: var(--font-color);
+    min-height: 400px;
+    min-width: 750px;
 }
 
 app {
@@ -24,61 +15,17 @@ app {
     flex-direction: row;
 }
 
-.top-row {
-    height: 3.5rem;
-    display: flex;
-    align-items: center;
-}
-
 .main {
     flex: 1;
 }
 
-    .main .top-row {
-        background-color: #f7f7f7;
-        border-bottom: 1px solid #d6d5d5;
-        justify-content: flex-end;
-        position: sticky;
-        top: 0;
-    }
-
-        .main .top-row > a, .main .top-row .btn-link {
-            white-space: nowrap;
-            margin-left: 1.5rem;
-        }
-
-        .main .top-row a:first-child {
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-    .main > div {
-        padding-left: 2rem !important;
-        padding-right: 1.5rem !important;
-    }
-
 .sidebar {
-    background-color: rgb(45, 45, 48);
+    background-color: var(--sidebar-background);
     width: 250px;
     height: 100vh;
     position: sticky;
     top: 0;
 }
-
-    .sidebar .top-row {
-        background-color: rgba(0,0,0,0.4);
-    }
-
-    .sidebar .navbar-brand {
-        font-size: 1.1rem;
-    }
-
-    .sidebar .oi {
-        width: 1rem;
-        font-size: 1.1rem;
-        vertical-align: bottom;
-        top: -2px;
-    }
 
     .sidebar .nav-item {
         font-size: 0.9rem;
@@ -92,25 +39,6 @@ app {
         .sidebar .nav-item:last-of-type {
             padding-bottom: 1rem;
         }
-
-        .sidebar .nav-item a {
-            color: #d7d7d7;
-            border-radius: 4px;
-            height: 3rem;
-            display: flex;
-            align-items: center;
-            line-height: 3rem;
-        }
-
-            .sidebar .nav-item a.active {
-                background-color: rgba(255,255,255,0.25);
-                color: white;
-            }
-
-            .sidebar .nav-item a:hover {
-                background-color: rgba(255,255,255,0.1);
-                color: white;
-            }
 
 #blazor-error-ui {
     background: lightyellow;
@@ -149,6 +77,10 @@ app {
     width: 270px !important;
 }
 
+.menu-buttons {
+    text-align: end;
+}
+
 .small-simbol {
     width: 1rem;
     height: 1rem;
@@ -166,6 +98,11 @@ app {
 .big-simbol {
     width: 2rem;
     height: 2rem;
+}
+
+.mid-simbol {
+    width: 1.5rem;
+    height: 1.5rem;
 }
 
 .big-simbol-running {
@@ -187,15 +124,23 @@ app {
     }
 }
 
+.title {
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    background-color: var(--header-background);
+}
+
 .script-item {
     height: 25px;
     width: 240px;
     cursor: pointer;
-    background-color: #3e3e42;
+    background-color: var(--sidebar-item-color);
 }
 
     .script-item:hover {
-        background-color: #7a7a82;
+        background-color: var(--sidebar-item-color-hoover);
     }
 
 .item-text {
@@ -203,12 +148,17 @@ app {
 }
 
 .grimoire-title {
-    color: white;
+    color: var(--font-color);
     align-self: center center;
 }
 
 .grimoire-logo {
-    height: 30px;
+    height: 25px;
+    align-self: center center;
+}
+
+.grimoire-logo-big {
+    height: 60px;
     align-self: center center;
 }
 
@@ -223,7 +173,7 @@ app {
 }
 
 .line {
-    background-color: #333333;
+    background-color: var(--line-color);
     height: 2px;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -235,15 +185,32 @@ app {
 
 .result-text {
     border: none;
-    background-color: #2a2a2c;
-    color: lightgray;
+    background-color: var(--result-background);
+    color: var(--font-color);
     height: 150px;
-    min-height 150px;
+    min-height: 150px;
 }
 
 .button-submit {
     background-color: transparent;
-    border:none;
+    border: none;
+}
+
+.managed-modal {
+    display: block;
+    background-color: var(--modal-filter);
+}
+
+.modal-style {
+    background-color: var(--background);
+    color: var(--font-color);
+}
+
+.about-button {
+    cursor: pointer;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
 }
 
 /* width */
@@ -253,15 +220,15 @@ app {
 
 /* Track */
 ::-webkit-scrollbar-track {
-    background: #3e3e42;
+    background: var(--scroll-background);
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #686868;
+    background: var(--scroll-thumb);
 }
 
     /* Handle on hover */
     ::-webkit-scrollbar-thumb:hover {
-        background: #969696;
+        background: var(--scroll-thumb-hoover);
     }

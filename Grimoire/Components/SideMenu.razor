@@ -1,11 +1,22 @@
 ﻿@inherits SideMenuBase
 <div class="container">
-    <div class="row nav-item">
+    <div class="row title">
         <div class="col-sm-2">
             <img src="images/Icon.png" class="grimoire-logo" />
         </div>
-        <div class="col-sm-10">
-            <h2 class="grimoire-title">Grimoire</h2>
+        <div class="col-sm-10 menu-buttons">
+            <span class="button ml-2">
+                <img class="mid-simbol button ml-0" src="./images/add.svg" alt="Add Script" @onclick="AddNewScript" />
+            </span>
+            <span class="button ml-2">
+                <img class="mid-simbol button ml-0" src="./images/reload.svg" alt="Add Script" @onclick="Reload" />
+            </span>
+            <span class="button ml-2">
+                <img class="mid-simbol button ml-0" src="./images/config.svg" alt="Add Script" @onclick="Config" />
+            </span>
+            <span class="button ml-2 tooltip-master">
+                <img class="mid-simbol pointer-event" src="./images/about.svg" alt="About" @onclick="About" />
+            </span>
         </div>
     </div>
     <div class="row nav-item">
@@ -22,11 +33,6 @@
             {
                 <div>Loading...</div>
             }
-        </div>
-    </div>
-    <div class="row">
-        <div class="mx-auto">
-            <img class="big-simbol button ml-0" src="./images/add.svg" @onclick="AddNewScript" />
         </div>
     </div>
 </div>

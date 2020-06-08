@@ -75,11 +75,18 @@ namespace Grimoire.Services
             T result = default(T);
             if (File.Exists(resourcePath))
             {
-                using (StreamReader reader = new StreamReader(resourcePath))
+                try
                 {
-                    string file = reader.ReadToEnd();
-                    reader.Close();
-                    return JsonSerializer.Deserialize<T>(file);
+                    using (StreamReader reader = new StreamReader(resourcePath))
+                    {
+                        string file = reader.ReadToEnd();
+                        reader.Close();
+                        return JsonSerializer.Deserialize<T>(file);
+                    }
+                }
+                catch (System.Exception e)
+                {
+                    logService.Log(e);
                 }
             }
             return result;

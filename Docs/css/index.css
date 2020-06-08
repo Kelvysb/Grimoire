@@ -1,0 +1,89 @@
+:root {
+    --background: #1e1e1e;
+    --font-color: #d3d3d3;
+    --header-background: #252525;
+    --sidebar-background: #2d2d30;
+    --sidebar-item-color: #3e3e42;
+    --sidebar-item-color-hoover: #7a7a82;
+    --result-background: #2a2a2c;
+    --modal-filter: rgba(0, 0, 0, 0.55);
+    --scroll-background: #3e3e42;
+    --scroll-thumb: #4c4c4c;
+    --scroll-thumb-hoover: #969696;
+}
+
+html, body, .container {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: var(--background);
+    color: var(--font-color);
+}
+
+.app {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-direction: row;
+}
+
+.side-bar {
+    background-color: var(--sidebar-background);
+    width: 250px;
+    height: 100vh;
+    size: initial;
+    position: sticky;
+    top: 0;
+}
+
+.menu-item {
+    height: 25px;
+    width: 210px;
+    cursor: pointer;
+    background-color: var(--sidebar-item-color);
+}
+
+    .menu-item:hover {
+        background-color: var(--sidebar-item-color-hoover);
+    }
+
+.item-text {
+    padding-top: 1px;
+}
+
+.header {
+    height: 70px;
+    background-color: var(--header-background);
+}
+
+.line {
+    height: 2px;
+    background-color: var(--header-background);
+}
+
+.content {
+    flex: 1;      
+}
+
+.logo {
+    height: 50px;
+}
+
+a:link {
+    color: var(--font-color);
+    background-color: transparent;
+    text-decoration: none;
+  }
+  a:visited {
+    color: var(--font-color);
+    background-color: transparent;
+    text-decoration: none;
+  }
+  a:hover {
+    color: var(--font-color);
+    background-color: transparent;
+    text-decoration: none;
+  }
+  a:active {
+    color: var(--font-color);
+    background-color: transparent;
+    text-decoration: none;
+  }
