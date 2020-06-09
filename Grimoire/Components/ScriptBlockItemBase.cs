@@ -25,5 +25,11 @@ namespace Grimoire.Components
         {
             Select?.Invoke(ScriptBlockRunner);
         }
+
+        public async Task RunScript()
+        {
+            await ScriptBlockRunner.Run();
+            await Task.Run(() => Select?.Invoke(ScriptBlockRunner));
+        }
     }
 }

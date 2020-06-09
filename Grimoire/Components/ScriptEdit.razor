@@ -29,10 +29,10 @@
         <ValidationMessage class="alert" For="@(() => ScriptBlock.Description)" />
     </div>
     <div class="form-group row">
-        <label class="col-sm-2">Script Description:</label>
+        <label class="col-sm-2">Script Group:</label>
         <InputText id="Group" class="col-sm-10"
                    @bind-Value="@ScriptBlock.Group"
-                   placeholder="Enter the script description" />
+                   placeholder="Enter the script group" />
         <ValidationMessage class="alert" For="@(() => ScriptBlock.Group)" />
     </div>
     <div class="form-group row">
@@ -55,6 +55,13 @@
         <ValidationMessage class="alert" For="@(() => ScriptBlock.ExtractResult.End)" />
     </div>
     <div class="form-group row">
+        <label class="col-sm-2">Alert Level:</label>
+        <InputSelect id="AlertLevel" class="col-sm-4"
+                     @bind-Value="@AlertLevelHolder">
+            <option selected>Error</option>
+            <option>Warning</option>
+            <option>Silent</option>
+        </InputSelect>
         <label class="col-sm-2">Run mode:</label>
         <InputSelect id="RunMode" class="col-sm-4"
                      @bind-Value="@ExecutionModeHolder">
@@ -63,24 +70,23 @@
             <option>Run on start</option>
         </InputSelect>
         <ValidationMessage class="alert" For="@(() => ScriptBlock.ExecutionMode)" />
-        <label class="col-sm-2">Alert Level:</label>
-        <InputSelect id="AlertLevel" class="col-sm-4"
-                     @bind-Value="@AlertLevelHolder">
-            <option selected>Error</option>
-            <option>Warning</option>
-            <option>Silent</option>
-        </InputSelect>
     </div>
-    @if (ExecutionModeHolder.Equals("Interval"))
-    {
-        <div class="form-group row">
+
+    <div class="form-group row">
+        <label class="col-sm-2">Timeout:</label>
+        <InputNumber id="Timeout" class="col-sm-4"
+                     @bind-Value="@ScriptBlock.TimeOut">
+        </InputNumber>
+        @if (ExecutionModeHolder.Equals("Interval"))
+        {
             <label class="col-sm-2">Interval (sec):</label>
-            <InputNumber id="Interval" class="col-sm-10"
+            <InputNumber id="Interval" class="col-sm-4"
                          @bind-Value="@ScriptBlock.Interval"
                          placeholder="Enter the script interval (in seconds)" />
             <ValidationMessage class="alert" For="@(() => ScriptBlock.Interval)" />
-        </div>
-    }
+        }
+    </div>
+
     <div class="form-group row">
         <label class="col-sm-2">Script:</label>
         <InputFile id="OriginalScript" OnChange="HandleFileSelected" />

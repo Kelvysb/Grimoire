@@ -1,6 +1,6 @@
 ﻿@inherits ScriptBlockItemBase
 
-<div class="card container script-item mr-1 ml-1" @onclick="SelectScript">
+<div class="card container script-item mr-1 ml-1" @onclick="SelectScript" @ondblclick="RunScript">
     <div class="row">
         <div class="col-sm-10 item-text">
             @ScriptBlockRunner.ScriptBlock.Description

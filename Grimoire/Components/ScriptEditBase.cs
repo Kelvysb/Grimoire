@@ -101,7 +101,7 @@ namespace Grimoire.Components
                         AlertLevel = AlertLevel.Error,
                         ExtractResult = new PatternRange() { Start = "", End = "" },
                         Group = "",
-                        Interval = 0,
+                        Interval = 30,
                         Order = 0,
                         OriginalScriptFile = null,
                         AdditionalFiles = new List<AdditionalFile>(),
