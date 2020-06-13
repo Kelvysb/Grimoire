@@ -11,10 +11,10 @@ namespace Grimoire.Pages
     public class IndexBase : ComponentBase
     {
         [Inject]
-        public IGrimoireBusiness grimoireBusiness { get; set; }
+        public IGrimoireBusiness Business { get; set; }
 
         [Inject]
-        public ILogService logService { get; set; }
+        public ILogService LogService { get; set; }
 
         public SideMenuBase SideMenu { get; set; }
 
@@ -38,6 +38,10 @@ namespace Grimoire.Pages
 
         public AppMode AppMode { get; set; }
 
+        public string PinInput { get; set; } = "";
+
+        public bool ConfirmResetVault { get; set; } = false;
+
         private IGrimoireRunner selectedScript;
 
         protected override async Task OnInitializedAsync()
@@ -55,6 +59,7 @@ namespace Grimoire.Pages
                 SideMenu.NewScript += NewScript;
                 SideMenu.OpenAbout += About;
                 SideMenu.OpenConfig += OpenConfig;
+                SideMenu.OpenVault += OpenVault;
                 SideMenu.Error += ShowError;
             }
             if (ScriptDetail != null)
@@ -99,6 +104,13 @@ namespace Grimoire.Pages
         {
             ClearEvents();
             AppMode = AppMode.Config;
+            InvokeAsync(() => StateHasChanged());
+        }
+
+        public void OpenVault()
+        {
+            ClearEvents();
+            AppMode = AppMode.Vault;
             InvokeAsync(() => StateHasChanged());
         }
 
@@ -166,7 +178,7 @@ namespace Grimoire.Pages
         {
             LastError = message;
             LastErrorDetail = ex.Message;
-            logService.Log(ex);
+            LogService.Log(ex);
             ErrorModal = true;
             AppMode = AppMode.None;
             SideMenu.Reload();

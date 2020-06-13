@@ -29,6 +29,7 @@ namespace Grimoire
             services.AddSingleton<IGrimoireService, GrimoireService>();
             services.AddSingleton<IGrimoireBusiness, GrimoireBusiness>();
             services.AddSingleton<ILogService, LogService>();
+            services.AddSingleton<IVaultService, VaultService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

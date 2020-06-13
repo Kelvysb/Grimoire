@@ -12,6 +12,10 @@ namespace Grimoire.Components
 
         public ScriptBlockItem ItemRef { set { AddItem(value); } }
 
+        public bool PinModal { get; set; } = false;
+
+        public bool LoginError { get; set; } = false;
+
         public delegate void SelectHandler(IGrimoireRunner scriptRunner);
 
         public event SelectHandler Select;
@@ -28,22 +32,26 @@ namespace Grimoire.Components
 
         public ConfigHandler OpenConfig;
 
+        public delegate void VaultHandler();
+
+        public VaultHandler OpenVault;
+
         public delegate void ErrorEventHandler(string message, Exception ex);
 
         public event ErrorEventHandler Error;
 
-        protected override Task OnInitializedAsync()
-        {
-            if (Business.ScriptRunners == null)
-            {
-                Business.LoadScriptRunners();
-            }
-
-            return base.OnInitializedAsync();
-        }
-
         protected override Task OnAfterRenderAsync(bool firstRender)
         {
+            if (firstRender && !Business.IsDefaultPin)
+            {
+                PinModal = true;
+                StateHasChanged();
+            }
+            else if (firstRender)
+            {
+                Business.LoadVault();
+                Reload();
+            }
             if (firstRender)
             {
                 Task.Run(() => UpdateTimer());
@@ -73,6 +81,29 @@ namespace Grimoire.Components
             }
         }
 
+        public async void Login(string pin, Action invalidPin)
+        {
+            if (await Business.CheckPin(pin))
+            {
+                await Business.LoadVault();
+                Reload();
+                PinModal = false;
+            }
+            else
+            {
+                invalidPin();
+            }
+            await InvokeAsync(() => StateHasChanged());
+        }
+
+        public async void ResetVault()
+        {
+            await Business.ResetVault();
+            PinModal = false;
+            Reload();
+            await InvokeAsync(() => StateHasChanged());
+        }
+
         public void About()
         {
             OpenAbout?.Invoke();
@@ -81,6 +112,11 @@ namespace Grimoire.Components
         public void Config()
         {
             OpenConfig?.Invoke();
+        }
+
+        public void Vault()
+        {
+            OpenVault?.Invoke();
         }
 
         private void SelectItem(IGrimoireRunner scriptRunner)

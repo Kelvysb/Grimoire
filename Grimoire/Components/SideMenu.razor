@@ -12,10 +12,13 @@
                 <img class="mid-simbol button ml-0" src="./images/reload.svg" alt="Add Script" @onclick="Reload" />
             </span>
             <span class="button ml-2">
+                <img class="mid-simbol button ml-0" src="./images/vault.svg" alt="Add Script" @onclick="Vault" />
+            </span>
+            <span class="button ml-2">
                 <img class="mid-simbol button ml-0" src="./images/config.svg" alt="Add Script" @onclick="Config" />
             </span>
-            <span class="button ml-2 tooltip-master">
-                <img class="mid-simbol pointer-event" src="./images/about.svg" alt="About" @onclick="About" />
+            <span class="button ml-2">
+                <img class="mid-simbol button ml-0" src="./images/about.svg" alt="About" @onclick="About" />
             </span>
         </div>
     </div>
@@ -36,3 +39,11 @@
         </div>
     </div>
 </div>
+@if (PinModal)
+{
+    <ModalDialog Type="ModalType.Login"
+                 Title="Pin"
+                 Message="Enter pin:"
+                 CancelAction="ResetVault"
+                 LoginAction="Login" />
+}

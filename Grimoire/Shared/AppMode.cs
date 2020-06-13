@@ -6,6 +6,7 @@
         Edit,
         About,
         Config,
+        Vault,
         None
     }
 }

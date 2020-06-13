@@ -1,0 +1,32 @@
+﻿@inherits VaultListItemBase
+    <div class="card container vault-item mx-1 mt-1">
+        <div class="row my-auto">
+            <div class="col-sm-3 item-text">
+                Key: @VaultItem.Key
+            </div>
+            <div class="col-9">
+                <span>
+                    Value:
+                </span>
+                <span>
+                    @if (VaultItem.IsSecret)
+                    {
+                        <input type="password" @bind-value="VaultItem.Value" @bind-value:event="onchange" @onblur="SetModified" />
+                    }
+                    else
+                    {
+                        <input type="text" @bind-value="VaultItem.Value" @bind-value:event="onchange" @onblur="SetModified" />
+                    }
+                </span>
+                @if (Modified)
+                {
+                    <span>
+                        <img class="mid-simbol button ml-0" src="./images/save.svg" alt="About" @onclick="Save" />
+                    </span>
+                }
+                <span>
+                    <img class="mid-simbol button ml-2" src="./images/trash.svg" alt="About" @onclick="Delete" />
+                </span>
+            </div>
+        </div>
+    </div>

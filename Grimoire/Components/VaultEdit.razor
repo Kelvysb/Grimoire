@@ -1,0 +1,129 @@
+﻿@inherits VaultEditBase
+
+<div class="row">
+    <span class="col-sm-12 spacer-h-10"></span>
+</div>
+<div class="row">
+    <h3 class="col-sm-8">Vault</h3>
+</div>
+<div class="row line"></div>
+
+<div class="row mt-4">
+    @if (Business.IsDefaultPin)
+    {
+        <h5 class="col-sm-8">Create Pin</h5>
+    }
+    else
+    {
+        <h5 class="col-sm-8">Change Pin</h5>
+    }
+</div>
+<div class="row line"></div>
+<EditForm Model="@NewPin" OnValidSubmit="@SetPin" class="mt-2">
+    <div class="row">
+        @if (!Business.IsDefaultPin)
+        {
+            <span class="ml-2 mt-1">
+                <label>Current Pin: </label>
+            </span>
+            <span class="ml-2">
+                <InputText id="Key"
+                           type="password"
+                           @bind-Value="@OldPin"
+                           placeholder="Current Pin" />
+                <ValidationMessage class="alert" For="@(() => OldPin)" />
+            </span>
+        }
+        <span class="ml-2 mt-1">
+            <label>Set Pin: </label>
+        </span>
+        <span class="ml-2">
+            <InputText id="Key"
+                       type="password"
+                       @bind-Value="@NewPin"
+                       placeholder="New Pin" />
+            <ValidationMessage class="alert" For="@(() => NewPin)" />
+        </span>
+        <span class="ml-2">
+            <button type="submit" class="button-submit rounded-circle">
+                <img class="big-simbol button" src="./images/save.svg" />
+            </button>
+        </span>
+        @if (!Business.IsDefaultPin)
+        {
+            <span class="ml-2">
+                <img class="big-simbol button ml-0" src="./images/trash.svg" alt="About" @onclick="ClearPin" />
+            </span>
+        }
+    </div>
+    @if (InvalidPin)
+    {
+        <div class="row">
+            <span class="ml-2">
+                Invalid Pin!
+            </span>
+        </div>
+    }
+</EditForm>
+<div class="row line"></div>
+<div class="row mt-2">
+    <h5 class="col-sm-8">Vault Items</h5>
+</div>
+<div class="row line"></div>
+<EditForm Model="@NewVaultItem" OnValidSubmit="@AddItem" class="mt-2">
+    <DataAnnotationsValidator />
+    <div class="form-group row">
+        <span class="ml-2 mt-1">
+            <label>Key: </label>
+        </span>
+        <span class="ml-2">
+            <InputText id="Key"
+                       @bind-Value="@NewVaultItem.Key"
+                       placeholder="Vault key" />
+            <ValidationMessage class="alert" For="@(() => NewVaultItem.Key)" />
+        </span>
+        <span class="ml-2 mt-1">
+            <label>Value: </label>
+        </span>
+        <span class="ml-2">
+            @if (NewVaultItem.IsSecret)
+            {
+                <InputText id="Value"
+                           type="password"
+                           @bind-Value="@NewVaultItem.Value"
+                           placeholder="Value" />
+                <ValidationMessage class="alert" For="@(() => NewVaultItem.Value)" />
+            }
+            else
+            {
+                <InputText id="Value"
+                           @bind-Value="@NewVaultItem.Value"
+                           placeholder="Value" />
+                <ValidationMessage class="alert" For="@(() => NewVaultItem.Value)" />
+            }
+        </span>
+        <span class="ml-2 mt-1">
+            <InputCheckbox id="Name"
+                           @bind-Value="@NewVaultItem.IsSecret" />
+            <ValidationMessage class="alert" For="@(() => NewVaultItem.IsSecret)" />
+            <label class="ml-2">Masked</label>
+        </span>
+        <span class="ml-2">
+            <button type="submit" class="button-submit rounded-circle">
+                <img class="big-simbol button" src="./images/add.svg" />
+            </button>
+        </span>
+    </div>
+</EditForm>
+<div class="row mt-2">
+    @foreach (VaultItem item in Business.Vault?.Itens)
+    {
+        <VaultListItem VaultItem="item" UpdateState="UpdateState"></VaultListItem>
+    }
+</div>
+@if (KeyExistsModal)
+{
+    <ModalDialog Title="Vault Edit"
+                 Message="Key already exists."
+                 OkAction="() => KeyExistsModal = false" />
+}
