@@ -2,7 +2,7 @@
 @inherits IndexBase
 @using Grimoire.Components
 
-@switch (grimoireBusiness.GetConfig().Result.Theme)
+@switch (Business.GetConfig().Result.Theme)
 {
     case "Light":
         <link href="css/light.css" rel="stylesheet" />
@@ -29,6 +29,9 @@
                 case AppMode.Config:
                     <Config @ref="Config"></Config>
                     break;
+                case AppMode.Vault:
+                    <VaultEdit></VaultEdit>
+                    break;
                 case AppMode.About:
                     <About></About>
                     break;
@@ -40,91 +43,30 @@
 </div>
 @if (ConfirmEditModal)
 {
-    <div class="modal managed-modal" id="Confirmation">
-        <div class="modal-dialog">
-            <div class="modal-content modal-style">
-                <div class="modal-header">
-                    <h4 class="modal-title">Edit Script</h4>
-                </div>
-                <div class="modal-body">
-                    Script saved.
-                </div>
-                <div class="modal-footer">
-                    <span class="button ml-2">
-                        <img class="big-simbol" src="./images/ok.svg" @onclick="CloseModals" />
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
+    <ModalDialog Type="ModalType.Ok"
+                 Title="Edit Script"
+                 Message="Script saved."
+                 OkAction="CloseModals" />
 }
 @if (ConfirmDeleteModal)
 {
-    <div class="modal managed-modal" id="Confirmation">
-        <div class="modal-dialog">
-            <div class="modal-content modal-style">
-                <div class="modal-header">
-                    <h4 class="modal-title">Delete</h4>
-                </div>
-                <div class="modal-body">
-                    Script removed.
-                </div>
-                <div class="modal-footer">
-                    <span class="button ml-2">
-                        <img class="big-simbol" src="./images/ok.svg" @onclick="CloseModals" />
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
+    <ModalDialog Type="ModalType.Ok"
+                 Title="Delete"
+                 Message="Script removed."
+                 OkAction="CloseModals" />
 }
 @if (ConfirmConfigModal)
 {
-    <div class="modal managed-modal" id="Confirmation">
-        <div class="modal-dialog">
-            <div class="modal-content modal-style">
-                <div class="modal-header">
-                    <h4 class="modal-title">Settings</h4>
-                </div>
-                <div class="modal-body">
-                    Settings saved.
-                </div>
-                <div class="modal-footer">
-                    <span class="button ml-2">
-                        <img class="big-simbol" src="./images/ok.svg" @onclick="ConfirmReload" />
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
+    <ModalDialog Type="ModalType.Ok"
+                 Title="Settings"
+                 Message="Settings saved."
+                 OkAction="ConfirmReload" />
 }
 @if (ErrorModal)
 {
-    <div class="modal managed-modal" id="Confirmation">
-        <div class="modal-dialog">
-            <div class="modal-content modal-style">
-                <div class="modal-header">
-                    <h4 class="modal-title">Error</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <span class="ml-2">
-                            <img class="big-simbol" src="./images/error.svg" />
-                        </span>
-                        <span class="ml-2 mt-1">
-                            @LastError
-                        </span>
-                    </div>
-                    <div class="row mt-1">
-                        <textarea type="text" class="col-12 error-text" readonly value="@LastErrorDetail" />
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <span class="button ml-2">
-                        <img class="big-simbol" src="./images/ok.svg" @onclick="CloseModals" />
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
+    <ModalDialog Type="ModalType.Error"
+                 Title="Error"
+                 Message=@LastError
+                 ErrorDetail=@LastErrorDetail
+                 OkAction="CloseModals" />
 }

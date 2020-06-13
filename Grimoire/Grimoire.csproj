@@ -12,8 +12,8 @@
     <RepositoryUrl>https://github.com/Kelvysb/Grimoire</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <AssemblyName>Grimoire</AssemblyName>
-    <Version>1.0.3</Version>
-    <AssemblyVersion>1.0.3.0</AssemblyVersion>
+    <Version>1.0.4</Version>
+    <AssemblyVersion>1.0.4.0</AssemblyVersion>
   </PropertyGroup>  
   <ItemGroup>
     <None Remove="Icon.ico" />
@@ -86,6 +86,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\images\trash.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\vault.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\images\warning.svg">

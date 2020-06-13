@@ -17,6 +17,7 @@ app {
 
 .main {
     flex: 1;
+    min-width: 720px;
 }
 
 .sidebar {
@@ -140,6 +141,15 @@ app {
 }
 
     .script-item:hover {
+        background-color: var(--sidebar-item-color-hoover);
+    }
+
+.vault-item {
+    height: 35px;
+    background-color: var(--sidebar-item-color);
+}
+
+    .vault-item:hover {
         background-color: var(--sidebar-item-color-hoover);
     }
 

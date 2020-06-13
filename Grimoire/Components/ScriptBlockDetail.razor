@@ -79,24 +79,9 @@ else
 }
 @if (DeleteModal)
 {
-    <div class="modal managed-modal" id="Confirmation">
-        <div class="modal-dialog">
-            <div class="modal-content modal-style">
-                <div class="modal-header">
-                    <h4 class="modal-title">Delete</h4>
-                </div>
-                <div class="modal-body">
-                    Are you sure?
-                </div>
-                <div class="modal-footer">
-                    <span class="button">
-                        <img class="big-simbol" src="./images/ok.svg" @onclick="RemoveScript" />
-                    </span>
-                    <span class="button ml-2">
-                        <img class="big-simbol" src="./images/error.svg" @onclick="CloseModals" />
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
+    <ModalDialog Type="ModalType.OkCancel"
+                 Title="Delete"
+                 Message="Are you sure?"
+                 OkAction="async () => await RemoveScript()"
+                 CancelAction="CloseModals" />
 }

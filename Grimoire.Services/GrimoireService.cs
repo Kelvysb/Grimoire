@@ -41,11 +41,10 @@ namespace Grimoire.Services
 
         public string getScriptFullPath(GrimoireScriptBlock scriptBlock)
         {
-            return Path.GetDirectoryName(
-                    Path.GetFullPath(
-                    Path.Combine(configurationService.ScriptsDirectory,
-                                    scriptBlock.Name,
-                                    scriptBlock.Script)));
+            return Path.GetFullPath(
+                   Path.Combine(configurationService.ScriptsDirectory,
+                                scriptBlock.Name,
+                                scriptBlock.Script));
         }
 
         public void RemoveExecutionGroup(string name)

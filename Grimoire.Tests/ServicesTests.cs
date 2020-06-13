@@ -19,7 +19,7 @@ namespace Grimoire.Tests
         {
             config = ConfigurationMock.GetConfiguration();
             TestHelper.CleanTestFolders(config);
-            service = new GrimoireService(config);
+            service = new GrimoireService(config, new LogService(config));
         }
 
         [TestMethod]

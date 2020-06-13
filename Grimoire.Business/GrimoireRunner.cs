@@ -35,7 +35,7 @@ namespace Grimoire.Business
             Selected = false;
             Paused = false;
             this.business = business;
-            this.ScriptBlock = scriptBlock;
+            ScriptBlock = scriptBlock;
             Task.Run(() => TimerRun());
             CheckRunOnStart();
         }
@@ -121,49 +121,59 @@ namespace Grimoire.Business
 
         private async Task<ScriptResult> ExecuteScript(GrimoireScriptBlock scriptBlock)
         {
-            ScriptResult result = null;
             try
             {
-                switch (scriptBlock.ScriptType)
-                {
-                    case ScriptType.PowerShell:
-                        result = await ExecutePowerShell(scriptBlock);
-                        break;
-
-                    case ScriptType.Python:
-                        break;
-
-                    default:
-                        break;
-                }
-                scriptBlock.LastResult = result;
-                await business.SaveScriptBlock(scriptBlock);
-                return result;
+                return await RunScriptBlock(scriptBlock);
             }
             catch (Exception ex)
             {
-                result = new ScriptResult()
-                {
-                    ResultType = ResultType.Error,
-                    Errors = ex.Message
-                };
-                scriptBlock.LastResult = result;
-                await business.SaveScriptBlock(scriptBlock);
+                await CreateErrorResult(scriptBlock, ex);
                 throw;
             }
+        }
+
+        private async Task CreateErrorResult(GrimoireScriptBlock scriptBlock, Exception ex)
+        {
+            ScriptResult result = new ScriptResult()
+            {
+                ResultType = ResultType.Error,
+                Errors = ex.Message
+            };
+            scriptBlock.LastResult = result;
+            await business.SaveScriptBlock(scriptBlock);
+        }
+
+        private async Task<ScriptResult> RunScriptBlock(GrimoireScriptBlock scriptBlock)
+        {
+            ScriptResult result = null;
+            switch (scriptBlock.ScriptType)
+            {
+                case ScriptType.PowerShell:
+                    result = await ExecutePowerShell(scriptBlock);
+                    break;
+
+                case ScriptType.Python:
+                    break;
+
+                default:
+                    break;
+            }
+            scriptBlock.LastResult = result;
+            await business.SaveScriptBlock(scriptBlock);
+            return result;
         }
 
         private async Task<ScriptResult> ExecutePowerShell(GrimoireScriptBlock scriptBlock)
         {
             ScriptResult result = null;
-            string scriptPath = await business.getScriptFullPath(scriptBlock);
+            string script = await business.ReadScript(scriptBlock);
             using (PowerShell ps = PowerShell.Create())
             {
                 PSDataCollection<PSObject> outputCollection = new PSDataCollection<PSObject>();
                 ps.AddScript("Set-ExecutionPolicy -Scope Process Unrestricted");
-                ps.AddScript($"set-location -path \"{scriptPath}\"");
-                ps.AddScript($"./{scriptBlock.Script}");
-                IAsyncResult execResult = await Task.Run(() => ps.BeginInvoke<PSObject, PSObject>(null, outputCollection));
+                ps.AddScript(script);
+                IAsyncResult execResult = await Task.Run(() =>
+                    ps.BeginInvoke<PSObject, PSObject>(null, outputCollection));
                 WaitExecution(scriptBlock.TimeOut, execResult);
                 result = GetResult(scriptBlock, ps);
             }
@@ -208,12 +218,19 @@ namespace Grimoire.Business
             string result = rawResult;
             if (scriptBlock.ExtractResult != null && !String.IsNullOrEmpty(scriptBlock.ExtractResult.Start) && !String.IsNullOrEmpty(scriptBlock.ExtractResult.End))
             {
-                Match match = Regex.Match(rawResult, scriptBlock.ExtractResult.Start);
-                int startIndex = match.Index + match.Length;
-                match = Regex.Match(rawResult, scriptBlock.ExtractResult.End);
-                int endIndex = match.Index;
-                result = rawResult.Substring(startIndex, endIndex - startIndex);
+                result = FindResultMatch(scriptBlock, rawResult);
             }
+            return result;
+        }
+
+        private string FindResultMatch(GrimoireScriptBlock scriptBlock, string rawResult)
+        {
+            string result;
+            Match match = Regex.Match(rawResult, scriptBlock.ExtractResult.Start);
+            int startIndex = match.Index + match.Length;
+            match = Regex.Match(rawResult, scriptBlock.ExtractResult.End);
+            int endIndex = match.Index;
+            result = rawResult.Substring(startIndex, endIndex - startIndex);
             return result;
         }
 

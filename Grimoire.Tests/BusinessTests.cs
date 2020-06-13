@@ -21,7 +21,7 @@ namespace Grimoire.Tests
         {
             config = ConfigurationMock.GetConfiguration();
             TestHelper.CleanTestFolders(config);
-            business = new GrimoireBusiness(new GrimoireService(config));
+            business = new GrimoireBusiness(new GrimoireService(config, new LogService(config)), new VaultService(config));
         }
 
         [TestMethod]

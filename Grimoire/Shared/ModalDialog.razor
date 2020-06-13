@@ -1,0 +1,105 @@
+﻿@inherits ModalDialogBase
+
+<div class="modal managed-modal" id="Confirmation">
+    <div class="modal-dialog">
+        <div class="modal-content modal-style">
+
+            @switch (Type)
+            {
+                case ModalType.Ok:
+                case ModalType.OkCancel:
+                    <div class="modal-header">
+                        <h4 class="modal-title">@Title</h4>
+                    </div>
+                    <div class="modal-body">
+                        @Message
+                    </div>
+                    <div class="modal-footer">
+                        <span class="button ml-2">
+                            <img class="big-simbol" src="./images/ok.svg" @onclick="OkAction" />
+                        </span>
+                        @if (Type == ModalType.OkCancel)
+                        {
+                            <span class="button ml-2">
+                                <img class="big-simbol" src="./images/error.svg" @onclick="CancelAction" />
+                            </span>
+                        }
+                    </div>
+                    break;
+                case ModalType.Error:
+                    <div class="modal-header">
+                        <h4 class="modal-title">Error</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <span class="ml-2">
+                                <img class="big-simbol" src="./images/error.svg" />
+                            </span>
+                            <span class="ml-2 mt-1">
+                                @Message
+                            </span>
+                        </div>
+                        <div class="row mt-1">
+                            <textarea type="text" class="col-12 error-text" readonly value="@ErrorDetail" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <span class="button ml-2">
+                            <img class="big-simbol" src="./images/ok.svg" @onclick="OkAction" />
+                        </span>
+                    </div>
+                    break;
+                case ModalType.Login:
+                    <div class="modal-header">
+                        <h4 class="modal-title">Pin</h4>
+                    </div>
+                    <div class="modal-body">
+                        <EditForm Model="@PinInput">
+                            <div class="row">
+                                <span class="ml-2">
+                                    @Message
+                                </span>
+                            </div>
+                            <div class="row mt-1">
+                                <DataAnnotationsValidator />
+                                <ValidationSummary />
+                                <InputText class="ml-2" type="password" placeholder="PIN" @bind-Value="@PinInput" />
+                            </div>
+                            @if (LoginError)
+                            {
+                                <div class="row mt-1">
+                                    <span class="ml-2 mt-1">
+                                        Invalid pin:
+                                    </span>
+                                </div>
+                                <div class="row mt-1">
+                                    <span class="ml-2">
+                                        <InputCheckbox @bind-Value="@ConfirmResetVault">
+                                        </InputCheckbox>
+                                        Reset vault this action cannot be undone, use only if you lost your pin number.
+                                    </span>
+                                </div>
+                                @if (ConfirmResetVault)
+                                {
+                                    <div class="row mt-1">
+                                        <span class="button ml-2">
+                                            <img class="big-simbol" src="./images/warning.svg" @onclick="CancelAction" />
+                                        </span>
+                                        <span class="ml-2 mt-1">
+                                            Reset Vault.
+                                        </span>
+                                    </div>
+                                }
+                            }
+                        </EditForm>
+                    </div>
+                    <div class="modal-footer">
+                        <span class="button ml-2">
+                            <img class="big-simbol" src="./images/ok.svg" @onclick="() => LoginAction(PinInput, InvalidPin)" />
+                        </span>
+                    </div>
+                    break;
+            }
+        </div>
+    </div>
+</div>
