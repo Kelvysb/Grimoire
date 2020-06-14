@@ -7,5 +7,7 @@
         public string DefaultScriptEditor { get; set; }
 
         public string BashPath { get; set; }
+
+        public bool ShowGroup { get; set; } = true;
     }
 }

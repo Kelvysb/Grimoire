@@ -26,11 +26,24 @@
         <div class="script-list">
             @if (Business.ScriptRunners != null)
             {
-                @foreach (IGrimoireRunner script in Business.ScriptRunners)
+                @foreach (string group in Groups)
                 {
-                    <ScriptBlockItem @ref="ItemRef" ScriptBlockRunner="@script" />
+                    @if (Business.Config.ShowGroup)
+                    {
+                        <div class="ml-2 mb-1">
+                            @group
+                        </div>
+                    }
+                    <div>
+                        @foreach (IGrimoireRunner script in Business.ScriptRunners.Where(item => item.ScriptBlock.Group.Equals(group)))
+                        {
+                            <ScriptBlockItem @ref="ItemRef" ScriptBlockRunner="@script" />
+                            <div class="mb-2" />
+                        }
+                    </div>
                     <div class="mb-2" />
                 }
+
             }
             else
             {

@@ -22,6 +22,15 @@
         </InputSelect>
     </div>
     <div class="row">
+        <label class="col-sm-2">Script Groups:</label>
+        <div class="col-sm-4 mr-1 mt-1 pl-0 align-content-start">
+            <InputCheckbox id="Theme"
+                           @bind-Value="@config.ShowGroup">
+            </InputCheckbox>
+            Show on list
+        </div>
+    </div>
+    <div class="row">
         <span class="button ml-2">
             <button type="submit" class="button-submit rounded">
                 <img class="big-simbol button" src="./images/save.svg" />

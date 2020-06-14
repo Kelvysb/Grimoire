@@ -48,10 +48,11 @@ namespace Grimoire.Pages
         {
             CloseModals();
             AppMode = AppMode.None;
+            await Business.GetConfig();
             await base.OnInitializedAsync();
         }
 
-        protected override Task OnAfterRenderAsync(bool firstRender)
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
@@ -82,7 +83,7 @@ namespace Grimoire.Pages
                 Config.EndConfig += EndConfig;
                 Config.Reload();
             }
-            return base.OnAfterRenderAsync(firstRender);
+            await base.OnAfterRenderAsync(firstRender);
         }
 
         public void CloseModals()
@@ -139,24 +140,25 @@ namespace Grimoire.Pages
             InvokeAsync(() => StateHasChanged());
         }
 
-        private void EndEdit()
+        private async Task EndEdit()
         {
             ClearEvents();
             AppMode = AppMode.None;
-            SideMenu.Reload();
+            await SideMenu.Reload();
             ConfirmEditModal = true;
-            InvokeAsync(() => StateHasChanged());
+            await InvokeAsync(() => StateHasChanged());
         }
 
-        private void EndConfig(bool changed)
+        private async Task EndConfig(bool changed)
         {
             ClearEvents();
             AppMode = AppMode.None;
             if (changed)
             {
+                await Business.GetConfig();
                 ConfirmConfigModal = true;
             }
-            InvokeAsync(() => StateHasChanged());
+            await InvokeAsync(() => StateHasChanged());
         }
 
         public void ConfirmReload()
@@ -165,24 +167,24 @@ namespace Grimoire.Pages
             InvokeAsync(() => StateHasChanged());
         }
 
-        private void DeleteScript(IGrimoireRunner scriptRunner)
+        private async Task DeleteScript(IGrimoireRunner scriptRunner)
         {
             ClearEvents();
             AppMode = AppMode.None;
-            SideMenu.Reload();
+            await SideMenu.Reload();
             ConfirmDeleteModal = true;
-            InvokeAsync(() => StateHasChanged());
+            await InvokeAsync(() => StateHasChanged());
         }
 
-        private void ShowError(string message, Exception ex)
+        private async Task ShowError(string message, Exception ex)
         {
             LastError = message;
             LastErrorDetail = ex.Message;
             LogService.Log(ex);
             ErrorModal = true;
             AppMode = AppMode.None;
-            SideMenu.Reload();
-            InvokeAsync(() => StateHasChanged());
+            await SideMenu.Reload();
+            await InvokeAsync(() => StateHasChanged());
         }
 
         private void ClearEvents()

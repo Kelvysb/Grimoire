@@ -12,6 +12,8 @@ namespace Grimoire.Domain.Abstraction.Business
 
         public Vault Vault { get; set; }
 
+        GrimoireConfig Config { get; set; }
+
         Task ChangeScripBlockOrder(GrimoireScriptBlock scriptBlock, int orderShift);
 
         Task LoadScriptRunners();
@@ -51,6 +53,5 @@ namespace Grimoire.Domain.Abstraction.Business
         Task<string> ReadScript(GrimoireScriptBlock scriptBlock);
 
         string GetVaultValue(string key);
-
     }
 }

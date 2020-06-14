@@ -26,6 +26,8 @@ namespace Grimoire.Business
 
         public Vault Vault { get; set; } = null;
 
+        public GrimoireConfig Config { get; set; } = new GrimoireConfig();
+
         public GrimoireBusiness(IGrimoireService grimoireService,
                                 IVaultService vaultService)
         {
@@ -110,6 +112,8 @@ namespace Grimoire.Business
             {
                 return scripts
                     .Select<GrimoireScriptBlock, IGrimoireRunner>(s => new GrimoireRunner(s, this))
+                    .OrderBy(script => script.ScriptBlock.Group)
+                    .ThenBy(script => script.ScriptBlock.Name)
                     .ToList();
             });
         }
@@ -118,9 +122,10 @@ namespace Grimoire.Business
 
         #region Configuration
 
-        public Task<GrimoireConfig> GetConfig()
+        public async Task<GrimoireConfig> GetConfig()
         {
-            return grimoireService.GetConfig();
+            Config = await grimoireService.GetConfig();
+            return Config;
         }
 
         public Task SaveConfig(GrimoireConfig config)
@@ -218,6 +223,8 @@ namespace Grimoire.Business
 
         #endregion Vault
 
+        #region Private
+
         private string ExecuteVaultReplacement(string script)
         {
             foreach (string key in ExtractKeys(script))
@@ -249,5 +256,7 @@ namespace Grimoire.Business
             }
             await SaveVault();
         }
+
+        #endregion Private
     }
 }

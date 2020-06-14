@@ -20,11 +20,11 @@ namespace Grimoire.Components
 
         public event EditEventHandler Edit;
 
-        public delegate void DeleteEventHandler(IGrimoireRunner scriptRunner);
+        public delegate Task DeleteEventHandler(IGrimoireRunner scriptRunner);
 
         public event DeleteEventHandler Delete;
 
-        public delegate void ErrorEventHandler(string message, Exception ex);
+        public delegate Task ErrorEventHandler(string message, Exception ex);
 
         public event ErrorEventHandler Error;
 
