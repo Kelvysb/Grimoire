@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using BlazorInputFile;
 using Grimoire.Domain.Abstraction.Business;
@@ -12,7 +13,7 @@ namespace Grimoire.Components
     public class ScriptEditBase : ComponentBase
     {
         [Inject]
-        private IGrimoireBusiness grimoireBusiness { get; set; }
+        private IGrimoireBusiness Business { get; set; }
 
         public string ScriptName { get; set; }
 
@@ -28,13 +29,29 @@ namespace Grimoire.Components
 
         public GrimoireScriptBlock ScriptBlock { get; set; }
 
-        public delegate void EndEditHandler();
+        public List<string> ExistingGroups { get; set; } = new List<string>();
+
+        public string SelectedGroup
+        {
+            get { return ScriptBlock.Group; }
+            set { ScriptBlock.Group = value; }
+        }
+
+        public delegate Task EndEditHandler();
 
         public event EndEditHandler EndEdit;
 
-        public delegate void ErrorEventHandler(string message, Exception ex);
+        public delegate Task ErrorEventHandler(string message, Exception ex);
 
         public event ErrorEventHandler Error;
+
+        protected async override Task OnInitializedAsync()
+        {
+            ConfirmModal = false;
+            await InitializeScriptBlock();
+            LoadGroups();
+            await base.OnInitializedAsync();
+        }
 
         public async void HandleFileSelected(IFileListEntry[] files)
         {
@@ -55,12 +72,19 @@ namespace Grimoire.Components
             }
         }
 
+        public async void Reload()
+        {
+            await InitializeScriptBlock();
+            LoadGroups();
+            StateHasChanged();
+        }
+
         public async Task Submit()
         {
             try
             {
                 CompleteValues();
-                await grimoireBusiness.SaveScriptBlock(ScriptBlock);
+                await Business.SaveScriptBlock(ScriptBlock);
                 EndEdit?.Invoke();
                 ConfirmModal = true;
             }
@@ -70,17 +94,21 @@ namespace Grimoire.Components
             }
         }
 
-        protected async override Task OnInitializedAsync()
+        public void CloseModals()
         {
             ConfirmModal = false;
-            await InitializeScriptBlock();
-            await base.OnInitializedAsync();
         }
 
-        public async void Reload()
+        private void LoadGroups()
         {
-            await InitializeScriptBlock();
-            StateHasChanged();
+            if (Business.ScriptRunners.Any())
+            {
+                ExistingGroups = Business.ScriptRunners
+                    .Select(runner => runner.ScriptBlock.Group)
+                    .Distinct()
+                    .OrderBy(group => group)
+                    .ToList();
+            }
         }
 
         private async Task InitializeScriptBlock()
@@ -89,7 +117,7 @@ namespace Grimoire.Components
             {
                 if (!string.IsNullOrEmpty(ScriptName))
                 {
-                    ScriptBlock = await grimoireBusiness.GetScriptBlock(ScriptName);
+                    ScriptBlock = await Business.GetScriptBlock(ScriptName);
                     IsEdit = true;
                 }
                 else
@@ -138,11 +166,6 @@ namespace Grimoire.Components
             {
                 await Task.Run(() => Error?.Invoke("Error loading the script.", ex));
             }
-        }
-
-        public void CloseModals()
-        {
-            ConfirmModal = false;
         }
 
         private void CompleteValues()

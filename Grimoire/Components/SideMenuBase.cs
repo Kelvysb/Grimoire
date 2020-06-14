@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Grimoire.Domain.Abstraction.Business;
 using Microsoft.AspNetCore.Components;
@@ -15,6 +17,8 @@ namespace Grimoire.Components
         public bool PinModal { get; set; } = false;
 
         public bool LoginError { get; set; } = false;
+
+        public List<string> Groups { get; set; }
 
         public delegate void SelectHandler(IGrimoireRunner scriptRunner);
 
@@ -36,11 +40,11 @@ namespace Grimoire.Components
 
         public VaultHandler OpenVault;
 
-        public delegate void ErrorEventHandler(string message, Exception ex);
+        public delegate Task ErrorEventHandler(string message, Exception ex);
 
         public event ErrorEventHandler Error;
 
-        protected override Task OnAfterRenderAsync(bool firstRender)
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender && !Business.IsDefaultPin)
             {
@@ -49,14 +53,14 @@ namespace Grimoire.Components
             }
             else if (firstRender)
             {
-                Business.LoadVault();
-                Reload();
+                await Business.LoadVault();
+                await Reload();
             }
             if (firstRender)
             {
-                Task.Run(() => UpdateTimer());
+                await Task.Run(() => UpdateTimer());
             }
-            return base.OnAfterRenderAsync(firstRender);
+            await base.OnAfterRenderAsync(firstRender);
         }
 
         public void AddItem(ScriptBlockItemBase item)
@@ -69,11 +73,16 @@ namespace Grimoire.Components
             NewScript?.Invoke();
         }
 
-        public void Reload()
+        public async Task Reload()
         {
             try
             {
-                Business.LoadScriptRunners();
+                await Business.LoadScriptRunners();
+                await Task.Run(() => Groups = Business.ScriptRunners
+                                        .Select(runner => runner.ScriptBlock.Group)
+                                        .Distinct()
+                                        .OrderBy(group => group)
+                                        .ToList());
             }
             catch (Exception ex)
             {
@@ -86,7 +95,7 @@ namespace Grimoire.Components
             if (await Business.CheckPin(pin))
             {
                 await Business.LoadVault();
-                Reload();
+                await Reload();
                 PinModal = false;
             }
             else
@@ -100,7 +109,7 @@ namespace Grimoire.Components
         {
             await Business.ResetVault();
             PinModal = false;
-            Reload();
+            await Reload();
             await InvokeAsync(() => StateHasChanged());
         }
 

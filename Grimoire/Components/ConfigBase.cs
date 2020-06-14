@@ -12,7 +12,7 @@ namespace Grimoire.Components
 
         public GrimoireConfig config { get; set; } = new GrimoireConfig();
 
-        public delegate void EndConfigHandler(bool changed);
+        public delegate Task EndConfigHandler(bool changed);
 
         public event EndConfigHandler EndConfig;
 

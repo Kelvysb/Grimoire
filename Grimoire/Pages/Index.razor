@@ -2,7 +2,7 @@
 @inherits IndexBase
 @using Grimoire.Components
 
-@switch (Business.GetConfig().Result.Theme)
+@switch (Business.Config.Theme)
 {
     case "Light":
         <link href="css/light.css" rel="stylesheet" />

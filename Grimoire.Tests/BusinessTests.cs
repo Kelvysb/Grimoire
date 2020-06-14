@@ -15,13 +15,15 @@ namespace Grimoire.Tests
     public class BusinessTests
     {
         private readonly IConfigurationService config;
+        private readonly IVaultService vault;
         private readonly IGrimoireBusiness business;
 
         public BusinessTests()
         {
-            config = ConfigurationMock.GetConfiguration();
+            config = ServiceMock.GetConfiguration();
+            vault = ServiceMock.GetVaultService();
             TestHelper.CleanTestFolders(config);
-            business = new GrimoireBusiness(new GrimoireService(config, new LogService(config)), new VaultService(config));
+            business = new GrimoireBusiness(new GrimoireService(config, new LogService(config)), vault);
         }
 
         [TestMethod]
