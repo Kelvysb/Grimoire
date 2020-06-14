@@ -9,6 +9,7 @@ namespace Grimoire.ConsoleUI
         public App(IGrimoireBusiness business)
         {
             this.business = business;
+            business.LoadVault();
         }
 
         public void Run()
