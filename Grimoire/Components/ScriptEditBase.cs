@@ -31,6 +31,10 @@ namespace Grimoire.Components
 
         public List<string> ExistingGroups { get; set; } = new List<string>();
 
+        public string SelectedScript { get; set; } = "";
+
+        public string SelectedAdditionals { get; set; } = "";
+
         public string SelectedGroup
         {
             get { return ScriptBlock.Group; }
@@ -55,20 +59,39 @@ namespace Grimoire.Components
 
         public async void HandleFileSelected(IFileListEntry[] files)
         {
-            ScriptBlock.Script = files[0].Name;
-            MemoryStream stream = new MemoryStream();
-            await files[0].Data.CopyToAsync(stream);
-            ScriptBlock.OriginalScriptFile = stream;
+            if (files.Length > 0)
+            {
+                SelectedScript = files[0].Name;
+                ScriptBlock.Script = files[0].Name;
+                MemoryStream stream = new MemoryStream();
+                await files[0].Data.CopyToAsync(stream);
+                ScriptBlock.OriginalScriptFile = stream;
+            }
+            else
+            {
+                SelectedScript = "";
+                ScriptBlock.Script = "";
+                ScriptBlock.OriginalScriptFile = null;
+            }
         }
 
         public async void HandleAdditionalFilesSelected(IFileListEntry[] files)
         {
-            ScriptBlock.AdditionalFiles = new List<AdditionalFile>();
-            foreach (var file in files)
+            if (files.Length > 0)
             {
-                MemoryStream stream = new MemoryStream();
-                await file.Data.CopyToAsync(stream);
-                ScriptBlock.AdditionalFiles.Add(new AdditionalFile(file.Name, stream));
+                SelectedAdditionals = string.Join(", ", files.Select(file => file.Name));
+                ScriptBlock.AdditionalFiles = new List<AdditionalFile>();
+                foreach (var file in files)
+                {
+                    MemoryStream stream = new MemoryStream();
+                    await file.Data.CopyToAsync(stream);
+                    ScriptBlock.AdditionalFiles.Add(new AdditionalFile(file.Name, stream));
+                }
+            }
+            else
+            {
+                SelectedAdditionals = "";
+                ScriptBlock.AdditionalFiles = new List<AdditionalFile>();
             }
         }
 

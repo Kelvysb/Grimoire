@@ -231,6 +231,10 @@ app {
     right: 10px;
 }
 
+.selected-files {
+    overflow: hidden;
+}
+
 /* width */
 ::-webkit-scrollbar {
     width: 10px;

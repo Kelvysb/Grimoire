@@ -1,7 +1,7 @@
-﻿window.Alert = function (message) {
-    alert(message);
+﻿function AddScript() {
+    $("#OriginalScript").trigger('click');
 }
 
-window.Confirm = function (message) {
-    return confirm(message);
+function AddAdditionalFiles() {
+    $("#AdditionalFiles").trigger('click');
 }

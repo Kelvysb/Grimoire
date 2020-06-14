@@ -96,15 +96,26 @@
             <ValidationMessage class="alert" For="@(() => ScriptBlock.Interval)" />
         }
     </div>
-
     <div class="form-group row">
         <label class="col-sm-2">Script:</label>
-        <InputFile id="OriginalScript" OnChange="HandleFileSelected" />
+        <span class="button">
+            <img class="big-simbol button ml-0" src="./images/open.svg" alt="Add Script" onclick="AddScript()" />
+        </span>
+        <span class="selected-files mt-1 ml-2">
+            @SelectedScript
+        </span>
+        <InputFile id="OriginalScript" OnChange="HandleFileSelected" hidden />
         <ValidationMessage class="alert" For="@(() => ScriptBlock.Script)" />
     </div>
     <div class="form-group row">
         <label class="col-sm-2">Additional Files:</label>
-        <InputFile id="AdditionalFiles" OnChange="HandleAdditionalFilesSelected" multiple />
+        <span class="button">
+            <img class="big-simbol button ml-0" src="./images/open.svg" alt="Add Script" onclick="AddAdditionalFiles()" />
+        </span>
+        <span class="selected-files mt-1 ml-2">
+            @SelectedAdditionals
+        </span>
+        <InputFile id="AdditionalFiles" OnChange="HandleAdditionalFilesSelected" multiple hidden />
         <ValidationMessage class="alert" For="@(() => ScriptBlock.Script)" />
     </div>
     <div class="row">
