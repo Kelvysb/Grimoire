@@ -23,6 +23,7 @@ namespace Grimoire.ConsoleUI
             services.AddSingleton<IGrimoireService, GrimoireService>();
             services.AddSingleton<IGrimoireBusiness, GrimoireBusiness>();
             services.AddSingleton<ILogService, LogService>();
+            services.AddSingleton<IVaultService, VaultService>();
             return services;
         }
     }
