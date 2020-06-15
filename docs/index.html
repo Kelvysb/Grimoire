@@ -11,7 +11,7 @@
     <script src="./js/bootstrap.min.js"></script>
 </head>
 
-<body>    
+<body>
     <div class="app">
         <div class="side-bar container-fluid fx-0">
             <div class="row header">
@@ -23,53 +23,463 @@
                 </span>
             </div>
             <div class="row mt-2">
-                <div class="col-12 ">                    
+                <div class="col-12 ">
                     <div class="menu-item container mr-1 ml-1 card">
-                        <a href="#Home" class="item-text">Home</a>
+                        <a href="#MainWindow" class="item-text">Main Window</a>
                     </div>
                 </div>
             </div>
             <div class="row mt-2">
                 <div class="col-12">
                     <div class="menu-item container mr-1 ml-1 card">
-                        <a href="#Interface" class="item-text">Script Visualization</a>
+                        <a href="#ScriptDetail" class="item-text">Script Visualization</a>
                     </div>
                 </div>
             </div>
             <div class="row mt-2">
                 <div class="col-12">
                     <div class="menu-item container mr-1 ml-1 card">
-                        <a href="#Interface" class="item-text">Script Edit</a>
+                        <a href="#ScriptEdit" class="item-text">Script Add/Edit</a>
                     </div>
                 </div>
             </div>
             <div class="row mt-2">
                 <div class="col-12">
                     <div class="menu-item container mr-1 ml-1 card">
-                        <a href="#Filters" class="item-text">Filters and extractors</a>
+                        <a href="#Vault" class="item-text">Vault Edit</a>
                     </div>
                 </div>
             </div>
             <div class="row mt-2">
                 <div class="col-12">
                     <div class="menu-item container mr-1 ml-1 card">
-                        <a href="#Interface" class="item-text">Settings</a>
+                        <a href="#Pin" class="item-text">PIN</a>
                     </div>
                 </div>
-            </div>            
+            </div>
+            <div class="row mt-2">
+                <div class="col-12">
+                    <div class="menu-item container mr-1 ml-1 card">
+                        <a href="#Config" class="item-text">Settings</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="container-fluid content px-0">            
-            <div #Home class="row">            
-                <h1 class="col-12 m-2">Grimoire - Script Manager</h1>                                
+        <div id="MainWindow" class="container-fluid content m-2">
+            <div class="row">
+                <h1 class="col-12 m-2">Grimoire - Script Manager</h1>
             </div>
-            <div class="row line">                            
+            <div class="row line">
             </div>
-            <div class="row line">                            
-                <p class="col-12">
+            <div class="row mt-2">
+                <h4>Main Window</h4>
+            </div>
+            <div class="row mt-2 ml-2">
+                <img class="screenshot" src="./images/screenshots/main.png" alt="Main" />
+            </div>
+            <div class="row mt-2 ml-2">
+                <div class="rounded-circle mark-green float-left"></div>
+                <div class="ml-2 float-left">Commands:</div>
+            </div>
+            <div class="row mt-2 ml-4">
+                <img class="big-simbol" src=".\images\add.svg" alt="add" />
+                <div class="ml-2 mt-1 float-left">New Script - go to <a href="#ScriptEdit">'New Script'</a> window.
+                </div>
+            </div>
+            <div class="row mt-2 ml-4">
+                <img class="big-simbol" src=".\images\reload.svg" alt="add" />
+                <div class="ml-2 mt-1 float-left">Reload - reload all script, every script set to 'run on start' will
+                    execute, and timers will reset.</div>
+            </div>
+            <div class="row mt-2 ml-4">
+                <img class="big-simbol" src=".\images\vault.svg" alt="add" />
+                <div class="ml-2 mt-1 float-left">Vault - go to <a href="#Vault">'Vault'</a> window.</div>
+            </div>
+            <div class="row mt-2 ml-4">
+                <img class="big-simbol" src=".\images\config.svg" alt="add" />
+                <div class="ml-2 mt-1 float-left">Settings - go to <a href="#Vault">'Settings'</a> window.</div>
+            </div>
+            <div class="row mt-2 ml-4">
+                <img class="big-simbol" src=".\images\about.svg" alt="add" />
+                <div class="ml-2 mt-1 float-left">About - show about information.</div>
+            </div>
+            <div class="row mt-3 ml-2">
+                <div class="rounded-circle mark-blue float-left"></div>
+                <div class="ml-2 float-left">Script List:</div>
+            </div>
+            <div class="row mt-2 ml-4">
+                <ul>
+                    <li>
+                        List of scripts separated by group.
+                    </li>
+                    <li>
+                        Click to open <a href="#ScriptDetail">'Script Visualization'</a> window.
+                    </li>
+                    <li>
+                        Double-click to execute the script.
+                    </li>
+                    <li>
+                        <div>Script state icon on the right.</div>
+                        <ul>
+                            <li>
+                                <img class="small-simbol" src=".\images\ok.svg" alt="status" /> <span
+                                    class="ml-2 mt-1">Success.</span>
+                            </li>
+                            <li>
+                                <img class="small-simbol" src=".\images\warning.svg" alt="status" /> <span
+                                    class="ml-2 mt-1">Warning.</span>
+                            </li>
+                            <li>
+                                <img class="small-simbol" src=".\images\error.svg" alt="status" /> <span
+                                    class="ml-2 mt-1">Error.</span>
+                            </li>
+                            <li>
+                                <img class="small-simbol" src=".\images\running.svg" alt="status" /> <span
+                                    class="ml-2 mt-1">Executing.</span>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="row line">
+            </div>
+            <div id="ScriptDetail" class="row mt-2">
+                <h4>Script Visualization</h4>
+            </div>
+            <div class="row mt-2 ml-2">
+                <img class="screenshot" src="./images/screenshots/script-detail.png" alt="detail" />
+            </div>
+            <div class="row mt-2 ml-2">
+                <div class="rounded-circle mark-green float-left"></div>
+                <div class="ml-2 float-left">Commands:</div>
+            </div>
+            <div class="row mt-2 ml-4">
+                <img class="big-simbol" src=".\images\ok.svg" alt="status" />
+                <div class="ml-2 mt-1 float-left">Script last execution status.</div>
+            </div>
+            <div class="row mt-2 ml-5">
+                <ul>
+                    <li>
+                        <img class="small-simbol" src=".\images\ok.svg" alt="status" /> <span
+                            class="ml-2 mt-1">Success.</span>
+                    </li>
+                    <li>
+                        <img class="small-simbol" src=".\images\warning.svg" alt="status" /> <span
+                            class="ml-2 mt-1">Warning.</span>
+                    </li>
+                    <li>
+                        <img class="small-simbol" src=".\images\error.svg" alt="status" /> <span
+                            class="ml-2 mt-1">Error.</span>
+                    </li>
+                    <li>
+                        <img class="small-simbol" src=".\images\running.svg" alt="status" /> <span
+                            class="ml-2 mt-1">Executing.</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="row mt-2 ml-4">
+                <img class="big-simbol" src=".\images\trash.svg" alt="status" />
+                <div class="ml-2 mt-1 float-left">Remove script.</div>
+            </div>
+            <div class="row mt-2 ml-4">
+                <img class="big-simbol" src=".\images\edit.svg" alt="status" />
+                <div class="ml-2 mt-1 float-left">Open <a href="#ScriptEdit">'Script Edit'</a> window.</div>
+            </div>
+            <div class="row mt-2 ml-4">
+                <img class="big-simbol" src=".\images\play.svg" alt="status" />
+                <div class="ml-2 mt-1 float-left">Execute script.</div>
+            </div>
+            <div class="row mt-2 ml-2">
+                <div class="rounded-circle mark-blue float-left"></div>
+                <div class="ml-2 float-left">Last execution results:</div>
+            </div>
+            <div class="row mt-2 ml-4">
+                <ul>
+                    <li>Result - Filtered information level log.</li>
+                    <li>Warnings - Warning level log.</li>
+                    <li>Errors - Error level log.</li>
+                </ul>
+            </div>
+            <div class="row line">
+            </div>
+            <div id="ScriptEdit" class="row mt-2">
+                <h4>Script Add/Edit</h4>
+            </div>
+            <div class="row mt-2 ml-2">
+                <img class="screenshot" src="./images/screenshots/new-script.png" alt="new" />
+            </div>
+            <div class="row mt-2 ml-2">
+                <div class="rounded-circle mark-green float-left"></div>
+                <div class="ml-2 float-left">Fields:</div>
+            </div>
+            <div class="row mt-2 ml-4">
+                <ul>
+                    <li>
+                        <div>Script Name:</div>
+                        <ul>
+                            <li>Script unique identifier.</li>
+                            <li>Spaces will be replaced by an underscore '_'.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div>Display Name:</div>
+                        <ul>
+                            <li>Display name on the list and Detail window</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div>Script Group:</div>
+                        <ul>
+                            <li>Script group name on the list.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div>Groups:</div>
+                        <ul>
+                            <li>Existing groups list.</li>
+                            <li>Fill the 'Script Group' field when selected.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div>Success Pattern:</div>
+                        <ul>
+                            <li>Regular Expression.</li>
+                            <li>Search this pattern on the result to determine the success.</li>
+                            <li>If empty the success will be set by the nonexistence of Errors</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div>Result Filter:</div>
+                        <ul>
+                            <li>Regular Expression.</li>
+                            <li>Determine the start and the end of the result to be displayed.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div>Alert Level:</div>
+                        <ul>
+                            <li>Error - Set the alert level to error if script not success.</li>
+                            <li>Warning - Set the alert level to warning if script not success.</li>
+                            <li>Silent - Do nothing if script not success.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div>Run mode:</div>
+                        <ul>
+                            <li>Manual - Runs manually by double clicking on the list or by 'Play' command on detail
+                                window.</li>
+                            <li>Run on Start* - Runs when the application starts or clicking the 'Reload' command.</li>
+                            <li>Interval* - Execute periodically by interval determined on the 'Interval' field.</li>
+                        </ul>
+                        * Can be started manually by double clicking on the list or by 'Play' command on script
+                        visualization window.
+                    </li>
+                    <li>
+                        <div>Timeout:</div>
+                        <ul>
+                            <li>Script execution timeout in seconds.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div>Interval:</div>
+                        <ul>
+                            <li>Execution interval in seconds.</li>
+                            <li>Visible when Interval execution mode is selected.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="row mt-2 ml-2">
+                <div class="rounded-circle mark-blue float-left"></div>
+                <div class="ml-2 float-left">Scripts:</div>
+            </div>
+            <div class="row mt-2 ml-4">
+                <ul>
+                    <li>
+                        <div>Script - Main script file.</div>
+                        <ul>
+                            <li>Any Script file that can be executed on PowerShell.</li>
+                            <li>Can have any extension, only the content is considered.</li>
+                            <li>If the script contains any interpolation: '{{Key}}' the key will be added to the <a
+                                    href="#Vault">'Vault'</a> if not exists.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div>Additional Files - Any other required files.</div>
+                        <ul>
+                            <li>Can be any other script or non-script files necessary for the main script execution.
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div>Save - Save Script.</div>
+                        <ul>
+                            <li>It will save the script and reload the list.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="row line">
+            </div>
+            <div id="Vault" class="row mt-2">
+                <h4>Vault</h4>
+            </div>
+            <div class="row mt-2 ml-2">
+                <img class="screenshot" src="./images/screenshots/vault.png" alt="new" />
+            </div>
+            <div class="row mt-2 ml-2">
+                <div class="rounded-circle mark-green float-left"></div>
+                <div class="ml-2 float-left">Pin:</div>
+            </div>
+            <div class="row mt-2 ml-4">
+                <ul>
+                    <li>Set or change the Pin to secure the Vault.</li>
+                    <li>The Pin it's used to encrypt the Vault.</li>
+                    <li>If not set the Vault secrets will be encrypted with a default key.</li>
+                    <li>when set the Pin will be requested to start the application <a href="#Pin">(see Pin)</a>.</li>
+                </ul>
+            </div>
+            <div class="row mt-2 ml-2">
+                <div class="rounded-circle mark-blue float-left"></div>
+                <div class="ml-2 float-left">New Vault item:</div>
+            </div>
+            <div class="row mt-2 ml-4">
+                <ul>
+                    <li>
+                        <div>Key</div>
+                        <ul>
+                            <li>Must be unique.</li>
+                            <li>Every interpolation {{Key}} on the scripts containing this key will be replaced by the
+                                'Value'.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div>Value</div>
+                        <ul>
+                            <li>Value stored under the key.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div>Masked</div>
+                        <ul>
+                            <li>If value appear masked on the list.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
 
-                </p>
+            <div class="row mt-2 ml-4">
+                <div class="float-none">Example script with interpolation:</div>
+            </div>
+            <div class="row mt-2 ml-4"></div>
+                <div>
+                    <pre class="result-text">
+    Write-Host "Begin"
+    write-host "Example script:"
+    write-host "Loop:"
+    for ($i = 0; $i -lt 10; $i++) {
+        Write-Host $"Iteration: $($i)"
+    }
+    write-host "-"
+    Write-Host "Interpolation: {{ExampleKey}}"
+    Write-Warning "Example Warning"
+    Write-Error "Example Error"
+    Write-Host "End"
+                    </pre>
+                </div>
+        
+
+            <div class="row mt-2 ml-2">
+                <div class="rounded-circle mark-yellow float-left"></div>
+                <div class="ml-2 float-left">Vault list:</div>
+            </div>
+            <div class="row mt-2 ml-4">
+                <ul>
+                    <li>
+                        <div>Value</div>
+                        <ul>
+                            <li>Value stored on the Vault under this key.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <img class="mid-simbol" src="images/save.svg" alt="save" />
+
+                        <ul>
+                            <li>Saves modifications on the item.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <img class="mid-simbol" src="images/trash.svg" alt="remove" />
+                        <ul>
+                            <li>Remove Vault item.</li>
+                            <li>If the key still exists on any script the item will be recreated when the script runs.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>            
+            <div class="row line">
+            </div>
+            <div id="Pin" class="row mt-2">
+                <h4>Pin</h4>
+            </div>
+            <div class="row mt-2 ml-2">
+                <img class="screenshot" src="./images/screenshots/pin.png" alt="pin" />
+            </div>
+            <div class="row mt-2 ml-2">
+                <div class="rounded-circle mark-green float-left"></div>
+                <div class="ml-2 float-left">Pin:</div>
+            </div>
+            <div class="row mt-2 ml-4">
+                <ul>
+                    <li>The Pin popup it's shown at startup when the Pin it's set on the <a href="#Vault">'Vault Edit'</a>.</li>
+                    <li>The script will start only when the correct pin it's provided.</li>
+                </ul>
+            </div>
+            <div class="row mt-2 ml-2">
+                <img class="screenshot" src="./images/screenshots/pin-warning.png" alt="pin" />
+            </div>
+            <div class="row mt-2 ml-2">
+                <div class="rounded-circle mark-green float-left"></div>
+                <div class="ml-2 float-left">Reset Vault:</div>
+            </div>
+            <div class="row mt-2 ml-4">
+                <ul>
+                    <li>When a wrong Pin it's provided, the reset Vault option will be shown.</li>
+                    <li>To reset the Vault, check the option and then click on the '!' command.</li>
+                    <li>When the Vault resets all the values are cleared but the structure(Keys) is preserved.</li>
+                </ul>
+            </div>
+            <div class="row line">
+            </div>
+            <div id="Config" class="row mt-2">
+                <h4>Settings</h4>
+            </div>
+            <div class="row mt-2 ml-2">
+                <img class="screenshot" src="./images/screenshots/config.png" alt="pin" />
+            </div>
+            <div class="row mt-2 ml-2">
+                <div class="rounded-circle mark-green float-left"></div>
+                <div class="ml-2 float-left">Settings:</div>
+            </div>
+            <div class="row mt-2 ml-4">
+                <ul>
+                    <li>
+                        <div>Theme:</div>
+                        <ul>
+                            <li>Dark (Default)</li>
+                            <li>Light</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div>Groups:</div>
+                        <ul>
+                            <li>Show script groups on the list.</li>                            
+                        </ul>
+                    </li>                    
+                </ul>
             </div>
         </div>
+
     </div>
 </body>
 

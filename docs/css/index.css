@@ -10,6 +10,9 @@
     --scroll-background: #3e3e42;
     --scroll-thumb: #4c4c4c;
     --scroll-thumb-hoover: #969696;
+    --mark-green: #B5E61D;
+    --mark-blue: #3F48CC;
+    --mark-yellow: #FFF200;
 }
 
 html, body, .container {
@@ -87,3 +90,51 @@ a:link {
     background-color: transparent;
     text-decoration: none;
   }
+
+.screenshot{
+    width: 600px;
+    border-color: var(--sidebar-item-color-hoover);
+    border-width: thin;
+    border-style: ridge;
+}
+
+.mark-green{
+    height: 20px;
+    width: 20px;
+    background-color: var(--mark-green);
+}
+
+.mark-blue{
+    height: 20px;
+    width: 20px;
+    background-color: var(--mark-blue);
+}
+
+.mark-yellow{
+    height: 20px;
+    width: 20px;
+    background-color: var(--mark-yellow);
+}
+
+.small-simbol {
+    width: 1rem;
+    height: 1rem;
+}
+
+.big-simbol {
+    width: 2rem;
+    height: 2rem;
+}
+
+.mid-simbol {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.result-text {
+    border: none;
+    background-color: var(--result-background);
+    color: var(--font-color);
+    height: 260px;
+    width: 500px;
+}
