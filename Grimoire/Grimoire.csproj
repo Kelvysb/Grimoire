@@ -12,8 +12,8 @@
     <RepositoryUrl>https://github.com/Kelvysb/Grimoire</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <AssemblyName>Grimoire</AssemblyName>
-    <Version>1.0.5</Version>
-    <AssemblyVersion>1.0.5.0</AssemblyVersion>
+    <Version>1.0.6</Version>
+    <AssemblyVersion>1.0.6.0</AssemblyVersion>
   </PropertyGroup>  
   <ItemGroup>
     <None Remove="Icon.ico" />

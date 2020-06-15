@@ -34,6 +34,8 @@ namespace Grimoire.Domain.Abstraction.Business
 
         Task SaveScriptBlock(GrimoireScriptBlock scriptBlock);
 
+        Task VerifyKeys(GrimoireScriptBlock scriptBlock);
+
         Task SaveExecutionGroup(ExecutionGroup executionGroup);
 
         Task<string> getScriptFullPath(GrimoireScriptBlock scriptBlock);
