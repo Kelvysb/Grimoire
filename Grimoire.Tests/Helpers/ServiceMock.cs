@@ -24,12 +24,12 @@ namespace Grimoire.Tests.Helpers
             return result.Object;
         }
 
-        public static IVaultService GetVaultService()
+        public static IVaultService GetVaultService(Vault savedVault)
         {
             Mock<IVaultService> result = new Mock<IVaultService>();
             result.Setup(vault => vault.CheckPin(It.IsAny<string>())).Returns(Task.Run(() => true));
-            result.Setup(vault => vault.GetVault(It.IsAny<string>())).Returns(Task.Run(() => new Vault()));
-            result.Setup(vault => vault.SaveVault(It.IsAny<Vault>(), It.IsAny<string>()));
+            result.Setup(vault => vault.GetVault(It.IsAny<string>())).Returns(Task.Run(() => savedVault));
+            result.Setup(vault => vault.SaveVault(It.IsAny<Vault>(), It.IsAny<string>())).Callback<Vault, string>((vault, pin) => savedVault = vault);
             result.Setup(vault => vault.ResetVault());
             return result.Object;
         }

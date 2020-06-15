@@ -127,12 +127,11 @@ namespace Grimoire.Business
             }
             catch (Exception ex)
             {
-                await CreateErrorResult(scriptBlock, ex);
-                throw;
+                return await CreateErrorResult(scriptBlock, ex);
             }
         }
 
-        private async Task CreateErrorResult(GrimoireScriptBlock scriptBlock, Exception ex)
+        private async Task<ScriptResult> CreateErrorResult(GrimoireScriptBlock scriptBlock, Exception ex)
         {
             ScriptResult result = new ScriptResult()
             {
@@ -141,6 +140,7 @@ namespace Grimoire.Business
             };
             scriptBlock.LastResult = result;
             await business.SaveScriptBlock(scriptBlock);
+            return scriptBlock.LastResult;
         }
 
         private async Task<ScriptResult> RunScriptBlock(GrimoireScriptBlock scriptBlock)

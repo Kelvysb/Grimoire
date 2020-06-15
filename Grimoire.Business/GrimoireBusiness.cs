@@ -46,7 +46,6 @@ namespace Grimoire.Business
         public async Task SaveScriptBlock(GrimoireScriptBlock scriptBlock)
         {
             await Task.Run(() => grimoireService.SaveScriptBlocks(scriptBlock));
-            await VerifyKeys(scriptBlock);
         }
 
         public async Task RemoveScriptBlock(string name)
@@ -216,9 +215,27 @@ namespace Grimoire.Business
 
         public List<string> ExtractKeys(string script)
         {
-            Regex regex = new Regex("{{(.*)}}");
+            Regex regex = new Regex("{{(.*?)}}");
             return regex.Matches(script)
                 .Select(match => match.Value).ToList();
+        }
+
+        public async Task VerifyKeys(GrimoireScriptBlock scriptBlock)
+        {
+            string scriptPath = await getScriptFullPath(scriptBlock);
+            string script = GetScriptText(scriptPath);
+            foreach (string key in ExtractKeys(script))
+            {
+                VaultItem item = Vault.Itens
+                   .FirstOrDefault(item =>
+                       $"{{{{{item.Key}}}}}".Equals(key, StringComparison.InvariantCultureIgnoreCase));
+                if (item == null)
+                {
+                    string extractedKey = key.Replace("{{", "").Replace("}}", "");
+                    Vault.Itens.Add(new VaultItem(true, extractedKey, ""));
+                }
+            }
+            await SaveVault();
         }
 
         #endregion Vault
@@ -237,24 +254,6 @@ namespace Grimoire.Business
             }
 
             return script;
-        }
-
-        private async Task VerifyKeys(GrimoireScriptBlock scriptBlock)
-        {
-            string scriptPath = await getScriptFullPath(scriptBlock);
-            string script = GetScriptText(scriptPath);
-            foreach (string key in ExtractKeys(script))
-            {
-                VaultItem item = Vault.Itens
-                   .FirstOrDefault(item =>
-                       $"{{{{{item.Key}}}}}".Equals(key, StringComparison.InvariantCultureIgnoreCase));
-                if (item == null)
-                {
-                    string extractedKey = key.Replace("{{", "").Replace("}}", "");
-                    Vault.Itens.Add(new VaultItem(true, extractedKey, ""));
-                }
-            }
-            await SaveVault();
         }
 
         #endregion Private

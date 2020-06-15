@@ -1,0 +1,1 @@
+dotnet test ..\Grimoire.Tests\ -l "console;verbosity=detailed"

@@ -108,6 +108,7 @@ namespace Grimoire.Components
             {
                 CompleteValues();
                 await Business.SaveScriptBlock(ScriptBlock);
+                await Business.VerifyKeys(ScriptBlock);
                 EndEdit?.Invoke();
                 ConfirmModal = true;
             }
