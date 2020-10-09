@@ -32,6 +32,12 @@ Run .\Scripts\RunTests.ps1
 
 ### History
 
+* Version - 1.2.0
+
+    - Added Input interpolation.
+    - [Bug fix] Typo corrections.
+    - Updated documentation.
+
 * v1.0.6-beta.6
     - [Bug fix] Error on timeout - handled correctly on result errors list.
     - [Bug fix] Multiple interpolation keys on the same line now don't break.
