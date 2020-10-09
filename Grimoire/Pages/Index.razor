@@ -13,7 +13,7 @@
 }
 
 <div class="sidebar">
-    <SideMenu @ref="SideMenu"></SideMenu>
+    <SideMenu @ref="SideMenu" RequestInputs="@RequestInputs"></SideMenu>
 </div>
 <div class="main">
     <div class="content px-4">
@@ -21,7 +21,7 @@
             @switch (AppMode)
             {
                 case AppMode.Detail:
-                    <ScriptBlockDetail @ref="ScriptDetail"></ScriptBlockDetail>
+                    <ScriptBlockDetail @ref="ScriptDetail" RequestInputs="RequestInputs"></ScriptBlockDetail>
                     break;
                 case AppMode.Edit:
                     <ScriptEdit @ref="ScriptEdit"></ScriptEdit>
@@ -69,4 +69,10 @@
                  Message=@LastError
                  ErrorDetail=@LastErrorDetail
                  OkAction="CloseModals" />
+}
+
+@if (ShowInputsModal)
+{
+    <InputModal Inputs="@Inputs"
+                ConfirmAction="@ConfirmInputs" />
 }

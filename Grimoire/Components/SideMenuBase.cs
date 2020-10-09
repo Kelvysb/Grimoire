@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Grimoire.Domain.Abstraction.Business;
+using Grimoire.Domain.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace Grimoire.Components
@@ -11,6 +12,9 @@ namespace Grimoire.Components
     {
         [Inject]
         public IGrimoireBusiness Business { get; set; }
+
+        [Parameter]
+        public Action<IList<Input>, Action<IList<Input>>> RequestInputs { get; set; }
 
         public ScriptBlockItem ItemRef { set { AddItem(value); } }
 

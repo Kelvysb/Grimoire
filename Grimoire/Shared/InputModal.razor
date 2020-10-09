@@ -1,0 +1,39 @@
+﻿@inherits InputModalBase
+
+<div class="modal managed-modal" id="Confirmation">
+    <div class="modal-dialog">
+        <div class="modal-content modal-style">
+            <div class="modal-header">
+                <h4 class="modal-title">Inputs</h4>
+            </div>
+            <div class="modal-body">
+                <EditForm Model="@Inputs">
+                    @foreach (var input in Inputs)
+                    {
+                        <div class="form-group row">
+                            <label class="col-sm-3">@input.Name</label>
+                            @if (!input.IsPassword)
+                            {
+                                <InputText id="Name" class="col-sm-9"
+                                           @bind-Value="@input.Value"
+                                           placeholder="@input.Name" />
+                            }
+                            else
+                            {
+                                <InputText id="Name" class="col-sm-9"
+                                           @bind-Value="@input.Value"
+                                           type="password"
+                                           placeholder="@input.Name" />
+                            }
+                        </div>
+                    }
+                </EditForm>
+            </div>
+            <div class="modal-footer">
+                <span class="button ml-2">
+                    <img class="big-simbol" src="./images/ok.svg" @onclick="() => ConfirmAction(Inputs)" />
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

@@ -90,6 +90,29 @@ namespace Grimoire.Business
             return ExecuteVaultReplacement(result);
         }
 
+        public async Task<IList<Input>> GetInputs(GrimoireScriptBlock scriptBlock)
+        {
+            Regex regex = new Regex("\\[\\[(.*?)\\]\\]");
+
+            string script = await ReadScript(scriptBlock);
+
+            return regex.Matches(script)
+                .Select(match => ConvertInput(match.Value))
+                .Distinct()
+                .ToList();
+        }
+
+        private Input ConvertInput(string inputString)
+        {
+            return new Input()
+            {
+                Key = inputString,
+                Name = inputString.Substring(2, inputString.Length - 4).Replace("*", ""),
+                IsPassword = inputString.Substring(2, inputString.Length - 4).EndsWith("*"),
+                Value = ""
+            };
+        }
+
         private static string GetScriptText(string scriptPath)
         {
             string result = "";

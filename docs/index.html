@@ -300,8 +300,14 @@
                         <ul>
                             <li>Any Script file that can be executed on PowerShell.</li>
                             <li>Can have any extension, only the content is considered.</li>
-                            <li>If the script contains any interpolation: '{{Key}}' the key will be added to the <a
+                            <li>Vault value interpolation: '{{Key}}' if not exists, the key will be added to the <a
                                     href="#Vault">'Vault'</a> if not exists.</li>
+                            <li>Input interpolation: '[[name]]' When the script its executed the user will be prompted
+                                to enter the values.</li>
+                            <li>Input password interpolation: '[[name*]]' The input will be masked adding an '*' to the
+                                end of the name.</li>
+                            <li>Obs.: Input prompts will only been shown on manual execution, and will be ignored
+                                'interval' and 'run on start' modes.</li>
                         </ul>
                     </li>
                     <li>
@@ -372,8 +378,8 @@
                 <div class="float-none">Example script with interpolation:</div>
             </div>
             <div class="row mt-2 ml-4"></div>
-                <div>
-                    <pre class="result-text">
+            <div>
+                <pre class="result-text">
     Write-Host "Begin"
     write-host "Example script:"
     write-host "Loop:"
@@ -386,8 +392,8 @@
     Write-Error "Example Error"
     Write-Host "End"
                     </pre>
-                </div>
-        
+            </div>
+
 
             <div class="row mt-2 ml-2">
                 <div class="rounded-circle mark-yellow float-left"></div>
@@ -415,7 +421,7 @@
                         </ul>
                     </li>
                 </ul>
-            </div>            
+            </div>
             <div class="row line">
             </div>
             <div id="Pin" class="row mt-2">
@@ -430,7 +436,8 @@
             </div>
             <div class="row mt-2 ml-4">
                 <ul>
-                    <li>The Pin popup it's shown at startup when the Pin it's set on the <a href="#Vault">'Vault Edit'</a>.</li>
+                    <li>The Pin popup it's shown at startup when the Pin it's set on the <a href="#Vault">'Vault
+                            Edit'</a>.</li>
                     <li>The script will start only when the correct pin it's provided.</li>
                 </ul>
             </div>
@@ -472,9 +479,9 @@
                     <li>
                         <div>Groups:</div>
                         <ul>
-                            <li>Show script groups on the list.</li>                            
+                            <li>Show script groups on the list.</li>
                         </ul>
-                    </li>                    
+                    </li>
                 </ul>
             </div>
         </div>

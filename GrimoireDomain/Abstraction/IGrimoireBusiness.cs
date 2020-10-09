@@ -55,5 +55,7 @@ namespace Grimoire.Domain.Abstraction.Business
         Task<string> ReadScript(GrimoireScriptBlock scriptBlock);
 
         string GetVaultValue(string key);
+
+        Task<IList<Input>> GetInputs(GrimoireScriptBlock scriptBlock);
     }
 }

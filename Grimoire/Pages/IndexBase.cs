@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Grimoire.Components;
 using Grimoire.Domain.Abstraction.Business;
 using Grimoire.Domain.Abstraction.Services;
+using Grimoire.Domain.Models;
 using Grimoire.Shared;
 using Microsoft.AspNetCore.Components;
 
@@ -24,6 +26,10 @@ namespace Grimoire.Pages
 
         public ConfigBase Config { get; set; }
 
+        public IList<Input> Inputs { get; set; }
+
+        public Action<IList<Input>> ConfirmInputs { get; set; }
+
         public bool ConfirmEditModal { get; set; }
 
         public bool ConfirmDeleteModal { get; set; }
@@ -31,6 +37,8 @@ namespace Grimoire.Pages
         public bool ConfirmConfigModal { get; set; }
 
         public bool ErrorModal { get; set; }
+
+        public bool ShowInputsModal { get; set; }
 
         public string LastError { get; set; }
 
@@ -92,6 +100,7 @@ namespace Grimoire.Pages
             ConfirmDeleteModal = false;
             ConfirmConfigModal = false;
             ErrorModal = false;
+            ShowInputsModal = false;
         }
 
         public void About()
@@ -105,6 +114,20 @@ namespace Grimoire.Pages
         {
             ClearEvents();
             AppMode = AppMode.Config;
+            InvokeAsync(() => StateHasChanged());
+        }
+
+        public void RequestInputs(IList<Input> inputs, Action<IList<Input>> callback)
+        {
+            CloseModals();
+            Inputs = inputs;
+            ConfirmInputs = (IList<Input> inputs) =>
+            {
+                CloseModals();
+                InvokeAsync(() => StateHasChanged());
+                callback(inputs);
+            };
+            ShowInputsModal = true;
             InvokeAsync(() => StateHasChanged());
         }
 

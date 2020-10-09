@@ -37,7 +37,7 @@
                     <div>
                         @foreach (IGrimoireRunner script in Business.ScriptRunners.Where(item => item.ScriptBlock.Group.Equals(group)))
                         {
-                            <ScriptBlockItem @ref="ItemRef" ScriptBlockRunner="@script" />
+                            <ScriptBlockItem @ref="ItemRef" ScriptBlockRunner="@script" RequestInputs="@RequestInputs" />
                             <div class="mb-2" />
                         }
                     </div>
