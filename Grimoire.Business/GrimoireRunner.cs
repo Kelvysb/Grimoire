@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 using System.Text.RegularExpressions;
@@ -77,19 +78,29 @@ namespace Grimoire.Business
             return result.Trim();
         }
 
-        public async Task<ScriptResult> Run()
+        public Task<ScriptResult> Run()
+        {
+            return Run(null);
+        }
+
+        public async Task<ScriptResult> Run(IList<Input> inputs)
         {
             ScriptResult result;
 
             IsRunning = true;
             Start?.Invoke(ScriptBlock);
-            result = await ExecuteScript(ScriptBlock);
+            result = await ExecuteScript(ScriptBlock, inputs);
             await Task.Run(() =>
             {
                 Finish?.Invoke(ScriptBlock, result);
                 IsRunning = false;
             });
             return result;
+        }
+
+        public Task<IList<Input>> GetInputs()
+        {
+            return business.GetInputs(ScriptBlock);
         }
 
         private async void CheckRunOnStart()
@@ -119,11 +130,11 @@ namespace Grimoire.Business
             }
         }
 
-        private async Task<ScriptResult> ExecuteScript(GrimoireScriptBlock scriptBlock)
+        private async Task<ScriptResult> ExecuteScript(GrimoireScriptBlock scriptBlock, IList<Input> inputs)
         {
             try
             {
-                return await RunScriptBlock(scriptBlock);
+                return await RunScriptBlock(scriptBlock, inputs);
             }
             catch (Exception ex)
             {
@@ -143,13 +154,13 @@ namespace Grimoire.Business
             return scriptBlock.LastResult;
         }
 
-        private async Task<ScriptResult> RunScriptBlock(GrimoireScriptBlock scriptBlock)
+        private async Task<ScriptResult> RunScriptBlock(GrimoireScriptBlock scriptBlock, IList<Input> inputs)
         {
             ScriptResult result = null;
             switch (scriptBlock.ScriptType)
             {
                 case ScriptType.PowerShell:
-                    result = await ExecutePowerShell(scriptBlock);
+                    result = await ExecutePowerShell(scriptBlock, inputs);
                     break;
 
                 case ScriptType.Python:
@@ -163,10 +174,19 @@ namespace Grimoire.Business
             return result;
         }
 
-        private async Task<ScriptResult> ExecutePowerShell(GrimoireScriptBlock scriptBlock)
+        private async Task<ScriptResult> ExecutePowerShell(GrimoireScriptBlock scriptBlock, IList<Input> inputs)
         {
             ScriptResult result = null;
             string script = await business.ReadScript(scriptBlock);
+
+            if (inputs != null && inputs.Any())
+            {
+                foreach (var input in inputs)
+                {
+                    script = script.Replace(input.Key, input.Value);
+                }
+            }
+
             using (PowerShell ps = PowerShell.Create())
             {
                 PSDataCollection<PSObject> outputCollection = new PSDataCollection<PSObject>();
@@ -177,6 +197,7 @@ namespace Grimoire.Business
                 WaitExecution(scriptBlock.TimeOut, execResult);
                 result = GetResult(scriptBlock, ps);
             }
+
             return result;
         }
 

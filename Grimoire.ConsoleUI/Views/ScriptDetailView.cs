@@ -180,7 +180,7 @@ namespace Grimoire.ConsoleUI.Views
             if (!ScriptBlockRunner.IsRunning)
             {
                 lblStatus.Text = "Running";
-                ScriptBlockRunner.Run();
+                ScriptBlockRunner.Run(null);
             }
         }
 
